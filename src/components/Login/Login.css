@@ -2,13 +2,14 @@
     --btn--primary-color: rgb(60, 184, 230) 
 }
 
+
 .center{
-    padding: 5px;
+    padding: 10px;
     box-sizing: border-box;
     background: rgb(243,243,243);
     width: 20%;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%);
     
@@ -20,8 +21,10 @@
 }
 
 input{
+    box-sizing: border-box;
     width: 80%;
     padding: 5px;
+    margin-bottom: 2%;
 }
 
 .btn--primary{
