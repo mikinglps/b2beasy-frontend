@@ -3,3 +3,8 @@
     padding: 0;
     margin: 0;
 }
+
+.flex--painel{
+    display: flex;
+    align-items: flex-start;
+}

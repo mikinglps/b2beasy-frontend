@@ -1,0 +1,15 @@
+.single--rep{
+    width: 44%;
+    margin: 3%;
+}
+
+.icons--rep{
+    background: var(--primary-color);
+    height: 50px;
+    border-radius: 10px;
+}
+
+.rounded{
+    height: 100%;
+    width: 20%;
+}
