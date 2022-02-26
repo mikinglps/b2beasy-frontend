@@ -17,14 +17,15 @@ export const AuthProvider = ({children}) => {
             return <div className='erro'><p>{res.data}</p></div>
         }else{
             setUsuario({ cpf: res.data.achaFuncionario.cpf, token: res.data.token })
-            localStorage.setItem('b2b-user', JSON.stringify(usuario))
+            navigate('/')
         }
         })
       }
+
       useEffect(() => {
         const recoverUser = localStorage.getItem('b2beasy-user')
         if(recoverUser){
-            setUsuario(JSON.parse(recoverUser))
+            setUsuario('b2beasy-user', JSON.parse(recoverUser))
         }
         setLoading(false)
     }, [])

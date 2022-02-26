@@ -18,6 +18,9 @@ const Login = () => {
         
     }
 
+    useEffect(()=>{
+        localStorage.setItem('b2beasy-user', JSON.stringify(usuario))
+    },[usuario])
     
 
     return(

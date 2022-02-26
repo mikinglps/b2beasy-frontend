@@ -1,0 +1,58 @@
+:root{
+    --primary-color: rgba(60, 184, 230, 0.7);
+}
+
+.logo--painel{
+    background: black;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 15px;
+}
+
+.nav--up{
+    background: var(--primary-color);
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.nav--up ul{
+    margin: 0 auto;
+    display: flex;
+    width: 60%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-position: inside;
+    list-style-type: none;
+    align-items: center;
+    height: 100%;
+}
+
+.nav--up ul li{
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-style: bold;
+    margin-right: 5%;
+    letter-spacing: 1.5px;
+    height: 100%;
+}
+
+.nav--up a{
+    padding: 3px;
+    width: 20%;
+    text-align: center;
+    height: 100%;
+    flex-shrink: 1;
+}
+
+.nav--up a:hover{
+    height: 100%;
+    
+    background:rgb(60, 184, 255)
+}
