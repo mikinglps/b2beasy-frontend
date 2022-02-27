@@ -4,7 +4,20 @@
     margin: 0;
 }
 
+body{
+    background: radial-gradient(farthest-side ellipse at 10% 0, #333867 20%, #17193b) no-repeat;
+}
+
+.all{
+    margin: 0 auto;
+    min-height: 800px;
+    max-width: 3600px;
+}
+
+
 .flex--painel{
     display: flex;
-    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    clear: both;
 }

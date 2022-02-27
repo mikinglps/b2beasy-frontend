@@ -1,29 +1,40 @@
-import React from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRightFromBracket, faComment, faBars } from '@fortawesome/free-solid-svg-icons'
+import { PainelProvider, PainelContext } from '../../../contexts/PainelContext'
 import './Navbar.css'
 
+
+const profileButton = <FontAwesomeIcon icon={faBars} style={{color: 'white', fontSize: '20px'}}/>
+const logoutIcon = <FontAwesomeIcon icon={faArrowRightFromBracket} style={{color: 'white', fontSize: '14px'}}/>
+const chat = <FontAwesomeIcon icon={faComment} style={{color: 'white', fontSize: '14px'}}/>
+
 const Navbar = () => {
+
+   const { showingProfile, resultProfile } = useContext(PainelContext)
+   const handleProfile = () => { showingProfile() }
+   const result = resultProfile()
+
+   useEffect(()=>{
+      let element = document.getElementById('nav--up')
+      if(result){
+         element.style.width = '82%'
+      }else{
+         element.style.width = '100%'
+      }
+   },[result])
+
     return(
     <header>
-        <div className='logo--painel'>
-            <h2>B2Beasy</h2>
-        </div>
-        <nav className='nav--up'>
+        <nav id='nav--up' className='nav--up'>
+           <div className='profileButton'>
+              <button onClick={handleProfile}>{profileButton}</button>
+           </div>
             <ul>
-             <Link to='/home' style={{textDecoration: 'none'}}>
-                <li>Home</li>
-             </Link>
-             <Link to='perfil' style={{textDecoration: 'none'}}>
-                <li>Perfil</li>
-             </Link>
-             <Link to='/tarefas' style={{textDecoration: 'none'}}>
-                <li>Minhas Tarefas</li>
-             </Link>
-             <Link to='/lembretes' style={{textDecoration: 'none'}}>
-                <li>Lembretes</li>
-             </Link>
-             <Link to='/logout' style={{textDecoration: 'none'}}>
-                <li>Sair</li>
+             <li>{chat}</li>
+             <Link to='/logout' style={{textDecoration: 'none', width: '3%', marginRight: '2%'}}>
+                <li>{logoutIcon}</li>
              </Link>
              </ul>
         </nav>

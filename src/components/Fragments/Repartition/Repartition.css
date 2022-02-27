@@ -1,15 +1,49 @@
 .single--rep{
-    width: 44%;
-    margin: 3%;
+    width: 28%;
+    margin: 1%;
 }
 
-.icons--rep{
+.single--rep{
+    color: white;
+}
+
+.icons--rep, .icons--rep--cnpj{
+    display: flex;
+    width: 100%;
     background: var(--primary-color);
-    height: 50px;
+    height: 90px;
     border-radius: 10px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background: rgba(0,0,0,0.3)
 }
 
-.rounded{
-    height: 100%;
-    width: 20%;
+.icons--rep--cnpj{
+    height: 200px;
 }
+
+
+.icons--rep p, .icons--rep--cnpj p{
+    font-size: 14px;
+    color: rgb(243,243,243)
+}
+
+.rounded, .rounded--cnpj{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+    width: 15%;
+    border-radius: 50%;
+    background-color: rgb(243,243,243);
+    margin: 10px 3px;
+}
+
+.rounded--cnpj{
+    height: 25%;
+}
+
+
+

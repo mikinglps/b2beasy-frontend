@@ -4,13 +4,14 @@
 
 .container--painel{
     margin: 1.5% auto;
+    margin-left: 18%;
     width: 100%;
-    max-width: 768px;
-    padding: 5px;
+    max-width: 1366px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
+    justify-content: left;
+    align-content: top;
     border-radius: 5%;
-    background: rgb(243,243,243)
+    transition: 0.5s;
 }
 
