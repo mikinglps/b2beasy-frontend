@@ -15,3 +15,14 @@
     transition: 0.5s;
 }
 
+.breadcrump{
+    transition: 0.5s;
+    position: absolute;
+    color: white;
+}
+
+.breadcrump h1{
+    font-family: 'Microsoft Yi Baiti';
+    font-size: 24px;
+    letter-spacing: 1.5px;
+}

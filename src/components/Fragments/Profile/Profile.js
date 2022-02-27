@@ -3,13 +3,17 @@ import Calendar from 'react-calendar'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import './Profile.css'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faFolder, faUpload } from '@fortawesome/free-solid-svg-icons'
 
 
 const Profile = () => {
     const { resultProfile, showProfile } = useContext(PainelContext)
     const result = resultProfile();
     const [ date, setDate ] = useState(new Date())
+    const add = <FontAwesomeIcon icon={faPlus} style={{color: 'white', fontSize: '14px'}}/>
+    const archives = <FontAwesomeIcon icon={faFolder} style={{color: 'white', fontSize: '14px'}}/>
+    const upload = <FontAwesomeIcon icon={faUpload} style={{color: 'white', fontSize: '14px'}}/>
 
 
     const onChange = date => {
@@ -41,15 +45,15 @@ const Profile = () => {
             <div className='options'>
                 <ul>
                     <Link to='/criar' style={{textDecoration: 'none'}}>
-                    <li>Criar</li>
+                    <li>{add} Criar</li>
                     </Link>
                     <Link to='/meusarquivos' style={{textDecoration: 'none'}}>
-                    <li>Meus Arquivos</li>
+                    <li>{archives} Meus Arquivos</li>
                     </Link>
                     <Link to='/importar' style={{textDecoration: 'none'}}>
-                    <li>Importar</li>
+                    <li>{upload} Importar</li>
                     </Link>
-                    <li>Teste</li>
+                    
                 </ul>
             </div>
 
