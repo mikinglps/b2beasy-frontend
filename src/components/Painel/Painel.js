@@ -1,10 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './Painel.css';
-import { Routes, Route } from 'react-router-dom'
-import { Navbar, Main, Sidebar, Profile } from '../Fragments';
+import { Routes, Route, Outlet, useNavigate } from 'react-router-dom'
+import { Navbar, Main, Sidebar, Profile, CreateRepartition } from '../Fragments';
 import { PainelContext, PainelProvider } from '../../contexts/PainelContext';
 
 const Painel = () => {
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        navigate('/gerenciar')
+    },[])
+
 
     return (
         <PainelProvider>
@@ -14,10 +20,7 @@ const Painel = () => {
             <div className='flex--painel'>
             <Sidebar/>
             <Profile/>
-                <Routes>
-                    <Route path='/' element={ <Main/> }/>
-                    <Route path='/home' element={<Main/>}/>
-                </Routes>
+            <Main/>
             </div>
         </div>
         </PainelProvider>

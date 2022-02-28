@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import './Main.css'
-import Repartition from '../Repartition/Repartition'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
+import { Repartition } from '../'
+import useBreadcrumbs from 'use-react-router-breadcrumbs'
 
 
-const Main = () => {
-
+const Main = props => {
     const { resultProfile } = useContext(PainelContext)
     const result = resultProfile()
 
@@ -23,18 +23,19 @@ const Main = () => {
         console.log(result)
     },[result])
 
+    const breadcrumbs = useBreadcrumbs()
+
     return (
         <>
-        <div id='breadcrump' className='breadcrump'><h1>Inicio/</h1></div>
+        <div id='breadcrump' className='breadcrump'><h1>Inicio</h1></div>
         <main id='main' className="container--painel">
             
-            <Routes>
-               <Route path='/' element={<Repartition/>}/>
-               <Route path='/home' element={<Repartition/>}/>
-            </Routes>
+            <Outlet>
+            <Repartition/>
+            </Outlet>
         </main>
         </>
     )
 }
 
-export default Main
+export default Main;

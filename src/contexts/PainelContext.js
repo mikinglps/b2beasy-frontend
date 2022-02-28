@@ -5,14 +5,12 @@ export const PainelContext = createContext();
 export const PainelProvider = ({children}) => {
 
     const [ showProfile, setShowProfile ] = useState(true)
-    //Arrumar botao
 
     const resultProfile = () => {
         return showProfile;
     }
 
     const showingProfile = () => {
-        console.log(showProfile)
         return setShowProfile(!showProfile)
     }
 

@@ -1,0 +1,32 @@
+.create{
+    width: 50%;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+.titulo{}
+
+.titulo h1{
+    color: white;
+    margin-bottom: 5%;
+}
+
+.titulo p{
+    color: white;
+}
+
+.createRepartition{
+    margin-top: 5%;
+    display: flex;
+    align-content: center;
+}
+
+.createRepartition input[type='text']{
+    height: 40px;
+    padding: 2%;
+}
+
+.createRepartition button{
+    width: 10%;
+    height: 40px;
+}

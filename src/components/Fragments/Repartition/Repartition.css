@@ -1,4 +1,4 @@
-.single--rep{
+.single--rep, .single--rep--cnpj{
     width: 28%;
     margin: 1%;
 }
@@ -7,10 +7,21 @@
     color: white;
 }
 
+.single--rep--cnpj{
+    color: white;
+    height: 90px;
+    width: 100%;
+}
+
+.single--rep--cnpj a, .single--rep a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .icons--rep, .icons--rep--cnpj{
     display: flex;
     width: 100%;
-    background: var(--primary-color);
     height: 90px;
     border-radius: 10px;
     align-items: center;
@@ -21,7 +32,7 @@
 }
 
 .icons--rep--cnpj{
-    height: 200px;
+    width: 100%;
 }
 
 
@@ -38,11 +49,11 @@
     width: 15%;
     border-radius: 50%;
     background-color: rgb(243,243,243);
-    margin: 10px 3px;
 }
 
 .rounded--cnpj{
-    height: 25%;
+    width: 60px;
+    height: 60px;
 }
 
 
