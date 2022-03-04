@@ -10,7 +10,7 @@ const GerenciarUsuarios = () => {
     const eye = <FontAwesomeIcon icon={faEye} style={{color: 'green', fontSize: '18px', cursor: 'pointer'}}/>
     const edit = <FontAwesomeIcon icon={faPenToSquare} style={{color: 'black', fontSize: '18px', cursor: 'pointer'}}/>
     const deleteUser = <FontAwesomeIcon icon={faDeleteLeft} style={{color: '#bd3c33', fontSize: '18px', cursor: 'pointer'}}/>
-    const add = <FontAwesomeIcon icon={faPlus} style={{color: 'white', fontSize: '18px', cursor: 'pointer'}}/>
+    const add = <FontAwesomeIcon icon={faPlus} style={{color: 'white', fontSize: '30px', cursor: 'pointer'}}/>
     const [ loading, setLoading ] = useState(false)
     const [ setores, setSetores ] = useState([])
     const [ usuarios, setUsuarios ] = useState([])
@@ -70,7 +70,7 @@ const GerenciarUsuarios = () => {
     return(
         <>
         <section className='createUser'>
-        <button className='registerUser' onClick={() => {setNewClick(true)}}>{add} Novo</button>
+        <button className='registerUser' onClick={() => {setNewClick(true)}}>{add}</button>
         </section>
         <section className='manageUsers'>
         {setores.map((data, key) => {
