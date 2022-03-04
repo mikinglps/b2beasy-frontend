@@ -50,7 +50,7 @@ const GerenciarUsuarios = () => {
         await axios.post(`http://localhost:8080/api/v1/funcionarios/setor?page=${pages}`, {setor})
         .then(res => {
             setUsuarios([...res.data.results.listaFuncionarios])
-            setMaxPageNumber(res.data.results.totalNumFuncionarios)
+            setMaxPageNumber(res.data.results.totalPaginas)
         })
         
     }
@@ -66,7 +66,7 @@ const GerenciarUsuarios = () => {
     if(loading){
         return <div className='loading'>Loading</div>
     }
-
+    
     return(
         <>
         <section className='createUser'>

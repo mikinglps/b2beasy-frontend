@@ -8,7 +8,6 @@ const Pagination = ({page, pages, changePage, changeUser, setores}) => {
     let ref
     // const handler = changeUser(setores[reff.current.parentNode.parentNode.getAttribute('dataid')]._id, page)
     useEffect((e)=>{
-            console.log(reff)
             const abort = new AbortController()
             if(loading){
                 ref = reff.current.parentNode.parentNode
@@ -91,7 +90,7 @@ const Pagination = ({page, pages, changePage, changeUser, setores}) => {
                 </>
                 )
             }else{
-                //let amountLeft = pages - page + 5
+                let amountLeft = pages - page + 5
                 middlePagination = (
                     <>
                     <button ref={reff} onClick={(e) => {changePage(1); setLoading(true)
@@ -102,7 +101,7 @@ const Pagination = ({page, pages, changePage, changeUser, setores}) => {
                          setLoading(true)
                     }}>{startValue}</button>
                     
-                {[...Array(10)].map((_,idx) => (
+                {[...Array(amountLeft)].map((_,idx) => (
                     
                     <button
                     ref={reff}

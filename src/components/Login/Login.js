@@ -14,8 +14,6 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         logar(cpf, senha)
-        console.log(usuario)
-        
     }
 
     useEffect(()=>{
