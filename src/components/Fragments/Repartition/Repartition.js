@@ -33,7 +33,7 @@ const Repartition = () => {
     },[result])
 
     return(
-        <>  
+        <div className='containerRepartition'>  
             <div className='single--rep--cnpj'>
             <p>Gerenciar</p>
             <div className='icons--rep--cnpj'>
@@ -105,7 +105,7 @@ const Repartition = () => {
                <p>Importar</p>
             </div>
             </div>
-        </>
+        </div>
         )
 }
 

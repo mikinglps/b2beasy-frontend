@@ -17,7 +17,7 @@ export const AuthProvider = ({children}) => {
             return <div className='erro'><p>{res.data}</p></div>
         }else{
             setUsuario({ cpf: res.data.achaFuncionario.cpf, token: res.data.token })
-            navigate('/')
+            navigate('/gerenciar')
         }
         })
       }

@@ -5,7 +5,7 @@ const CreateRepartition = () =>{
 
     return(
         <section className='create'>
-            <div class='titulo'>
+            <div className='titulo'>
             <h1>Criando repartição</h1>
             <p>As repartições são as áreas nas quais seus funcionários trabalharão. Por exemplo: Contabilidade - Sua Empresa</p>
             </div>

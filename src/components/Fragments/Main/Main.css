@@ -7,11 +7,6 @@
     margin-left: 18%;
     width: 100%;
     max-width: 1366px;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: left;
-    align-content: top;
-    border-radius: 5%;
     transition: 0.5s;
 }
 

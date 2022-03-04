@@ -7,11 +7,6 @@ import { PainelContext, PainelProvider } from '../../contexts/PainelContext';
 const Painel = () => {
     const navigate = useNavigate()
 
-    useEffect(()=>{
-        navigate('/gerenciar')
-    },[])
-
-
     return (
         <PainelProvider>
         <div className='all'>

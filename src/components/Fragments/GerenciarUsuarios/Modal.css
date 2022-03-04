@@ -1,0 +1,72 @@
+.overlay{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+.modal-add{
+    padding: 3%;
+    background: rgb(243,243,243);
+    width: 40%;
+    height: 100%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.modal-add h2{
+    font-weight: 500;
+    margin: 2% 0;
+}
+
+.form-holder{
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.form-holder form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.form-holder form input[type=text], .form-holder form input[type=email], .form-holder form input[type=number], .form-holder form input[type=date], .form-holder form input[type=file], .form-holder form select{
+    padding: 5px;
+    width: 80%;
+    font-size: 18px;
+}
+.btn-holder{
+    width: 100%;
+    text-align: center;
+}
+
+.btn-holder button{
+    margin-left: 2%;
+    border: 0;
+    width: 30%;
+    background: rgb(24,144,255);
+    color: white;
+    border-radius: 3px;
+    font-size: 18px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.btn-holder button:first-child:hover{
+    filter: brightness(0.9);
+}
+
+.btn-holder button + button{
+    background: #5cb85c;
+    pointer-events: none;
+}

@@ -1,0 +1,103 @@
+.createUser{
+    width: 100%;
+    text-align: right;
+    margin-right:20%;
+}
+
+.createUser button.registerUser{
+    background: #5cb85c;
+    width: 10%;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 4%;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: Helvetica, sans-serif;
+}
+
+.createUser button.registerUser:hover{
+    filter: brightness(0.9);
+}
+
+.manageUsers{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: left;
+    align-content: top;
+    border-radius: 5%;
+    width: 100%;
+}
+
+.user--single{
+    width: 30%;
+    margin-top: 2%;
+    margin-left: 2%;
+    
+}
+
+.user--single table{
+    transition: 0.5s;
+    display: none;
+    background: rgb(243,243,243);
+    width: 100%;
+    border-collapse: collapse;
+    color: black;
+    border-radius: 0 0 10px 10px;
+}
+
+.user--single table tr.first-tr{
+    border-bottom: 1px solid black;
+    font-weight: 500;
+}
+
+.user--single table td{
+    width: 100%;
+    padding: 2px;
+    text-align: center;
+}
+
+.user--single table tr.tr-properties{
+
+    font-weight: 300;
+}
+
+.users--sector{
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    align-items: center;
+}
+
+.users--sector .title--sector{
+    color: white;
+    font-family: 'Microsoft Yi Baiti', Arial, Helvetica, sans-serif;
+    user-select: none;
+}
+
+div.pagination{
+    text-align: center;
+}
+
+div.pagination button{
+    border: none;
+    box-shadow: 0 1px 1px 0 black;
+    cursor: pointer;
+    padding: 2px 5px;
+    font-size: 14px;
+    margin-bottom: 2px;
+    border-radius: 2px;
+}
+
+div.pagination button:hover{
+    background: rgba(0,0,0,0.1)
+}
+
+div.pagination button.pagination--active{
+    background: rgba(0,0,0,0.1);
+}
