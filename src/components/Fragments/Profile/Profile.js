@@ -2,12 +2,15 @@ import React, { useState, useContext, useEffect } from 'react'
 import Calendar from 'react-calendar'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
+import { AuthContext } from '../../../contexts/auth'
 import './Profile.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faFolder, faUpload } from '@fortawesome/free-solid-svg-icons'
 
 
 const Profile = () => {
+    const { usuario } = useContext(AuthContext)
+    const resultUser = usuario;
     const { resultProfile, showProfile } = useContext(PainelContext)
     const result = resultProfile();
     const [ date, setDate ] = useState(new Date())
@@ -39,7 +42,7 @@ const Profile = () => {
                 <div className='round-img'>
 
                 </div>
-                <h1>Nome da Pessoa</h1>
+                <h1>{resultUser.nome}</h1>
                 <h2>Cargo</h2>
             </div>
             <div className='options'>

@@ -13,11 +13,11 @@
 }
 
 .single--rep{
-    color: white;
+    color: #8391a2;
 }
 
 .single--rep--cnpj{
-    color: white;
+    color: #8391a2;
     height: 90px;
     width: 100%;
 }
@@ -37,7 +37,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    background: rgba(0,0,0,0.3)
+    box-shadow: 1px 1px 0 1px gray;
 }
 
 .icons--rep--cnpj{
@@ -47,7 +47,7 @@
 
 .icons--rep p, .icons--rep--cnpj p{
     font-size: 14px;
-    color: rgb(243,243,243)
+    color: #8391a2;
 }
 
 .rounded, .rounded--cnpj{
@@ -57,7 +57,8 @@
     height: 50%;
     width: 15%;
     border-radius: 50%;
-    background-color: rgb(243,243,243);
+    background-color: white;
+    box-shadow: 0.1px 1px 5px 0.5px gray;
 }
 
 .rounded--cnpj{

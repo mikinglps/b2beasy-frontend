@@ -26,6 +26,41 @@
     filter: brightness(0.9);
 }
 
+.searchbar{
+    text-align: center;
+}
+
+.searchbar label{
+    display: block;
+}
+
+.searchbar input[type='text']{
+    padding: 5px;
+    width: 50%;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+.searchbar .resultsSearchbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchbar .resultsSearchbar table{
+    background: white;
+    border-radius: 30px;
+    border-collapse: collapse;
+    width: 80%;
+    box-shadow: 1px 1px 4px 1px gray;
+}
+
+.first-tr{
+    border-bottom: 1px solid black;
+    font-weight: 500;
+}
+
 .manageUsers{
     display: flex;
     flex-flow: row wrap;
@@ -45,16 +80,12 @@
 .user--single table{
     transition: 0.5s;
     display: none;
-    background: rgb(243,243,243);
+    background: white;
     width: 100%;
     border-collapse: collapse;
     color: black;
     border-radius: 0 0 10px 10px;
-}
-
-.user--single table tr.first-tr{
-    border-bottom: 1px solid black;
-    font-weight: 500;
+    box-shadow: 1px 1px 4px 1px gray;
 }
 
 .user--single table td{
@@ -74,7 +105,7 @@
     display: flex;
     justify-content: center;
     height: 50px;
-    background-color: rgba(0,0,0,0.3);
+    background-color: #313a46;
     border-radius: 10px;
     align-items: center;
 }

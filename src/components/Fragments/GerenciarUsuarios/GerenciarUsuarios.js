@@ -18,14 +18,16 @@ const GerenciarUsuarios = () => {
     const [ pages, setPages ] = useState(1)
     const [ maxPageNumber, setMaxPageNumber ] = useState(1)
     const [ newClick, setNewClick ] = useState(false)
+    const [ params, setParams ] = useState("")
+    const [ result, setResult ] = useState([])
 
 
     const handleClick = (e) => {
         
         let whichSector = e.currentTarget.parentNode.getAttribute('data-id')
-        let search = document.getElementsByTagName('table')
+        let search = document.getElementsByClassName('setorfind')
         let whichTable = e.currentTarget.parentNode.children[1];
-        let click = search[whichSector].attributes[0].value        
+        let click = search[whichSector].attributes[0].value
         if(click == whichSector){
                 if(whichTable.style.display == 'none'){
                     for(var i = 0; i < search.length; i++){
@@ -42,6 +44,8 @@ const GerenciarUsuarios = () => {
                 }
         }
         
+    
+        
     }
 
     
@@ -55,13 +59,30 @@ const GerenciarUsuarios = () => {
         
     }
 
+    
+
+    const handleChange = (e) => {setParams(e.target.value)}
+
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/setor')
         .then(res => {
         setSetores([...res.data.results])
         setLoading(false)
         })
+
+
     },[])
+
+    useEffect(() => {
+        const fetchData = async (params) => {
+            await axios.post('http://localhost:8080/api/v1/funcionarios/setor/geral', {'nome': params})
+            .then(res=>{
+                setResult([...res.data.results.achaFuncionario])
+                
+            })
+        } 
+        fetchData(params)
+    },[params])
 
     if(loading){
         return <div className='loading'>Loading</div>
@@ -72,6 +93,35 @@ const GerenciarUsuarios = () => {
         <section className='createUser'>
         <button className='registerUser' onClick={() => {setNewClick(true)}}>{add}</button>
         </section>
+        <div className='searchbar'>
+        <label>Encontre um funcionário</label>
+        <input type='text' value={params} onChange={(e) => setParams(e.target.value)} placeholder='Faça sua pesquisa'/>
+        <div className='resultsSearchbar' style={params ? {display: 'flex'} : {display: 'none' }}>
+        <table>
+            <thead>
+            <tr className='first-tr'>
+                <td>Nome</td>
+                <td>Visualizar</td>
+                <td>Modificar</td>
+                <td>Deletar</td>
+            </tr>
+            </thead>
+            <tbody>
+                {result.map((data, key) => {
+                    if(data.nome != null){
+                return(
+                <tr key={key}>
+                    <td>{data.nome}</td>
+                    <td>{eye}</td>
+                    <td>{edit}</td>
+                    <td>{deleteUser}</td>
+                </tr>
+                    
+                )}})}
+            </tbody>
+        </table>
+        </div>
+        </div>
         <section className='manageUsers'>
         {setores.map((data, key) => {
             return(   
@@ -79,7 +129,7 @@ const GerenciarUsuarios = () => {
             <section className='users--sector' onClick={(e) => handleClick(e)}>
             <h2 className='title--sector'>{data.nome}</h2>
             </section>
-                <table style={{display: 'none'}} dataid={key}>
+                <table style={{display: 'none'}} dataid={key} className='setorfind'>
                     <thead>
                         <tr className='first-tr'>
                             <td>Nome</td>
@@ -102,7 +152,7 @@ const GerenciarUsuarios = () => {
                     </tbody>
                     <div className='pagination'>
                     <Pagination page={currentPage} pages={maxPageNumber} changePage={setCurrentPage} changeUser={findUsers} setores={setores}/>
-                </div>
+                    </div>
                 </table>
                 
             </section>

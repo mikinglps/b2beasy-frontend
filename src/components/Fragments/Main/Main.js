@@ -22,7 +22,7 @@ const Main = props => {
     },[result])
     return (
         <>
-        <div id='breadcrump' className='breadcrump'><h1>Inicio</h1></div>
+        <div id='breadcrump' className='breadcrump'><h1>Inicio/</h1></div>
         <main id='main' className="container--painel">
             
             <Outlet>

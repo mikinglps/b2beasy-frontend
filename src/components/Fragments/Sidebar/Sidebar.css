@@ -10,7 +10,7 @@
 aside.lembrete, aside.tarefas{
     margin-top: 3%;
     text-align: center;
-    background: rgba(0,0,0,0.3);
+    background: #313a46;
     flex-basis: 100%;
     height: 300px;
     border-radius: 3%;

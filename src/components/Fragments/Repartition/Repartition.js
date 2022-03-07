@@ -3,7 +3,7 @@ import './Repartition.css'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie } from '@fortawesome/free-solid-svg-icons'
 
 const manage = <FontAwesomeIcon icon={faUsers} style={{color: 'black', fontSize: '22px'}}/>
 const log = <FontAwesomeIcon icon={faChartBar} style={{color: 'black', fontSize: '22px'}}/>
@@ -13,6 +13,7 @@ const office = <FontAwesomeIcon icon={faBriefcase} style={{color: 'black', fontS
 const importar = <FontAwesomeIcon icon={faUpload} style={{color: 'black', fontSize: '22px'}}/>
 const add = <FontAwesomeIcon icon={faPlus} style={{color: 'black', fontSize: '22px'}}/>
 const folder = <FontAwesomeIcon icon={faFolder} style={{color: 'black', fontSize: '22px'}}/>
+const sector = <FontAwesomeIcon icon={faChartPie} style={{color: 'black', fontSize: '22px'}}/>
 
 
 const Repartition = () => {
@@ -57,6 +58,12 @@ const Repartition = () => {
                   {filiais}
                </div>
                <p>Filiais</p>
+               <Link to='/gerenciar/setor' style={{textDecoration: 'none', textAlign: 'center'}}>
+               <div className='rounded--cnpj'>
+                  {sector}
+               </div>
+               <p>Setores</p>
+               </Link>
                <Link to='/gerenciar/usuarios' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {manage}
