@@ -38,14 +38,16 @@ const Repartition = () => {
             <div className='single--rep--cnpj'>
             <p>Gerenciar</p>
             <div className='icons--rep--cnpj'>
+               <Link to='/gerenciar/log' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {log}
                </div>
                <p>Log</p>
+               </Link>
                <div className='rounded--cnpj'>
                   {folder}
                </div>
-               <p>Meus Arquivos</p>
+               <p>Arquivos</p>
                <div className='rounded--cnpj'>
                   {office}
                </div>
@@ -54,10 +56,12 @@ const Repartition = () => {
                   {lock}
                </div>
                <p>Permissões</p>
+               <Link to='/gerenciar/filial' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {filiais}
                </div>
                <p>Filiais</p>
+               </Link>
                <Link to='/gerenciar/setor' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {sector}

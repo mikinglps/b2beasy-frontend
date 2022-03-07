@@ -1,0 +1,65 @@
+.addSetor h2, .manageSetor h2{
+    color: #8391a2;
+    padding: 10px;
+}
+
+.addSetor form{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.addSetor input{
+    width: 40%;
+}
+
+.addSetor select{
+    height: 30px;
+    width: 40%;
+    font-size: 18px;
+}
+
+.addSetor select option{
+    max-height: 40px;
+}
+
+.addSetor button{
+    background: rgb(24,144,255);
+    border: none;
+    height: 30px;
+    width: 10%;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1%;
+}
+
+.addSetor button:hover{
+    filter: brightness(1.1)
+}
+
+.manageSetor{
+    padding: 10px;
+}
+
+.manageSetor table{
+    padding: 10px;
+    width: 96%;
+    border-collapse: collapse;
+    box-shadow: 0.5px 0.5px 1px 1px gray;
+}
+
+.manageSetor tr.first-tr{
+    height: 30px;
+    background: #8391a2;
+    box-shadow: 1px 0.5px 2px 1px gray;
+    color: white;
+}
+
+.manageSetor tr td{
+    padding: 5px;
+    border-right: 0.5px solid black;
+    text-align: center;
+}

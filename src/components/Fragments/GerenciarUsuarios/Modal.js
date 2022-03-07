@@ -1,11 +1,17 @@
 import React from 'react'
 import './Modal.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 
 const Modal = ({ click, setClick }) => {
+    const close = <FontAwesomeIcon icon={faCircleXmark} style={{color:'black',fontSize: '18px', cursor: 'pointer'}}/>
 
     return(
-        <section id='overlay' className='overlay' onClick={() => setClick(!click)}>
+        <section id='overlay' className='overlay'>
         <section className='modal-add'>
+            <div className='close-holder' onClick={()=>setClick(!click)}>
+            {close} <span>Fechar</span>
+            </div>
             <h2>Adicionar Novo Funcionario</h2>
             <div className='form-holder'>
             <form>

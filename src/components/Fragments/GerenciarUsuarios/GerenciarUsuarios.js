@@ -59,9 +59,6 @@ const GerenciarUsuarios = () => {
         
     }
 
-    
-
-    const handleChange = (e) => {setParams(e.target.value)}
 
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/setor')
@@ -76,7 +73,7 @@ const GerenciarUsuarios = () => {
     useEffect(() => {
         const fetchData = async (params) => {
             await axios.post('http://localhost:8080/api/v1/funcionarios/setor/geral', {'nome': params})
-            .then(res=>{
+            .then((res)=>{
                 setResult([...res.data.results.achaFuncionario])
                 
             })
@@ -94,7 +91,7 @@ const GerenciarUsuarios = () => {
         <button className='registerUser' onClick={() => {setNewClick(true)}}>{add}</button>
         </section>
         <div className='searchbar'>
-        <label>Encontre um funcionário</label>
+        <label>Encontrar um funcionário</label>
         <input type='text' value={params} onChange={(e) => setParams(e.target.value)} placeholder='Faça sua pesquisa'/>
         <div className='resultsSearchbar' style={params ? {display: 'flex'} : {display: 'none' }}>
         <table>
@@ -127,7 +124,7 @@ const GerenciarUsuarios = () => {
             return(   
             <section className='user--single' data-id={key} key={key}>
             <section className='users--sector' onClick={(e) => handleClick(e)}>
-            <h2 className='title--sector'>{data.nome}</h2>
+            <h2 className='title--sector'>{data.titulo}</h2>
             </section>
                 <table style={{display: 'none'}} dataid={key} className='setorfind'>
                     <thead>

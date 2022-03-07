@@ -10,6 +10,12 @@
     left: 0;
     overflow: hidden;
 }
+
+.close-holder{
+    text-align: right;
+    cursor: pointer;
+}
+
 .modal-add{
     padding: 3%;
     background: rgb(243,243,243);

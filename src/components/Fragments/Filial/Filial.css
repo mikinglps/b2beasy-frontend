@@ -1,0 +1,55 @@
+
+.addFilial h2, .manageFiliais h2{
+    color: #8391a2;
+    padding: 10px;
+}
+
+.addFilial form{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.addFilial input{
+    width: 40%;
+}
+
+.addFilial button{
+    background: rgb(24,144,255);
+    border: none;
+    height: 30px;
+    width: 10%;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addFilial button:hover{
+    filter: brightness(1.1)
+}
+
+.manageFiliais{
+    padding: 10px;
+}
+
+.manageFiliais table{
+    padding: 10px;
+    width: 96%;
+    border-collapse: collapse;
+    box-shadow: 0.5px 0.5px 1px 1px gray;
+}
+
+.manageFiliais tr.first-tr{
+    height: 30px;
+    background: #8391a2;
+    box-shadow: 1px 0.5px 2px 1px gray;
+    color: white;
+}
+
+.manageFiliais tr td{
+    padding: 5px;
+    border-right: 0.5px solid black;
+    text-align: center;
+}
