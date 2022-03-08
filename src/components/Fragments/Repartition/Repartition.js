@@ -3,7 +3,7 @@ import './Repartition.css'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear } from '@fortawesome/free-solid-svg-icons'
 
 const manage = <FontAwesomeIcon icon={faUsers} style={{color: 'black', fontSize: '22px'}}/>
 const log = <FontAwesomeIcon icon={faChartBar} style={{color: 'black', fontSize: '22px'}}/>
@@ -14,6 +14,7 @@ const importar = <FontAwesomeIcon icon={faUpload} style={{color: 'black', fontSi
 const add = <FontAwesomeIcon icon={faPlus} style={{color: 'black', fontSize: '22px'}}/>
 const folder = <FontAwesomeIcon icon={faFolder} style={{color: 'black', fontSize: '22px'}}/>
 const sector = <FontAwesomeIcon icon={faChartPie} style={{color: 'black', fontSize: '22px'}}/>
+const options = <FontAwesomeIcon icon={faGear} style={{color: 'black', fontSize: '22px'}}/>
 
 
 const Repartition = () => {
@@ -79,6 +80,12 @@ const Repartition = () => {
                   {manage}
                </div>
                <p>Repartições</p>
+               </Link>
+               <Link to='/config' style={{textDecoration: 'none', textAlign: 'center'}}>
+               <div className='rounded--cnpj'>
+                  {options}
+               </div>
+               <p>Opções</p>
                </Link>
                </div>
                </div>

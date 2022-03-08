@@ -4,16 +4,20 @@
     width: 20%;
     order: 2;
     margin-right: 3%;
-    height: 600px;
+    justify-content: space-evenly;
+    height: 700px;
 }
 
 aside.lembrete, aside.tarefas{
+    position: relative;
+    flex-direction: column;
     margin-top: 3%;
     text-align: center;
-    background: #313a46;
+    background: #404c5c;
     flex-basis: 100%;
     height: 300px;
     border-radius: 3%;
+    padding: 10px;
 }
 
 aside.lembrete ul, aside.tarefas ul{
@@ -24,4 +28,24 @@ aside.lembrete ul, aside.tarefas ul{
 
 aside.lembrete ul a, aside.tarefas a, aside.lembrete h4, aside.tarefas h4{
     color: white;
+}
+
+aside div.button-holder{
+    position: absolute;
+    bottom: 3%;
+    width: 100%;
+}
+
+aside button{
+    width: 40%;
+    padding: 3%;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: #313a46;
+    color: white;
+}
+
+aside button:hover{
+    filter: brightness(1.1)
 }

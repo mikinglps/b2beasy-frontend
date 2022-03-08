@@ -23,6 +23,12 @@
     overflow-x: hidden;
 }
 
+.profile h2.logo{
+  color: white;
+  padding: 4%;
+  font-size: 16px;
+}
+
 .hidden-profile{
   display: none;
 }
@@ -65,6 +71,13 @@
     width: 100%;
 }
 
+.options h2{
+  color: #8391a2;
+  font-size: 18px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
 .options ul{
     width: 100%;
     list-style-type: none;
@@ -73,9 +86,14 @@
 
 .options li{
     padding: 10px;
-    color: white;
-    border-bottom: 1px solid rgba(0,0,0,0.5);
+    color: #8391a2;
+    /* border-bottom: 1px solid rgba(0,0,0,0.5); */
+    background: rgba(0,0,0,0.1);
 }
+.options li:hover{
+  color: #bccee4;
+}
+
 
 .calendar{
     margin-top: 25%;

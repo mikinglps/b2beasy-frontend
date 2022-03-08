@@ -1,0 +1,52 @@
+.actionLogs{
+    width: 100%;
+}
+
+.actionLogs table{
+    margin-left: 2%;
+    width: 90%;
+    border: none;
+    border-collapse: collapse;
+    box-shadow: 1px 0.5px 1px 1px gray;
+}
+
+.actionLogs tr{
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+}
+
+.actionLogs tr.first-tr{
+    text-align: center;
+    background: #8391a2;
+    border-collapse: collapse;
+    border: none;
+    color: white;
+}
+
+.actionLogs td{
+    text-align: center;
+    border-left: 0.5px solid gray;
+    padding: 5px;
+    border-collapse: collapse;
+}
+
+.pdf-holder{
+    padding: 2%;
+}
+
+.pdf-button{
+    width: 10%;
+    display: flex;
+    background: rgb(255, 79, 74);
+    color: white;
+    justify-content: space-between;
+    padding: 1%;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.pdf-button:hover{
+    filter: brightness(1.1);
+}

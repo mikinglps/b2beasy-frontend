@@ -1,0 +1,22 @@
+.vejaMais{
+    padding: 1%;
+    width: 50%;
+    position: absolute;
+    background: rgb(243,243,243);
+    box-shadow: 1px 1px 2px 1px gray;
+    min-height: 200px;
+    top: 30%;
+    left: 30%;
+}
+
+.vejaMais h2{
+    text-align: center;
+}
+
+.close-handler{
+    position: absolute;
+    top: -2%;
+    right: -1%;
+    text-align: right;
+    width: 100%;
+}
