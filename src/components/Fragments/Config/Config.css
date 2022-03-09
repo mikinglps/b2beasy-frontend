@@ -1,0 +1,29 @@
+.configContainer h2{
+    padding: 2%;
+    color: #8391a2;
+}
+
+form.configform{
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+}
+
+form.configform label{
+    color: #8391a2;
+}
+
+form.configform button.saveConfig{
+    background: #5cb85c;
+    color: white;
+    font-size: 16px;
+    border: none;
+    padding: 5px;
+    width: 15%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form.configform button.saveConfig:hover{
+    filter: brightness(1.1)
+}

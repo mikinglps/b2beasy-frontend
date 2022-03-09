@@ -75,7 +75,7 @@ const Repartition = () => {
                </div>
                <p>Gerenciar Usuarios</p>
                </Link>
-               <Link to='/criar' style={{textDecoration: 'none', textAlign: 'center'}}>
+               <Link to='/gerenciar/reparticao' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {manage}
                </div>

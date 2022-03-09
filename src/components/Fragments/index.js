@@ -8,3 +8,5 @@ export { default as GerenciarUsuarios } from './GerenciarUsuarios/GerenciarUsuar
 export { default as Log } from './Log/Log'
 export { default as Filial } from './Filial/Filial'
 export { default as Setor } from './Setor/Setor'
+export { default as Memo } from './Criar/Memo'
+export { default as Config } from './Config/Config'

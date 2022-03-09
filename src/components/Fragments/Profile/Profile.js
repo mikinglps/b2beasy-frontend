@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import Calendar from 'react-calendar'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
@@ -6,13 +6,17 @@ import { AuthContext } from '../../../contexts/auth'
 import './Profile.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faFolder, faUpload, faBell, faListCheck, faUser } from '@fortawesome/free-solid-svg-icons'
+import PopUpCreate from '../Criar/PopUpCreate'
 
 
 const Profile = () => {
     const { usuario } = useContext(AuthContext)
     const { resultProfile, showProfile } = useContext(PainelContext)
     const result = resultProfile();
+    const reff = useRef()
+    const [ coord, setCoord ] = useState('')
     const [ date, setDate ] = useState(new Date())
+    const [ click, setClick ] = useState(false)
     const add = <FontAwesomeIcon icon={faPlus} style={{color: '#8391a2', fontSize: '16px'}}/>
     const archives = <FontAwesomeIcon icon={faFolder} style={{color: '#8391a2', fontSize: '16px'}}/>
     const upload = <FontAwesomeIcon icon={faUpload} style={{color: '#8391a2', fontSize: '16px'}}/>
@@ -37,7 +41,14 @@ const Profile = () => {
         }
     },[result])
 
+    useEffect(()=>{
+        let element = document.getElementById('box')
+        setCoord(element.getBoundingClientRect())
+        console.log(coord)
+    },[click])
+
     return(
+        <>
         <section id='profile' className='profile'>
             <h2 className='logo'>B2Beasy</h2>
             <div id='fade' className='fade'>
@@ -49,9 +60,7 @@ const Profile = () => {
             <div className='options'>
                 <h2>Navegação</h2>
                 <ul>
-                    <Link to='/criar' style={{textDecoration: 'none' }}>
-                    <li>{add} Criar</li>
-                    </Link>
+                    <li id="box" ref={reff} onMouseEnter={()=>(setClick(true))} onMouseLeave={()=>{setClick(false)}}>{add} Criar</li>
                     <Link to='/meusarquivos' style={{textDecoration: 'none'}}>
                     <li>{archives} Meus Arquivos</li>
                     </Link>
@@ -71,8 +80,10 @@ const Profile = () => {
                     <Calendar onChange={onChange} value={date}/>
                 </div>
                 </div>
+                    
         </section>
-
+        {click ? <PopUpCreate coordinates={coord} houver={click} setHover={setClick} /> : null}
+        </>
     )
 }
 
