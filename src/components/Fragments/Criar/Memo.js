@@ -3,7 +3,6 @@ import JoditEditor from 'jodit-react'
 import './Memo.css'
 import axios from 'axios'
 import { AuthContext } from '../../../contexts/auth'
-import PdfGen from './PdfGen'
 import {useReactToPrint} from 'react-to-print';
 
 const Memo = () => {
