@@ -1,10 +1,19 @@
+.error{
+    background: rgb(255,77,79);
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 10px;
+    color: white;
+    padding: 5px;
+}
 
-.addFilial h2, .manageFiliais h2{
+.addCliente h2, .manageSetor h2{
     color: #8391a2;
     padding: 10px;
 }
 
-.addFilial form{
+.addCliente form{
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -12,16 +21,21 @@
     align-items: flex-start;
 }
 
-.addFilial p{
-    font-size: 15px;
-    color: gray;
-}
-
-.addFilial input{
+.addCliente input{
     width: 40%;
 }
 
-.addFilial button{
+.addCliente select{
+    height: 30px;
+    width: 40%;
+    font-size: 18px;
+}
+
+.addCliente select option{
+    max-height: 40px;
+}
+
+.adCliente button{
     background: rgb(24,144,255);
     border: none;
     height: 30px;
@@ -29,31 +43,36 @@
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 1%;
 }
 
-.addFilial button:hover{
+.addCliente button:hover{
     filter: brightness(1.1)
 }
 
-.manageFiliais{
+.manageCliente{
     padding: 10px;
 }
 
-.manageFiliais table{
+.manageCliente h2{
+    color: #8391a2;
+}
+
+.manageCliente table{
     padding: 10px;
     width: 96%;
     border-collapse: collapse;
     box-shadow: 0.5px 0.5px 1px 1px gray;
 }
 
-.manageFiliais tr.first-tr{
+.manageCliente tr.first-tr{
     height: 30px;
     background: #8391a2;
     box-shadow: 1px 0.5px 2px 1px gray;
     color: white;
 }
 
-.manageFiliais tr td{
+.manageCliente tr td{
     padding: 5px;
     border-right: 0.5px solid black;
     text-align: center;

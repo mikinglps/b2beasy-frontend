@@ -44,7 +44,6 @@ const Profile = () => {
     useEffect(()=>{
         let element = document.getElementById('box')
         setCoord(element.getBoundingClientRect())
-        console.log(coord)
     },[click])
 
     return(

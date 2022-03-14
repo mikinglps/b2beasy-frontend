@@ -3,7 +3,7 @@ import './Repartition.css'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved } from '@fortawesome/free-solid-svg-icons'
 
 const manage = <FontAwesomeIcon icon={faUsers} style={{color: 'black', fontSize: '22px'}}/>
 const log = <FontAwesomeIcon icon={faChartBar} style={{color: 'black', fontSize: '22px'}}/>
@@ -15,7 +15,7 @@ const add = <FontAwesomeIcon icon={faPlus} style={{color: 'black', fontSize: '22
 const folder = <FontAwesomeIcon icon={faFolder} style={{color: 'black', fontSize: '22px'}}/>
 const sector = <FontAwesomeIcon icon={faChartPie} style={{color: 'black', fontSize: '22px'}}/>
 const options = <FontAwesomeIcon icon={faGear} style={{color: 'black', fontSize: '22px'}}/>
-
+const customer = <FontAwesomeIcon icon={faFireFlameCurved} style={{color: 'black', fontSize: '22px'}}/>
 
 const Repartition = () => {
     const { resultProfile } = useContext(PainelContext)
@@ -57,6 +57,12 @@ const Repartition = () => {
                   {lock}
                </div>
                <p>Permissões</p>
+               <Link to='/gerenciar/cliente' style={{textDecoration: 'none', textAlign: 'center'}}>
+               <div className='rounded--cnpj'>
+                  {customer}
+               </div>
+               <p>Clientes</p>
+               </Link>
                <Link to='/gerenciar/filial' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {filiais}

@@ -13,11 +13,13 @@ const Filial = () => {
     const [ titulo, setTitulo ] = useState('')
     const [ cnpj, setCnpj ] = useState('')
     const [result, setResult] = useState([])
+    const [ memo, setMemo ] = useState('0000')
 
     const sendForm = async () => {
-        await axios.post('http://localhost:8080/api/v1/filiais', {titulo, cnpj})
+        await axios.post('http://localhost:8080/api/v1/filiais', {titulo, cnpj, memo})
         .then(res=>{
             result.push(res.data)
+            
         })
         let logs = {
             nome: usuario.nome,
@@ -27,6 +29,7 @@ const Filial = () => {
         axios.post('http://localhost:8080/api/v1/logs', {nome: logs.nome, cpf: logs.cpf, acao: logs.acao})
          
         }
+        
 
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/filiais')
@@ -44,6 +47,9 @@ const Filial = () => {
             <input type='text' value={titulo} onChange={(e) => setTitulo(e.target.value)} required/>
             <label>CNPJ</label>
             <input type='number' value={cnpj} onChange={(e) => setCnpj(e.target.value)} placeholder='Apenas numeros' required/>
+            <label>Número inicial/atual do memorando</label>
+            <p>Caso deixe em branco, sera inicializado com o valor de 0000</p>
+            <input type='number' value={memo} onChange={(e) => {setMemo(e.target.value)}}/>
             <button type='button' onClick={sendForm} className='btn-primary'>Cadastrar</button>
             </form>
         </section>
