@@ -60,10 +60,10 @@ const Profile = () => {
                 <h2>Navegação</h2>
                 <ul>
                     <li id="box" ref={reff} onMouseEnter={()=>(setClick(true))} onMouseLeave={()=>{setClick(false)}}>{add} Criar</li>
-                    <Link to='/meusarquivos' style={{textDecoration: 'none'}}>
+                    <Link to='/gerenciar/meusarquivos' style={{textDecoration: 'none'}}>
                     <li>{archives} Meus Arquivos</li>
                     </Link>
-                    <Link to='/lembretes' style={{textDecoration: 'none'}}>
+                    <Link to='/gerenciar/lembretes' style={{textDecoration: 'none'}}>
                     <li>{reminder} Lembretes</li>
                     </Link>
                     <Link to='/importar' style={{textDecoration: 'none'}}>

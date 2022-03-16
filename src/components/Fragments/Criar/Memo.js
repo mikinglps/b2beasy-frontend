@@ -78,9 +78,29 @@ const Memo = () => {
     const send = (e) => {
         let memoNum = parseInt(memo.memo)
         let date = new Date()
+        let formatter = Intl.DateTimeFormat('pt-BR',{
+            timeZone: 'America/Sao_Paulo',
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+        })
+
+        let formatado = formatter.format(date)
         memoNum++
         let sending = memoNum+'/'+date.getFullYear()
         axios.put('http://localhost:8080/api/v1/filiais', {_id: memo._id, memo: sending} )
+        axios.post('http://localhost:8080/api/v1/documentos', {
+            remetente: usuario.nome,
+            cpf: usuario.cpf,
+            filialRemetente: myEmpresa.titulo,
+            setorRemetente: mySector.titulo,
+            destinatario: receiver,
+            setorDestinatario: sectorReceiver,
+            memoNum: sending,
+            assunto: subject,
+            conteudo: content,
+            data: formatado
+        })
         
     }
 
@@ -101,7 +121,6 @@ const Memo = () => {
             .then(response => {
                 setMyEmpresa(response.data)
             })
-            console.log(myEmpresa)
     },[sender])
 
     return(

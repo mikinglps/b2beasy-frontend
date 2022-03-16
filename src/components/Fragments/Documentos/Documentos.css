@@ -1,0 +1,185 @@
+table{
+    margin-top: 1%;
+    margin-left: 1.5%;
+    width: 98%;
+    border-collapse: collapse;
+    box-shadow: 1px 0.5px 2px 1px gray;
+}
+
+table thead tr.tr-head td{
+    padding: 1%;
+    color: white;
+    background: #8391a2;
+}
+
+table tbody tr td{
+    padding: 1%;
+}
+
+.holdingPrint{
+    display: none;
+}
+
+#documento{
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#documento tr.flexMemo{
+    padding: 0 2px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#documento tr.flexMemo td:first-of-type{
+    font-weight: bold;
+}
+
+#documento .numMemoFlex{
+    width: 25%;
+}
+
+#documento .dataMemo{
+    text-decoration: underline;
+    width: 25%;
+}
+
+#documento td.dataMemo {
+    text-decoration: underline;
+}
+
+#documento tr.conteudo td table, #documento tbody tr.conteudo td table tr, #documento tbody tr.conteudo td table tr td {
+    border-collapse: collapse;
+    border: 1px solid black!important;
+}
+
+#documento table tr td{
+    padding: 5px;
+    border: 1px solid black!important;
+}
+
+#documento .default{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.holdingPrint tfoot{
+    display: none;
+}
+
+.popupMemo{
+    font-weight: normal;
+    border-radius: 2%;
+    padding: 10px;
+    height: 150px;
+    width: 20%;
+    top: 35%;
+    left: 40%;
+    box-shadow: 1px 0.5px 2px 1px gray;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: absolute;
+}
+
+.btn-popup__popupMemo{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+    width: 100%;
+    text-align: right;
+}
+
+.btn-popup__popupMemo button{
+    margin-left: 5px;
+    padding: 2px;
+    width: 20%;
+}
+
+
+@media print {
+
+    @page{
+        size: A4;
+        margin: 8mm;
+    }
+
+    *{
+        padding: 0!important;
+    }
+
+    .holdingPrint{
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+
+    }
+
+    table{
+        box-shadow: none;
+    }
+
+
+    thead.logoMemo{
+        page-break-before: avoid;
+        display: table-header-group;
+        width: 100%;
+        text-align: center;
+    }
+    
+    thead.logoMemo img{
+        max-height: 125px;
+    }
+
+    thead.logoMemo tr td{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    #documento tr.conteudo td table{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    #documento tr.conteudo td table tr, tbody tr.conteudo td table tr td{
+        border: 1px solid black;
+    }
+
+    #documento tr.conteudo td table tr td{
+        padding: 4px;
+    }
+
+    .holdingPrint tfoot{
+        width: 90vw;
+        position: relative;
+        bottom: 0;
+        display: flex;
+        page-break-before: avoid;
+        page-break-after: avoid;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
+
+    
+    .holdingPrint tfoot.footerMemo tr{
+        width: 100vw;
+        border-top: 1px solid black;
+        text-align: center;
+        display: flex;
+        align-items: center;
+    }
+    
+    .holdingPrint tfoot.footerMemo td{
+        width: 100%;
+        text-align: center;
+        page-break-after: avoid;
+    }
+
+}
