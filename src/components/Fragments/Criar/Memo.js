@@ -18,28 +18,45 @@ const Memo = () => {
     const [ memo, setMemo ] = useState('')
     const [ sender, setSender ] = useState('')
     const [ mySector, setMySector ] = useState('')
+    const [ myEmpresa, setMyEmpresa ] = useState([])
+    const [ memoClick, setMemoClick ] = useState(false)
+    const dataExtense = new Date()
+    const formatterExtense = Intl.DateTimeFormat("pt-BR", {
+        timeZone: 'America/Sao_Paulo',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    })
+
+    const extenseFormatted = formatterExtense.format(dataExtense)
     
     const config = {
         readonly: false,
         height: 400
     }
 
-    let parse = new DOMParser();
-    let doc = parse.parseFromString(content, 'text/html')
+
 
 
     const handlePdf = useReactToPrint({
-        content: () => componentRef.current,
-    }) //=> {
-        // const fullInfo = [{
-        //     assunto: subject ? subject : null,
-        //     destinatario: receiver ? receiver : null,
-        //     cargoDestinado: sectorReceiver ? sectorReceiver : null,
-        //     de: mySector ? mySector : null,
-        //     mensagem: content ? content : null
-        // }]
+        content: () => {
+        const components = componentRef.current.cloneNode(true);
+        const PrintElem = document.createElement('table')
+        const header = 
+         `<thead class='logoMemo'>` +
+         `<tr><td><img src="${myEmpresa.img}" alt='logo'/></td></tr>`+
+         `<tr><td>${myEmpresa.titulo}</td></tr></thead>` //+
+        // `<tfoot id='footerMemo' class='footerMemo'>
+        //   <tr><td><p>${myEmpresa.endereco}</p></td></tr>
+        //   </tfoot>`;
+        PrintElem.innerHTML = header
+        PrintElem.appendChild(components)
+        console.log(PrintElem)
+        return PrintElem;
+         },
+        documentTitle: memo ? memo.memo+' - '+subject : 'Documento',
 
-    //}
+    })
 
     const handleChange = async (receiver) => {
         await axios.post('http://localhost:8080/api/v1/setor/filial/', {titulo: receiver})
@@ -61,22 +78,9 @@ const Memo = () => {
     const send = (e) => {
         let memoNum = parseInt(memo.memo)
         let date = new Date()
-        let formatter = Intl.DateTimeFormat("pt-BR", {
-            timeZone: 'America/Sao_Paulo',
-            month: 'numeric',
-            year: 'numeric'
-        })
-        let formatado = formatter.format(date)
-        formatado = formatado.replaceAll('/','')
         memoNum++
-        if(memoNum < 10){
-            memoNum = formatado+'000'+memoNum
-        }else if(memoNum < 100 && memoNum >= 10){
-            memoNum = formatado+'00'+memoNum
-        }else if(memoNum < 1000 && memoNum >= 100){
-            memoNum = formatado+'0'+memoNum
-        }
-        axios.put('http://localhost:8080/api/v1/filiais', {_id: memo._id, memo: memoNum} )
+        let sending = memoNum+'/'+date.getFullYear()
+        axios.put('http://localhost:8080/api/v1/filiais', {_id: memo._id, memo: sending} )
         
     }
 
@@ -93,6 +97,11 @@ const Memo = () => {
                     .then(response=>{
                         setMySector(response.data)
                     })
+            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.empresa})
+            .then(response => {
+                setMyEmpresa(response.data)
+            })
+            console.log(myEmpresa)
     },[sender])
 
     return(
@@ -131,16 +140,39 @@ const Memo = () => {
             />
             <div className='button-handler'>
             <button type='button'>Salvar</button> <button onClick={(e)=>{send(e)}}>Enviar Memorando</button>
-            <button type='button' onClick={handlePdf}>PDF</button>
+            <button type='button' onClick={() => {handlePdf();}}>PDF</button>
             </div>
         </form>
-        <div id='documento' ref={componentRef}>
-            <h2>De: {mySector ? mySector.titulo : null}</h2>
-            <h2>Para: {receiver} - {sectorReceiver}</h2>
-            <h2>Assunto: {subject}</h2>
-            <div className='conteudo' dangerouslySetInnerHTML={{__html: content}}></div>
-        </div>
         </section>
+        <div className='holderH2' style={myEmpresa ? {display: 'block'} : {display: 'none'}}>
+        <h2>Visualizando</h2>
+        </div>
+        <div ref={componentRef} className='holdingPrint'>
+        <tbody id='documento'  style={myEmpresa ? {display: 'flex'} : {display: 'none'}}>
+        
+            <tr className='flexMemo'>
+                <td>Numero: {memo.memo}</td>
+                <td className='dataMemo'>{extenseFormatted}</td>
+            </tr>
+            <tr className='default'>
+                <td>De: {mySector && myEmpresa ? mySector.titulo+' - '+myEmpresa.titulo : null}</td>
+            </tr>
+            <tr className='default'>
+                <td>Para: {receiver} - {sectorReceiver}</td>
+            </tr>
+            <tr className='default'>
+                <td>Assunto: {subject}</td>
+            </tr>
+            <tr className='conteudo'>
+                <td dangerouslySetInnerHTML={{__html: content}}></td>
+            </tr>
+            
+            </tbody>
+            <tfoot id='footerMemo' class='footerMemo'>
+            
+            <tr><td>{ myEmpresa ? myEmpresa.endereco : null}</td></tr>
+            </tfoot>
+            </div>
         </>
     )
 }
