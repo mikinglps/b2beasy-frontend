@@ -45,6 +45,20 @@ form.memoform .button-handler button:hover{
     padding: 5%;
 }
 
+/* thead.logoMemo{
+    width: 100%;
+    text-align: center;
+}
+
+thead.logoMemo img{
+    max-height: 125px;
+}
+
+thead.logoMemo tr td{
+    font-weight: bold;
+    font-size: 18px;
+} */
+
 #documento{
     padding: 5%;
     display: flex;
@@ -91,12 +105,15 @@ form.memoform .button-handler button:hover{
 }
 
 tfoot{
-    display: none;
+    display: block; /*aqui*/
+    position: fixed;/*aqui*/
+    bottom: 0;/*aqui*/
+
 }
 
 
 
-@media print {
+/* @media print {
 
     @page{
         size: A4;
@@ -148,15 +165,16 @@ tfoot{
 
     tfoot{
         width: 90vw;
-        position: relative;
         bottom: 0;
+        display: table-footer-group;
+        height: 100px;
         display: flex;
         page-break-before: avoid;
-        page-break-after: avoid;
+        page-break-after: always;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        margin: 0 auto;
+        margin: 0 auto 0 auto;
     }
 
 
@@ -175,4 +193,4 @@ tfoot{
         page-break-after: avoid;
     }
 
-}
+} */

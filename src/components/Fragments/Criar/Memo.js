@@ -3,7 +3,7 @@ import JoditEditor from 'jodit-react'
 import './Memo.css'
 import axios from 'axios'
 import { AuthContext } from '../../../contexts/auth'
-import {useReactToPrint} from 'react-to-print';
+import PdfGen from './PdfGen'
 
 const Memo = () => {
     const componentRef = useRef()
@@ -35,29 +35,6 @@ const Memo = () => {
         height: 400
     }
 
-
-
-
-    const handlePdf = useReactToPrint({
-        content: () => {
-        const components = componentRef.current.cloneNode(true);
-        const PrintElem = document.createElement('table')
-        const header = 
-         `<thead class='logoMemo'>` +
-         `<tr><td><img src="${myEmpresa.img}" alt='logo'/></td></tr>`+
-         `<tr><td>${myEmpresa.titulo}</td></tr></thead>` //+
-        // `<tfoot id='footerMemo' class='footerMemo'>
-        //   <tr><td><p>${myEmpresa.endereco}</p></td></tr>
-        //   </tfoot>`;
-        PrintElem.innerHTML = header
-        PrintElem.appendChild(components)
-        console.log(PrintElem)
-        return PrintElem;
-         },
-        documentTitle: memo ? memo.memo+' - '+subject : 'Documento',
-
-    })
-
     const handleChange = async (receiver) => {
         await axios.post('http://localhost:8080/api/v1/setor/filial/', {titulo: receiver})
         .then(res=>{
@@ -73,6 +50,56 @@ const Memo = () => {
         })
         
         
+    }
+
+    const save = () => {
+        let date = new Date()
+        let formatter = Intl.DateTimeFormat('pt-BR',{
+            timeZone: 'America/Sao_Paulo',
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+        })
+
+        let formatado = formatter.format(date)
+        axios.post('http://localhost:8080/api/v1/rascunhos/add', {
+            remetente: usuario.nome,
+            cpf: usuario.cpf,
+            filialRemetente: myEmpresa.titulo,
+            setorRemetente: mySector.titulo,
+            destinatario: receiver,
+            setorDestinatario: sectorReceiver,
+            memoNum: 'Numero: XXX/'+date.getFullYear(),
+            assunto: subject,
+            conteudo: content,
+            data: {
+                bd: formatado,
+                mostrado: extenseFormatted
+            },
+            enderecoRemetente: myEmpresa.endereco,
+            imgRemetente: myEmpresa.img
+        })
+        .then(res => {
+
+        })
+        PdfGen({
+            remetente: usuario.nome,
+            cpf: usuario.cpf,
+            filialRemetente: myEmpresa.titulo,
+            setorRemetente: mySector.titulo,
+            destinatario: receiver,
+            setorDestinatario: sectorReceiver,
+            memoNum: 'Numero: XXX/'+date.getFullYear(),
+            assunto: subject,
+            conteudo: content,
+            data: {
+                bd: formatado,
+                mostrado: extenseFormatted
+            },
+            enderecoRemetente: myEmpresa.endereco,
+            imgRemetente: myEmpresa.img
+        
+        })
     }
 
     const send = (e) => {
@@ -99,9 +126,33 @@ const Memo = () => {
             memoNum: sending,
             assunto: subject,
             conteudo: content,
-            data: formatado
+            data: {
+                bd: formatado,
+                mostrado: extenseFormatted
+            },
+            enderecoRemetente: myEmpresa.endereco,
+            imgRemetente: myEmpresa.img
+            
         })
-        
+
+            PdfGen({
+                remetente: usuario.nome,
+                cpf: usuario.cpf,
+                filialRemetente: myEmpresa.titulo,
+                setorRemetente: mySector.titulo,
+                destinatario: receiver,
+                setorDestinatario: sectorReceiver,
+                memoNum: sending,
+                assunto: subject,
+                conteudo: content,
+                data: {
+                    bd: formatado,
+                    mostrado: extenseFormatted
+                },
+                enderecoRemetente: myEmpresa.endereco,
+                imgRemetente: myEmpresa.img
+            
+        })
     }
 
     useEffect(()=>{
@@ -158,8 +209,8 @@ const Memo = () => {
             style={{width: '100%'}}
             />
             <div className='button-handler'>
-            <button type='button'>Salvar</button> <button onClick={(e)=>{send(e)}}>Enviar Memorando</button>
-            <button type='button' onClick={() => {handlePdf();}}>PDF</button>
+            <button type='button' onClick={() => {save()}}>Salvar</button> <button type='button' onClick={(e)=>{send(e)}}>Salvar e Enviar</button>
+            {/* <button type='button' onClick={() => {handlePdf()}}>PDF</button> */}
             </div>
         </form>
         </section>
@@ -187,10 +238,6 @@ const Memo = () => {
             </tr>
             
             </tbody>
-            <tfoot id='footerMemo' class='footerMemo'>
-            
-            <tr><td>{ myEmpresa ? myEmpresa.endereco : null}</td></tr>
-            </tfoot>
             </div>
         </>
     )

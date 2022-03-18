@@ -4,7 +4,7 @@ import './Documentos.css'
 import { AuthContext } from '../../../contexts/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faCopy} from '@fortawesome/free-solid-svg-icons'
-import { useReactToPrint } from 'react-to-print'
+// import { useReactToPrint } from 'react-to-print'
 
 const Documentos = () => {
     const componentRef = useRef([])
@@ -16,20 +16,20 @@ const Documentos = () => {
     const copy = <FontAwesomeIcon icon={faCopy} style={{fontSize: '18px', cursor: 'pointer'}} />
 
 
-    const handlePdf = useReactToPrint({
-        content: () => {
-        const components = componentRef.current[toggleRef].cloneNode(true);
-        const PrintElem = document.createElement('table')
-        const header = 
-         `<thead class='logoMemo'>` +
-         `<tr><td><img src="${click != '' ? result[toggleRef].imgRemetente : null}" alt='logo'/></td></tr>`+
-         `<tr><td>${click != '' ? result[toggleRef].filialRemetente : null}</td></tr></thead>`
-        PrintElem.innerHTML = header
-        PrintElem.appendChild(components)
-        return PrintElem;
-         },
-        documentTitle: 'Memorando',
-    })
+    // const handlePdf = useReactToPrint({
+    //     content: () => {
+    //     const components = componentRef.current[toggleRef].cloneNode(true);
+    //     const PrintElem = document.createElement('table')
+    //     const header = 
+    //      `<thead class='logoMemo'>` +
+    //      `<tr><td><img src="${click != '' ? result[toggleRef].imgRemetente : null}" alt='logo'/></td></tr>`+
+    //      `<tr><td>${click != '' ? result[toggleRef].filialRemetente : null}</td></tr></thead>`
+    //     PrintElem.innerHTML = header
+    //     PrintElem.appendChild(components)
+    //     return PrintElem;
+    //      },
+    //     documentTitle: 'Memorando',
+    // })
 
     useEffect(() => {
            axios.post('http://localhost:8080/api/v1/documentos/my', {cpf: usuario.cpf})
@@ -60,7 +60,7 @@ const Documentos = () => {
                         <>
                     <tr key={index}>
                         <td onClick={() => {setClick(!click); setToggleRef(index)}}>{value.numero} - {value.assunto.substr(0,50)}...</td>
-                        <td>{value.data}</td>
+                        <td>{value.data.bd}</td>
                         <td>{value.destinatario} - {value.setorDestinatario}</td>
                         <td>{modify}</td>
                         <td>{copy}</td>
@@ -70,7 +70,7 @@ const Documentos = () => {
                     
                         <tr className='flexMemo'>
                             <td>Numero: {value.numero}</td>
-                            <td className='dataMemo'>{result.dataLong}</td>
+                            <td className='dataMemo'>{value.data.mostrado}</td>
                         </tr>
                         <tr className='default'>
                             <td>De: {value.setorRemetente+' - '+value.filialRemetente}</td>
@@ -99,7 +99,7 @@ const Documentos = () => {
             <section className='popupMemo' style={click ? {display: 'flex'} : {display: 'none'}}>
                 <h4>Deseja abrir o memorando?</h4>
                 <div className='btn-popup__popupMemo'>
-                <button onClick={() => {handlePdf(); setClick(!click)}}>Sim</button><button onClick={() => {setClick(!click)}}>Nao</button>
+                {/* <button onClick={() => {handlePdf(); setClick(!click)}}>Sim</button><button onClick={() => {setClick(!click)}}>Nao</button> */}
                 </div>
             </section>
         </section>
