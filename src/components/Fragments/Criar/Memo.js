@@ -69,7 +69,7 @@ const Memo = () => {
             setorRemetente: mySector.titulo,
             destinatario: receiver,
             setorDestinatario: sectorReceiver,
-            memoNum: 'Numero: XXX/'+date.getFullYear(),
+            numero: '/'+date.getFullYear(),
             assunto: subject,
             conteudo: content,
             data: {
@@ -89,7 +89,7 @@ const Memo = () => {
             setorRemetente: mySector.titulo,
             destinatario: receiver,
             setorDestinatario: sectorReceiver,
-            memoNum: 'Numero: XXX/'+date.getFullYear(),
+            numero: '/'+date.getFullYear(),
             assunto: subject,
             conteudo: content,
             data: {
@@ -123,7 +123,7 @@ const Memo = () => {
             setorRemetente: mySector.titulo,
             destinatario: receiver,
             setorDestinatario: sectorReceiver,
-            memoNum: sending,
+            numero: sending,
             assunto: subject,
             conteudo: content,
             data: {
@@ -142,7 +142,7 @@ const Memo = () => {
                 setorRemetente: mySector.titulo,
                 destinatario: receiver,
                 setorDestinatario: sectorReceiver,
-                memoNum: sending,
+                numero: sending,
                 assunto: subject,
                 conteudo: content,
                 data: {

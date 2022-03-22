@@ -14,6 +14,7 @@ function PdfGen(pdf){
         }
     })
 
+    console.log(pdf)
     const reportTitle =  {
         columns: [{
           table: {
@@ -31,7 +32,7 @@ function PdfGen(pdf){
             
                 {
                     text: pdf.filialRemetente,
-                    alignment: 'justify',
+                    alignment: 'center',
                     margin: [10,15,0,0]
                 },
 
@@ -50,7 +51,7 @@ function PdfGen(pdf){
 
     const details = [{
         columns: [
-        {width: 250, text: '\n\n\n\n\n'+pdf.memoNum},
+        {width: 250, text: '\n\n\n\n\n'+pdf.numero},
         {width: 250, alignment: 'right', text: '\n\n\n\n\n'+pdf.data.mostrado, margin: [0, 0, 0, 20]}
         
         ]
@@ -79,7 +80,6 @@ function PdfGen(pdf){
         footer: [footer]
         
     }
-    console.log(html)
     pdfMake.createPdf(docDefinitions).download()
 }
 

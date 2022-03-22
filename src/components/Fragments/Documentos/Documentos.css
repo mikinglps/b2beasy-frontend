@@ -1,6 +1,32 @@
-table{
+section.meusArquivos-cpf{
     margin-top: 1%;
-    margin-left: 1.5%;
+    padding-left: 1.5%
+}
+
+section.meusArquivos-cpf .abas-holder ul{
+    list-style-type: none;
+    list-style-position: inside;
+}
+
+section.meusArquivos-cpf .abas-holder ul li{
+    display: inline-block;
+    margin-right: .2%;
+    border-radius: 10px 10px 0 0;
+    background: #606b78;
+    color: white;
+    padding: 1%;
+    cursor: pointer;
+}
+
+section.meusArquivos-cpf .abas-holder ul li.selected{
+    background: #8391a2;
+}
+
+section.meusArquivos-cpf .abas-holder ul li:hover{
+    filter: brightness(1.1)
+}
+
+table{
     width: 98%;
     border-collapse: collapse;
     box-shadow: 1px 0.5px 2px 1px gray;
@@ -14,6 +40,14 @@ table thead tr.tr-head td{
 
 table tbody tr td{
     padding: 1%;
+}
+
+table tbody tr td.td-hover{
+    cursor: pointer;
+}
+
+table tbody tr td.td-hover:hover{
+    background: rgba(255,255,255, 0.3)
 }
 
 .holdingPrint{
@@ -99,88 +133,4 @@ table tbody tr td{
     margin-left: 5px;
     padding: 2px;
     width: 20%;
-}
-
-
-@media print {
-
-    @page{
-        size: A4;
-        margin: 8mm;
-    }
-
-    *{
-        padding: 0!important;
-    }
-
-    .holdingPrint{
-        display: flex;
-        flex-direction: column;
-        width: 100vw;
-
-    }
-
-    table{
-        box-shadow: none;
-    }
-
-
-    thead.logoMemo{
-        page-break-before: avoid;
-        display: table-header-group;
-        width: 100%;
-        text-align: center;
-    }
-    
-    thead.logoMemo img{
-        max-height: 125px;
-    }
-
-    thead.logoMemo tr td{
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    #documento tr.conteudo td table{
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-
-    #documento tr.conteudo td table tr, tbody tr.conteudo td table tr td{
-        border: 1px solid black;
-    }
-
-    #documento tr.conteudo td table tr td{
-        padding: 4px;
-    }
-
-    .holdingPrint tfoot{
-        width: 90vw;
-        position: relative;
-        bottom: 0;
-        display: flex;
-        page-break-before: avoid;
-        page-break-after: avoid;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        margin: 0 auto;
-    }
-
-
-    
-    .holdingPrint tfoot.footerMemo tr{
-        width: 100vw;
-        border-top: 1px solid black;
-        text-align: center;
-        display: flex;
-        align-items: center;
-    }
-    
-    .holdingPrint tfoot.footerMemo td{
-        width: 100%;
-        text-align: center;
-        page-break-after: avoid;
-    }
-
 }

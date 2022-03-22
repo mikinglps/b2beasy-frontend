@@ -32,7 +32,7 @@ function App() {
               <Route path='/gerenciar/setor' element={<Setor/>}/>
               <Route path='/gerenciar/reparticao' element={<CreateRepartition/>}/>
               <Route path='/gerenciar/cliente' element={<Clientes/>}/>
-              <Route path='/gerenciar/meusarquivos' element={<Documentos/>}/>
+              <Route path='/gerenciar/meusarquivos/:arquivo' element={<Documentos/>}/>
               <Route path='/criar/memorando' element={<Memo/>}/>
               <Route path='/config' element={<Config/>}/>
           </Route>
