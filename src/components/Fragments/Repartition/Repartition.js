@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Repartition.css'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
 const manage = <FontAwesomeIcon icon={faUsers} style={{color: 'black', fontSize: '22px'}}/>
 const log = <FontAwesomeIcon icon={faChartBar} style={{color: 'black', fontSize: '22px'}}/>
@@ -17,22 +18,42 @@ const sector = <FontAwesomeIcon icon={faChartPie} style={{color: 'black', fontSi
 const options = <FontAwesomeIcon icon={faGear} style={{color: 'black', fontSize: '22px'}}/>
 const customer = <FontAwesomeIcon icon={faFireFlameCurved} style={{color: 'black', fontSize: '22px'}}/>
 
+
 const Repartition = () => {
     const { resultProfile } = useContext(PainelContext)
     const result = resultProfile()
+    const [setores, setSetores] = useState([]);
+    const [loading, setLoading] = useState(true)
 
     useEffect(()=>{
       let element = document.getElementsByClassName('rounded')
       
       for(var i = 0, length = element.length; i < length; i++){
          if(result){
-            element[i].style.width = '15%'
+            element[i].style.width = '60px'
+            element[i].style.height = '60px'
          }else{
-            element[i].style.width = '13%'
+            element[i].style.width = '60px'
+            element[i].style.height = '60px'
          }
       }
       
     },[result])
+
+    useEffect(() => {
+      axios.get('http://localhost:8080/api/v1/setor')
+      .then(res => {
+         setSetores([...res.data.results])
+      })
+      setLoading(false)
+      console.log(setores)
+    },[loading])
+
+    if(loading){
+       return(
+          <div className='loading'>Loading...</div>
+       )
+    }
 
     return(
         <div className='containerRepartition'>  
@@ -95,40 +116,29 @@ const Repartition = () => {
                </Link>
                </div>
                </div>
-               <div className='single--rep'>
-            <p>Geral</p>
+            {setores.map((value, index) => {
+               return(
+               <div className='single--rep' key={index}>
+            <p>{value.titulo+' - '+value.filial}</p>
             <div className='icons--rep'>
-               <div className='rounded'>
-                  {add}
-               </div>
-               <p>Criar</p>
+            <Link to={'/gerenciar/documentos/'+value._id} style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded'>
                   {folder}
                </div>
-               <p>Meus Arquivos</p>
+               <p>Documentos</p>
+               </Link>
+            
                <div className='rounded'>
                   {importar}
                </div>
+               
                <p>Importar</p>
+               
             </div>
             </div>
-            <div className='single--rep'>
-            <p>Geral</p>
-            <div className='icons--rep'>
-               <div className='rounded'>
-                  {add}
-               </div>
-               <p>Criar</p>
-               <div className='rounded'>
-                  {folder}
-               </div>
-               <p>Meus Arquivos</p>
-               <div className='rounded'>
-                  {importar}
-               </div>
-               <p>Importar</p>
-            </div>
-            </div>
+            )
+            })}
+            
         </div>
         )
 }

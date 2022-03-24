@@ -44,6 +44,10 @@
     width: 100%;
 }
 
+.icons--rep{
+    width: 100%;
+}
+
 
 .icons--rep p, .icons--rep--cnpj p{
     font-size: 14px;
@@ -61,10 +65,12 @@
     box-shadow: 0.1px 1px 5px 0.5px gray;
 }
 
-.rounded--cnpj{
+.rounded--cnpj, .rounded{
     width: 60px;
     height: 60px;
 }
+
+
 
 
 

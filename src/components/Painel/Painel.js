@@ -1,11 +1,54 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Painel.css';
-import { Routes, Route, Outlet, useNavigate } from 'react-router-dom'
-import { Navbar, Main, Sidebar, Profile, CreateRepartition } from '../Fragments';
-import { PainelContext, PainelProvider } from '../../contexts/PainelContext';
+import { useNavigate } from 'react-router-dom'
+import { Navbar, Main, Sidebar, Profile } from '../Fragments';
+import { PainelProvider, PainelContext } from '../../contexts/PainelContext';
+import { AuthContext } from '../../contexts/auth';
+import PopUpLembrete from './PopUpLembrete'
+import axios from 'axios';
 
 const Painel = () => {
-    const navigate = useNavigate()
+    const { usuario } = useContext(AuthContext)
+    const [ lembretes, setLembretes ] = useState([])
+    const [clickPopUp, setClickPopUp] = useState(false)
+    const [ found, setFound ] = useState(false)
+    const [ lembreteShow, setLembreteShow ] = useState('')
+
+    useEffect(() => {
+        axios.post('http://localhost:8080/api/v1/lembretes/find', {cpf: usuario.cpf})
+        .then(res => {
+            setLembretes(res.data)
+        })
+    }, [])
+
+    useEffect(() => {
+        setInterval(() => {
+            let date = new Date()
+            let diff = 10;
+            let formatter = Intl.DateTimeFormat('pt-BR',{
+                timeZone: 'America/Sao_Paulo',
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            })
+
+            let formatterHour = Intl.DateTimeFormat("pt-BR", {
+            hour: 'numeric',
+            minute: 'numeric'
+            })
+            let horaFormatada = formatterHour.format(date)
+            let dataFormatada = formatter.format(date)
+
+            for(let i = 0; i < lembretes.length; i++){
+            if(lembretes[i].data == dataFormatada && Number(lembretes[i].horario.replace(':','')) + diff >= Number(horaFormatada.replace(':','')) && sessionStorage.getItem(lembretes[i]._id) == false || sessionStorage.getItem(lembretes[i]._id) == undefined){
+                setLembreteShow(lembretes[i]._id)
+                sessionStorage.setItem(lembretes[i]._id, false)
+            }
+        }
+        
+        }, 10000)
+    })
+    
 
     return (
         <PainelProvider>
@@ -13,9 +56,10 @@ const Painel = () => {
             <Navbar/>
             
             <div className='flex--painel'>
-            <Sidebar/>
+            <Sidebar lembretes={lembretes}/>
             <Profile/>
             <Main/>
+            {lembreteShow != '' ? <PopUpLembrete id={lembreteShow}/> : null}
             </div>
         </div>
         </PainelProvider>

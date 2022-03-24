@@ -1,0 +1,48 @@
+.lembrete-holder{
+    width: 95%;
+    margin-left: 1.5%;
+    margin-top: 2%;
+}
+
+div.add-lembrete{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.label-holder{
+    margin-bottom: 1%;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+div.add-lembrete form input{
+    height: 40px;
+    width: 70%;
+    font-size: 16px;
+}
+
+div.add-lembrete form textarea{
+    width: 70%;
+    height: 300px;
+    resize: none;
+}
+
+div.add-lembrete button{
+    width: 30%;
+    background: rgb(24,144,255);
+    border: none;
+    color: white;
+    padding: 1%;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+div.add-lembrete button:hover{
+    filter: brightness(1.1)
+}
+
+div.lembrete-list{
+    margin-top: 1%;
+}

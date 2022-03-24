@@ -76,6 +76,7 @@ const Memo = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
+            classe: 'memorando',
             enderecoRemetente: myEmpresa.endereco,
             imgRemetente: myEmpresa.img
         })
@@ -96,6 +97,7 @@ const Memo = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
+            classe: 'memorando',
             enderecoRemetente: myEmpresa.endereco,
             imgRemetente: myEmpresa.img
         
@@ -130,6 +132,7 @@ const Memo = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
+            classe: 'memorando',
             enderecoRemetente: myEmpresa.endereco,
             imgRemetente: myEmpresa.img
             
@@ -149,6 +152,7 @@ const Memo = () => {
                     bd: formatado,
                     mostrado: extenseFormatted
                 },
+                classe: 'memorando',
                 enderecoRemetente: myEmpresa.endereco,
                 imgRemetente: myEmpresa.img
             
