@@ -1,0 +1,160 @@
+import axios from "axios";
+import React, {useState, useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Prompt } from 'react-router'
+import './Estoque.css'
+
+const Estoque = () => {
+    const [image, setImage] = useState('')
+    const [cod, setCod] = useState('')
+    const [titulo, setTitulo] = useState('')
+    const [quantidade, setQuantidade] = useState(0)
+    const [result, setResult] = useState([])
+    const [missing, setMissing] = useState(false)
+    const [changed, setChanged] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [mostrar, setMostrar] = useState(false)
+    const date = new Date()
+
+    const submitForm = async (e) => {
+        let fd = new FormData()
+        let save = date.getTime()+date.getSeconds()+date.getMilliseconds()+'_'+image.name
+        fd.append('cod', cod)
+        fd.append('titulo', titulo)
+        fd.append('quantidade', quantidade)
+        fd.append('imagem', image)
+        fd.append('nomeImg', save)
+        await axios.post("http://localhost:8080/api/v1/estoque/add", fd, {headers: {"Content-Type": "multipart/form-data" }})
+    }
+
+    const handleMissing = () => {
+        axios.get('http://localhost:8080/api/v1/estoque/missing')
+        .then(res => {
+            setResult([...res.data])
+        })
+        setMissing(true)
+    }
+
+    
+
+    const mudarValor = (operacao, index) => {
+        if(operacao == '+'){
+            let resultado = Number(result[index].quantidade)
+            let newArr = [...result]
+            let retorno = resultado+=1
+            newArr[index].quantidade = retorno
+            setResult(newArr)
+            setChanged(true)
+        }else{
+            let resultado = Number(result[index].quantidade)
+            let newArr = [...result]
+            let retorno = resultado-=1
+            newArr[index].quantidade = retorno
+            setResult(newArr)
+            setChanged(true)
+        }
+    }
+
+    const confirmChanges = async () => {
+        result.map((value, index) => {
+            axios.post('http://localhost:8080/api/v1/estoque/quantidade', {_id: value._id, novaQuantidade: value.quantidade})
+            .then(res => {
+                setLoading(true)
+                setChanged(false)
+                
+            })
+        })
+        let newArr = [...result]
+        setResult(newArr)
+        setLoading(false)
+    }
+
+    const deletarItem = async (index) => {
+        let msg = 'Voce esta prestes a deletar o item '+result[index].titulo+' deseja continuar? Responda com sim ou nao'
+        let resposta = prompt(msg).toLowerCase()
+        if(resposta == 'sim'){
+            axios.post('http://localhost:8080/api/v1/estoque/delete', {_id: result[index]._id}).then(res => {
+                result.splice(index, 1)
+                let newArr = [...result]
+                setResult(newArr);
+            })
+        }else if(resposta == 'nao'){
+                console.log('')
+        }
+        
+    }
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/v1/estoque')
+        .then(res => {
+            setResult([...res.data])
+        })
+
+        
+    },[])
+
+    useEffect(() => {
+        result.find((resultado) => {
+            if (resultado.quantidade == 0){
+                setMostrar(true)
+            }
+        })
+    },[result])
+
+    useEffect(() => {
+        if(loading){
+            setLoading(false)
+        }
+    }, [loading])
+
+    
+
+    return(
+        <section className='estoque-management'>
+            <form onSubmit={submitForm} encType='multipart/formdata' id='inventory'>
+                <label>Codigo do Produto</label>
+                <input type='text' value={cod} onChange={e => setCod(e.target.value)} required/>
+                <label>Titulo</label>
+                <input type='text' value={titulo} onChange={e => setTitulo(e.target.value)} required/>
+                <label>Quantidade</label>
+                <input type='number' value={quantidade} onChange={e => setQuantidade(Number(e.target.value))} required/>
+                <label>Selecione uma imagem do produto (somente PNG, JPG e JPEG)</label>
+                <input type='file' name='image' onChange={e => setImage(e.target.files[0])} />
+                <button type='submit'>Adicionar Produto</button>
+            </form>
+        
+        <hr/>
+            {missing ? <div className='retornar'><a href='http://localhost:3000/gerenciar/estoque'>Retornar para o estoque</a></div> : null}
+                 
+            
+            {mostrar ? <div className='missing'>
+                            <p>Voce tem itens que acabaram no estoque, <span onClick={() => {handleMissing()}}>clique aqui</span> para ve-los</p>
+                        </div> : null}
+            <div className='list-estoque'>
+                {result.map((value, index) => {
+                    return(
+                <div className='estoque-single' key={index}>
+                    <img src={'http://localhost:8080/'+value.imagem} alt="Foto nao pode ser"/>
+                    <p>Codigo: {value.cod}</p>
+                    <p>Titulo: {value.titulo}</p>
+                    <div className='button-holder-estoque'>
+                    <button className='altQuant' onClick={() => {mudarValor('+', index);}}>+</button>
+                    <span className='quant'>{Number(value.quantidade)}</span>
+                    <button className='altQuant' onClick={() => {mudarValor('-', index)}}>-</button>
+                    <button className='secondButton'>Editar</button>
+                    <button className='secondButton' onClick={() => {deletarItem(index)}}>Excluir</button>
+                    </div>
+                </div>
+                )
+                })}
+            </div>
+            <div className='confirm'>
+            {loading ? <div id='loading' className='loading'>Loading...</div> : null}
+            {changed ? <button id='changes' onClick={() => {confirmChanges()}}>Confirmar Mudanças</button> : null}
+            </div>
+        </section>
+        
+    )
+}
+
+export default Estoque

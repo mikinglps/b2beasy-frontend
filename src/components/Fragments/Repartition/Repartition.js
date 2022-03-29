@@ -3,7 +3,7 @@ import './Repartition.css'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved, faBoxesStacked } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
 const manage = <FontAwesomeIcon icon={faUsers} style={{color: 'black', fontSize: '22px'}}/>
@@ -17,6 +17,7 @@ const folder = <FontAwesomeIcon icon={faFolder} style={{color: 'black', fontSize
 const sector = <FontAwesomeIcon icon={faChartPie} style={{color: 'black', fontSize: '22px'}}/>
 const options = <FontAwesomeIcon icon={faGear} style={{color: 'black', fontSize: '22px'}}/>
 const customer = <FontAwesomeIcon icon={faFireFlameCurved} style={{color: 'black', fontSize: '22px'}}/>
+const inventory = <FontAwesomeIcon icon={faBoxesStacked} style={{color: 'black', fontSize: '22px'}}/>
 
 
 const Repartition = () => {
@@ -83,6 +84,12 @@ const Repartition = () => {
                   {customer}
                </div>
                <p>Clientes</p>
+               </Link>
+               <Link to='/gerenciar/estoque' style={{textDecoration: 'none', textAlign: 'center'}}>
+               <div className='rounded--cnpj'>
+                  {inventory}
+               </div>
+               <p>Estoque</p>
                </Link>
                <Link to='/gerenciar/filial' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>

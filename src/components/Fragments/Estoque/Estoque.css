@@ -1,0 +1,126 @@
+.estoque-management{
+    padding: 1.5%;
+}
+
+.estoque-management .retornar{
+    background: #5cb85c;
+    text-align: center;
+    color: white;
+    padding: 1%;
+    margin-bottom: 1%;
+}
+
+.estoque-management .retornar a{
+    color: white;
+}
+
+.estoque-management .missing{
+    background: rgb(255, 79, 74);
+    padding: 1%;
+    color: white;
+    text-align: center;
+}
+
+.estoque-management .missing span{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#inventory{
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+}
+
+#inventory button{
+    width: 20%;
+    padding: 1%;
+    color: white;
+    background: #5cb85c;
+    border: none;
+    border-radius: 5px;
+}
+
+.list-estoque{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: .5%;
+}
+
+.estoque-single{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    margin-left: .5%;
+    height: 300px;
+}
+
+.estoque-single img{
+    max-width: 100%;
+    max-height: 200px;
+}
+
+.estoque-single p{
+    margin-bottom: .5%;
+}
+
+.estoque-single .quant{
+    padding: 1%;
+}
+
+.estoque-single .button-holder-estoque{
+    margin-top: 1.5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+   width: 100%; 
+}
+
+.estoque-single .button-holder-estoque button{
+    padding: 2%;
+    margin-left: 1%;
+    border: none;
+    width: 35%;
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgb(24,144,255);
+    color: white;
+}
+
+.estoque-single .button-holder-estoque button:hover{
+    filter: brightness(1.1)
+}
+
+.estoque-single .button-holder-estoque button.secondButton + .secondButton{
+    background: rgb(255, 79, 74);
+}
+
+.estoque-single .button-holder-estoque button.altQuant{
+    width: 6%;
+}
+
+.confirm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1%;
+    justify-content: flex-end;
+}
+
+.confirm button{
+    width: 20%;
+    padding: 1%;
+    background: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm button:hover{
+    filter: brightness(1.1);
+}
