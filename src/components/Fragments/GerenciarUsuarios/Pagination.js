@@ -6,17 +6,20 @@ const Pagination = ({page, pages, changePage, changeUser, setores}) => {
     const [ loading, setLoading ] = useState(false)
     const reff = useRef()
     let ref
-    // const handler = changeUser(setores[reff.current.parentNode.parentNode.getAttribute('dataid')]._id, page)
     useEffect((e)=>{
-            const abort = new AbortController()
-            if(loading){
-                ref = reff.current.parentNode.parentNode
-                let dataid = ref.getAttribute('dataid')
-                changeUser(setores[dataid]._id, page, { signal: abort.signal })
-                setLoading(false)
-            }
-            return () => {
-                abort.abort()
+            if(window.location == 'http://localhost:3000/gerenciar/usuarios'){
+                const abort = new AbortController()
+                if(loading){
+                    ref = reff.current.parentNode.parentNode
+                    let dataid = ref.getAttribute('dataid')
+                    changeUser(setores[dataid]._id, page, { signal: abort.signal })
+                    setLoading(false)
+                }
+                return () => {
+                    abort.abort()
+                }
+            }else if(window.location == 'http://localhost:3000/gerenciar/meusarquivos/arquivo'){
+                
             }
     },[page])
 
@@ -45,8 +48,6 @@ const Pagination = ({page, pages, changePage, changeUser, setores}) => {
                 onClick={() => {
                 changePage(startValue + idx + 1)
                 setLoading(true)
-                // let dataid = e.currentTarget.parentNode.parentNode.getAttribute('dataid')
-                // changeUser(setores[dataid]._id, page)
                 }}                                                                            >                                    
                 {startValue + idx + 1}
                 </button>

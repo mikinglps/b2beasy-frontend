@@ -128,7 +128,7 @@ const Repartition = () => {
                <div className='single--rep' key={index}>
             <p>{value.titulo+' - '+value.filial}</p>
             <div className='icons--rep'>
-            <Link to={'/gerenciar/documentos/'+value._id} style={{textDecoration: 'none', textAlign: 'center'}}>
+            <Link to={'/gerenciar/documentos/'+value._id+'/todos'} style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded'>
                   {folder}
                </div>

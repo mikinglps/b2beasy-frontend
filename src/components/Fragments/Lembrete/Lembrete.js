@@ -1,11 +1,15 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../../contexts/auth'
+import Pagination from '../GerenciarUsuarios/Pagination'
 import './Lembrete.css'
 
 const Lembrete = () => {
     const { usuario } = useContext(AuthContext)
     const [ titulo, setTitulo ] = useState('')
+    const [maxPage, setMaxPage] = useState(1)
+    const [pages, setPages] = useState(1)
+    const [ currentPage, setCurrentPage] = useState(1)
     const [ descricao, setDescricao ] = useState('')
     const [ data, setData ] = useState('')
     const [ horario, setHorario ] = useState('')
@@ -20,14 +24,16 @@ const Lembrete = () => {
         const date = new Date(data.replace(/-/g, '\/'))
         const formatado = formatter.format(date)
         axios.post('http://localhost:8080/api/v1/lembretes/add', {titulo: titulo, descricao: descricao, data: formatado, horario: horario, cpf: usuario.cpf})
+        setResult([...result])
     }
 
     useEffect( () => {
-        axios.post('http://localhost:8080/api/v1/lembretes/find', {cpf: usuario.cpf})
+        axios.post(`http://localhost:8080/api/v1/lembretes/find?page=${currentPage}`, {cpf: usuario.cpf})
         .then(res => {
-                setResult([...res.data])
+                setResult([...res.data.listaLembretes])
+                setMaxPage(res.data.totalPaginas)
         })
-    }, [result])
+    }, [currentPage])
 
     return(
         <section className='lembrete-holder'>
@@ -45,7 +51,7 @@ const Lembrete = () => {
                     <label>Data e Hora</label>
                     <input required type='date' value={data} onChange={e => setData(e.target.value)}/> <input required type='time' value={horario} onChange={e => setHorario(e.target.value)}/>
                     </div>
-                    <button type='button' onClick={() => {addLembrete()}}>Adicionar Lembrete</button>
+                    <button type='submit' onClick={() => {addLembrete()}}>Adicionar Lembrete</button>
                 </form>
             </div>
 
@@ -73,7 +79,7 @@ const Lembrete = () => {
                     </tbody>
                 </table>
             </div>
-
+                <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
         </section>
     )
 }

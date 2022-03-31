@@ -3,3 +3,38 @@
     margin-top: 2%;
 }
 
+.setor-doc .abas-holder ul{
+    list-style-type: none;
+    list-style-position: inside;
+}
+
+.setor-doc .abas-holder ul li{
+    display: inline-block;
+    margin-right: .2%;
+    border-radius: 10px 10px 0 0;
+    background: #606b78;
+    color: white;
+    padding: 1%;
+    cursor: pointer;
+}
+
+.setor-doc .abas-holder ul li.selected{
+    background: #8391a2;
+}
+
+.setor-doc .abas-holder ul li:hover{
+    filter: brightness(1.1)
+}
+
+.setor-doc .pagination{
+    width: 100%;
+    text-align: center;
+}
+
+.setor-doc .pagination button{
+    margin-top: 10px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+

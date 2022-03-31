@@ -6,12 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faCopy} from '@fortawesome/free-solid-svg-icons'
 import PdfGen from '../Criar/PdfGen'
 import { useParams, Link } from 'react-router-dom'
-// import { useReactToPrint } from 'react-to-print'
+import Pagination from '../GerenciarUsuarios/Pagination'
 
 const Documentos = () => {
     const params = useParams()
     const componentRef = useRef([])
     const { usuario } = useContext(AuthContext)
+    const [maxPage, setMaxPage] = useState(1)
+    const [pages, setPages] = useState(1)
+    const [ currentPage, setCurrentPage] = useState(1)
     const [toggleRef, setToggleRef] = useState('')
     const [ result, setResult ] = useState([])
     const [ click, setClick ] = useState(false)
@@ -21,42 +24,44 @@ const Documentos = () => {
 
 
     useEffect(() => {
-           axios.post('http://localhost:8080/api/v1/documentos/my', {cpf: usuario.cpf})
-            .then(res => {
-                setResult([...res.data])
-            })
-            let element = document.getElementsByClassName('toggleBar')
-            element[1].classList.remove('selected')
-            element[0].classList.add('selected')
-    }, [])
-
-    useEffect(() => {
-        let element = document.getElementsByClassName('toggleBar')
-        if(params.arquivo == 'arquivo'){
-            axios.post('http://localhost:8080/api/v1/documentos/my', {cpf: usuario.cpf})
-            .then(res => {
-                setResult([...res.data])
-            })
-            element[1].classList.remove('selected')
-            element[0].classList.add('selected')
-        }else if(params.arquivo == 'rascunho'){
-            axios.post('http://localhost:8080/api/v1/rascunhos/find', {cpf: usuario.cpf})
+            setCurrentPage(1)
+            const findDocs = async () => {
+                await axios.post(`http://localhost:8080/api/v1/${params.arquivo}/find?page=${currentPage}`, {cpf: usuario.cpf})
             .then(res => {
                 console.log(res)
-                setResult([...res.data])
+                setResult([...res.data.listaDoc])
+                setMaxPage(res.data.totalPaginas)
             })
-            element[0].classList.remove('selected')
-            element[1].classList.add('selected')
-        }
-    },[params])
+            }
+
+            findDocs()
+            let element = document.getElementsByClassName('toggleBar')
+            
+            if(params.arquivo == 'documentos'){
+                element[1].classList.remove('selected')
+                element[0].classList.add('selected')
+            }else if(params.arquivo == 'rascunhos'){
+                element[0].classList.remove('selected')
+                element[1].classList.add('selected')
+            }
+    }, [params])
+
+    useEffect(() => {
+        axios.post(`http://localhost:8080/api/v1/${params.arquivo}/find?page=${currentPage}`, {cpf: usuario.cpf})
+            .then(res => {
+                setResult([...res.data.listaDoc])
+                setMaxPage(res.data.totalPaginas)
+            })
+    },[currentPage])
+
     return(
         <section className='meusArquivos-cpf'>
             <div className='abas-holder'>
                 <ul>
-                    <Link to='/gerenciar/meusarquivos/arquivo'>
+                    <Link to='/gerenciar/meusarquivos/documentos'>
                     <li className='toggleBar' >Meus Arquivos</li>
                     </Link>
-                    <Link to='/gerenciar/meusarquivos/rascunho'>
+                    <Link to='/gerenciar/meusarquivos/rascunhos'>
                     <li className='toggleBar'>Meus Rascunhos</li>
                     </Link>
                 </ul>
@@ -85,6 +90,9 @@ const Documentos = () => {
                 })}
                 </tbody>
             </table>
+            <div className='pagination'>
+            <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
+            </div>
             <section className='popupMemo' style={click ? {display: 'flex'} : {display: 'none'}}>
                 <h4>Deseja abrir o memorando?</h4>
                 <div className='btn-popup__popupMemo'>

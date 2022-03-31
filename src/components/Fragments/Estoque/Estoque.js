@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Prompt } from 'react-router'
 import './Estoque.css'
+import Pagination from "../GerenciarUsuarios/Pagination";
 
 const Estoque = () => {
     const [image, setImage] = useState('')
@@ -10,6 +9,9 @@ const Estoque = () => {
     const [titulo, setTitulo] = useState('')
     const [quantidade, setQuantidade] = useState(0)
     const [result, setResult] = useState([])
+    const [maxPage, setMaxPage] = useState(1)
+    const [pages, setPages] = useState(1)
+    const [ currentPage, setCurrentPage] = useState(1)
     const [missing, setMissing] = useState(false)
     const [changed, setChanged] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -85,13 +87,15 @@ const Estoque = () => {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/estoque')
+        axios.get(`http://localhost:8080/api/v1/estoque?page=${currentPage}`)
         .then(res => {
-            setResult([...res.data])
+            console.log(res)
+            setResult([...res.data.listaEstoque])
+            setMaxPage(res.data.totalPaginas)
         })
 
         
-    },[])
+    },[currentPage])
 
     useEffect(() => {
         result.find((resultado) => {
@@ -147,7 +151,12 @@ const Estoque = () => {
                 </div>
                 )
                 })}
+                
             </div>
+            {missing ? null : <div className='pagination-estoque'>
+            <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
+            </div>}
+            
             <div className='confirm'>
             {loading ? <div id='loading' className='loading'>Loading...</div> : null}
             {changed ? <button id='changes' onClick={() => {confirmChanges()}}>Confirmar Mudanças</button> : null}

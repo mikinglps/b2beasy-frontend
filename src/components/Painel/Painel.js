@@ -15,7 +15,7 @@ const Painel = () => {
     const [ lembreteShow, setLembreteShow ] = useState('')
 
     useEffect(() => {
-        axios.post('http://localhost:8080/api/v1/lembretes/find', {cpf: usuario.cpf})
+        axios.post('http://localhost:8080/api/v1/lembretes/find/sidebar', {cpf: usuario.cpf})
         .then(res => {
             setLembretes(res.data)
         })

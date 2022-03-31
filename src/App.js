@@ -33,7 +33,7 @@ function App() {
               <Route path='/gerenciar/reparticao' element={<CreateRepartition/>}/>
               <Route path='/gerenciar/lembretes' element={<Lembrete/>}/>
               <Route path='/gerenciar/cliente' element={<Clientes/>}/>
-              <Route path='/gerenciar/documentos/:setor' element={<Docrepart/>}/>
+              <Route path='/gerenciar/documentos/:setor/:aba' element={<Docrepart/>}/>
               <Route path='/gerenciar/meusarquivos/:arquivo' element={<Documentos/>}/>
               <Route path='/gerenciar/estoque' element={<Estoque/>}/>
               <Route path='/criar/memorando' element={<Memo/>}/>

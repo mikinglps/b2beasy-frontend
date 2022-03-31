@@ -103,6 +103,17 @@
     width: 6%;
 }
 
+.pagination-estoque{
+    width: 100%;
+    text-align: center;
+}
+
+.pagination-estoque button{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
 .confirm{
     display: flex;
     flex-direction: row;
@@ -124,3 +135,5 @@
 .confirm button:hover{
     filter: brightness(1.1);
 }
+
+

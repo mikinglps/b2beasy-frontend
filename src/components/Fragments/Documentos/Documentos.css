@@ -26,6 +26,18 @@ section.meusArquivos-cpf .abas-holder ul li:hover{
     filter: brightness(1.1)
 }
 
+section.meusArquivos-cpf .pagination{
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+section.meusArquivos-cpf .pagination button{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
 table{
     width: 98%;
     border-collapse: collapse;
