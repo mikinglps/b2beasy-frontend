@@ -46,3 +46,14 @@ div.add-lembrete button:hover{
 div.lembrete-list{
     margin-top: 1%;
 }
+
+.lembrete-holder .pagination{
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.lembrete-holder .pagination button{
+    width: 30px;
+    height: 30px;
+}

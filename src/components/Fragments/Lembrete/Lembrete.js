@@ -79,7 +79,9 @@ const Lembrete = () => {
                     </tbody>
                 </table>
             </div>
+                <div className='pagination'>
                 <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
+                </div>
         </section>
     )
 }
