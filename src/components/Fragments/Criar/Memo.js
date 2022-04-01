@@ -160,7 +160,7 @@ const Memo = () => {
     }
 
     useEffect(()=>{
-        axios.get('http://localhost:8080/api/v1/filiais')
+        axios.get('http://localhost:8080/api/v1/filiais/query')
         .then(res => {
             setBranch([...res.data])
     })

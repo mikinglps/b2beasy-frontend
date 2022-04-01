@@ -73,3 +73,14 @@
     border-right: 0.5px solid black;
     text-align: center;
 }
+
+.pagination-setor{
+    text-align: center;
+    width: 100%;
+}
+
+.pagination-setor button{
+    width: 30px;
+    height: 30px;
+    margin-top: 10px;
+}

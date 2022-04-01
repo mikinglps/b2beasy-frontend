@@ -50,3 +50,14 @@
 .pdf-button:hover{
     filter: brightness(1.1);
 }
+
+.pagination-log{
+    width: 100%;
+    text-align: center;
+}
+
+.pagination-log button{
+    width: 30px;
+    height: 30px;
+    margin-top: 10px;
+}

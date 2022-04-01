@@ -1,7 +1,7 @@
 .containerRepartition{
     display: flex;
     flex-flow: row wrap;
-    justify-content: left;
+    justify-content: space-evenly;
     align-content: top;
     border-radius: 5%;
     width: 100%;
@@ -13,7 +13,9 @@
 }
 
 .single--rep{
+    align-self: flex-end;
     color: #8391a2;
+    margin-top: 2%;
 }
 
 .single--rep--cnpj{

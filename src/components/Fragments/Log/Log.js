@@ -5,25 +5,31 @@ import Modal from './Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faFilePdf } from '@fortawesome/free-solid-svg-icons'
 import PdfGen from './PdfGen'
+import Pagination from '../GerenciarUsuarios/Pagination'
 const Log = () => {
     const pdfstyle = <FontAwesomeIcon icon={faFilePdf} style={{color: 'white', fontSize: '18px', cursor: 'pointer'}}/>
     const eye = <FontAwesomeIcon icon={faEye} style={{color: 'green', fontSize: '18px', cursor: 'pointer'}}/>
+    const [maxPage, setMaxPage] = useState(1)
+    const [pages, setPages] = useState(1)
+    const [ currentPage, setCurrentPage] = useState(1)
     const [result, setResult] = useState([])
     const [click, setClick] = useState(false)
     const [acao, setAcao] = useState('')
 
     useEffect(()=>{
         const findLogs = async () => {
-            await axios.get('http://localhost:8080/api/v1/logs').
+            await axios.get(`http://localhost:8080/api/v1/logs?page=${currentPage}`).
             then(res=>{
-                setResult([...res.data.results.findlogs])
+                console.log(res)
+                setResult([...res.data.results.listaLog])
+                setMaxPage(res.data.results.totalPaginas)
                 
             })
             }
 
         findLogs()
         
-    },[])
+    },[currentPage])
 
     return(
         <>
@@ -55,6 +61,9 @@ const Log = () => {
                 )}
             </tbody>
         </table>
+        <div className='pagination-log'>
+        <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage} />
+        </div>
         </section>
         {click ? <Modal acao={acao} clicked={click} newClick={setClick} /> : null}
         </>

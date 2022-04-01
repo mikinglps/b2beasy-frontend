@@ -42,12 +42,11 @@ const Repartition = () => {
     },[result])
 
     useEffect(() => {
-      axios.get('http://localhost:8080/api/v1/setor')
+      axios.get('http://localhost:8080/api/v1/setor/query')
       .then(res => {
          setSetores([...res.data.results])
       })
       setLoading(false)
-      console.log(setores)
     },[loading])
 
     if(loading){

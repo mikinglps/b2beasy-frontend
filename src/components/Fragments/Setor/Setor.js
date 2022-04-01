@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {AuthContext} from '../../../contexts/auth'
 import { faPenToSquare, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import Pagination from '../GerenciarUsuarios/Pagination'
 
 const Setor = () => {
 
@@ -12,6 +13,9 @@ const Setor = () => {
     const { usuario } = useContext(AuthContext)
     const [ titulo, setTitulo ] = useState('')
     const [ filial, setFilial ] = useState('')
+    const [maxPage, setMaxPage] = useState(1)
+    const [pages, setPages] = useState(1)
+    const [ currentPage, setCurrentPage] = useState(1)
     const [resultFilial, setResultFilial] = useState([])
     const [ result, setResult ] = useState([])
     const [ error, setError ] = useState(null)
@@ -39,7 +43,7 @@ const Setor = () => {
      }
 
     useEffect(()=>{
-        axios.get('http://localhost:8080/api/v1/filiais')
+        axios.get('http://localhost:8080/api/v1/filiais/query')
         .then(res=>{
             setResultFilial([...res.data])
         })
@@ -48,9 +52,11 @@ const Setor = () => {
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/setor')
         .then(res=>{
-            setResult([...res.data.results])
+            console.log(res)
+            setResult([...res.data.results.listaSetor])
+            setMaxPage(res.data.results.totalPaginas)
         })
-    },[result])
+    },[currentPage])
 
     return(
         <>
@@ -69,7 +75,7 @@ const Setor = () => {
                 )
                 })}
             </select>
-            <button type='button' onClick={sendForm} className='btn-primary'>Cadastrar</button>
+            <button type='submit' onClick={sendForm} className='btn-primary'>Cadastrar</button>
             </form>
         </section>
         <hr/>
@@ -97,6 +103,9 @@ const Setor = () => {
             })}
             </tbody>
         </table>
+        <div className='pagination-setor'>
+            <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage} />
+        </div>
         </section>
         </>
     )

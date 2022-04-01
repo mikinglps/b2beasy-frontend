@@ -4,12 +4,16 @@ import { AuthContext } from '../../../contexts/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import Pagination from '../GerenciarUsuarios/Pagination'
 
 const Filial = () => {
 
     const modify = <FontAwesomeIcon icon={faPenToSquare} style={{fontSize: '18px', cursor: 'pointer'}} />
     const deleteFilial = <FontAwesomeIcon icon={faDeleteLeft} style={{color: '#bd3c33', fontSize: '18px', cursor: 'pointer'}}/>
     const { usuario } = useContext(AuthContext)
+    const [maxPage, setMaxPage] = useState(1)
+    const [pages, setPages] = useState(1)
+    const [ currentPage, setCurrentPage] = useState(1)
     const [ titulo, setTitulo ] = useState('')
     const [ cnpj, setCnpj ] = useState('')
     const [result, setResult] = useState([])
@@ -29,14 +33,14 @@ const Filial = () => {
         axios.post('http://localhost:8080/api/v1/logs', {nome: logs.nome, cpf: logs.cpf, acao: logs.acao})
          
         }
-        
-
-    useEffect(()=>{
-        axios.get('http://localhost:8080/api/v1/filiais')
-        .then(res=>{
-            setResult([...res.data])
+    
+    useEffect(() => {
+        axios.get(`http://localhost:8080/api/v1/filiais?page=${currentPage}`)
+        .then(res => {
+            setResult([...res.data.listaFilial])
+            setMaxPage(res.data.totalPaginas)
         })
-    },[result])
+    },[currentPage])
 
     return(
         <>
@@ -50,7 +54,7 @@ const Filial = () => {
             <label>Número inicial/atual do memorando</label>
             <p>Caso deixe em branco, sera inicializado com o valor de 0000</p>
             <input type='number' value={memo} onChange={(e) => {setMemo(e.target.value)}}/>
-            <button type='button' onClick={sendForm} className='btn-primary'>Cadastrar</button>
+            <button type='submit' onClick={sendForm} className='btn-primary'>Cadastrar</button>
             </form>
         </section>
         <hr/>
@@ -78,6 +82,9 @@ const Filial = () => {
             })}
             </tbody>
         </table>
+        <div className='pagination-filial'>
+            <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage} />
+        </div>
         </section>
         </>
     )
