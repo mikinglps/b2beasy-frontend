@@ -67,10 +67,6 @@ const Repartition = () => {
                <p>Log</p>
                </Link>
                <div className='rounded--cnpj'>
-                  {folder}
-               </div>
-               <p>Arquivos</p>
-               <div className='rounded--cnpj'>
                   {office}
                </div>
                <p>Cargos</p>
@@ -107,12 +103,6 @@ const Repartition = () => {
                   {manage}
                </div>
                <p>Gerenciar Usuarios</p>
-               </Link>
-               <Link to='/gerenciar/reparticao' style={{textDecoration: 'none', textAlign: 'center'}}>
-               <div className='rounded--cnpj'>
-                  {manage}
-               </div>
-               <p>Repartições</p>
                </Link>
                <Link to='/config' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
