@@ -1,0 +1,47 @@
+.cargos-holder{
+    margin-left: 1.5%;
+    margin-top: .5%;
+}
+
+.cargos-holder hr{
+    margin-bottom: 2%;
+}
+
+section.add-cargo{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#addCargo input[type='text']{
+    width: 60%;
+    margin-bottom: 0;
+}
+
+#addCargo label{
+    margin-top: 1%;
+    display: block;
+}
+
+#addCargo select{
+    width: 60%;
+    height: 30px;
+}
+
+#addCargo .button-holder{
+    margin: 2% 0;
+}
+
+#addCargo .button-holder button{
+    padding: 1%;
+    border: none;
+    border-radius: 5px;
+    background: rgb(24,144,255);
+    color: white;
+}
+
+#addCargo .button-holder button:hover{
+    filter: brightness(1.1)
+}
+

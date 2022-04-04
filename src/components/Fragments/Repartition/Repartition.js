@@ -66,10 +66,12 @@ const Repartition = () => {
                </div>
                <p>Log</p>
                </Link>
+               <Link to='/gerenciar/cargos' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {office}
                </div>
                <p>Cargos</p>
+               </Link>
                <div className='rounded--cnpj'>
                   {lock}
                </div>
