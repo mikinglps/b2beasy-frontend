@@ -81,7 +81,7 @@ const Profile = () => {
                 </div>
                     
         </section>
-        {click ? <PopUpCreate coordinates={coord} houver={click} setHover={setClick} /> : null}
+        {click ? <PopUpCreate coordinates={coord} hover={click} setHover={setClick} /> : null}
         </>
     )
 }

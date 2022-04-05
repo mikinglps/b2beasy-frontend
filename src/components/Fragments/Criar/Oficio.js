@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import JoditEditor from 'jodit-react'
-import './Memo.css'
+import './Oficio.css'
 import axios from 'axios'
 import { AuthContext } from '../../../contexts/auth'
 import PdfGen from './PdfGen'
@@ -19,6 +19,7 @@ const Memo = () => {
     const [ sender, setSender ] = useState('')
     const [ mySector, setMySector ] = useState('')
     const [ myEmpresa, setMyEmpresa ] = useState([])
+    const [ error, setError ] = useState('')
     const [ memoClick, setMemoClick ] = useState(false)
     const dataExtense = new Date()
     const formatterExtense = Intl.DateTimeFormat("pt-BR", {
@@ -40,9 +41,21 @@ const Memo = () => {
         .then(res=>{
             setSector([...res.data.results])
         })
-        axios.post('http://localhost:8080/api/v1/filiais/select', {titulo: receiver})
+        axios.post('http://localhost:8080/api/v1/documentos/oficio', {classe: 'oficio'})
         .then(res=>{
-            setMemo(res.data)
+            if(res.data[0].numero != null){   
+                setMemo(res.data[0].numero)
+            }else{
+                axios.get('http://localhost:8080/api/v1/options')
+                .then(res => {
+                    if(res.data[0].oficio == null){
+                        console.log('Igual a nulo, segundo axios')
+                        setError('Por favor, edite suas configuracoes e defina um numero inicial para o oficio')
+                    }else{
+                        setMemo(res.data[0].oficio)
+                    }
+                })
+            }
         })
         axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
         .then(res=>{
@@ -76,7 +89,7 @@ const Memo = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
-            classe: 'memorando',
+            classe: 'oficio',
             enderecoRemetente: myEmpresa.endereco,
             imgRemetente: myEmpresa.img
         })
@@ -97,7 +110,7 @@ const Memo = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
-            classe: 'memorando',
+            classe: 'oficio',
             enderecoRemetente: myEmpresa.endereco,
             imgRemetente: myEmpresa.img
         
@@ -105,7 +118,7 @@ const Memo = () => {
     }
 
     const send = (e) => {
-        let memoNum = parseInt(memo.memo)
+        let memoNum = parseInt(memo)
         let date = new Date()
         let formatter = Intl.DateTimeFormat('pt-BR',{
             timeZone: 'America/Sao_Paulo',
@@ -117,7 +130,6 @@ const Memo = () => {
         let formatado = formatter.format(date)
         memoNum++
         let sending = memoNum+'/'+date.getFullYear()
-        axios.put('http://localhost:8080/api/v1/filiais', {_id: memo._id, memo: sending} )
         axios.post('http://localhost:8080/api/v1/documentos', {
             remetente: usuario.nome,
             cpf: usuario.cpf,
@@ -132,7 +144,7 @@ const Memo = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
-            classe: 'memorando',
+            classe: 'oficio',
             enderecoRemetente: myEmpresa.endereco,
             imgRemetente: myEmpresa.img
             
@@ -152,7 +164,7 @@ const Memo = () => {
                     bd: formatado,
                     mostrado: extenseFormatted
                 },
-                classe: 'memorando',
+                classe: 'oficio',
                 enderecoRemetente: myEmpresa.endereco,
                 imgRemetente: myEmpresa.img
             
@@ -181,30 +193,15 @@ const Memo = () => {
     return(
         <>
         <section className='memo-holder'>
-            <h2>Criar Memorando!</h2>
+            <h2>Criar Oficio!</h2>
+            {error != '' ? <div className='erro'>{error}</div> : null}
         <form className='memoform'>
             <label>Assunto: </label>
             <input value={subject} onChange={(e) => {setSubject(e.target.value)}} type='text'/>
             <label>Destinatario</label>
-            <select onChange={(e) => { setReceiver(e.target.value); handleChange(e.target.value);}}>
-                    <option value=''>Selecione uma Filial</option>
-                {branch.map((value, index) => {
-                    return(
-                    <option key={index} value={value.titulo}>{value.titulo} - {value.cnpj}</option>
-                    )
-                })}
-                
-            </select>
-            <label style={receiver !== '' ? {display: 'block'} : {display: 'none'}}>Setor do Destinatario</label>
-            <select style={receiver !== '' ? {display: 'block'} : {display: 'none'}} onChange={(e) => {setBranchReceiver(e.target.value)}} >
-                <option value=''>Selecione setor destino</option>
-                {sector.map((value, index) => {
-                    return(
-                    <option key={index} value={value.titulo}>{value.titulo}</option>
-                    )
-                    })}
-            </select>
-
+            <input type='text' value={receiver} onChange={(e) => { setReceiver(e.target.value); handleChange(e.target.value);}}/>
+            <label style={receiver !== '' ? {display: 'block'} : {display: 'none'}}>Endereço</label>
+            <input type='text' value={sectorReceiver} style={receiver !== '' ? {display: 'block'} : {display: 'none'}} onChange={(e) => {setBranchReceiver(e.target.value)}} />
             <label>Mensagem</label>
             <JoditEditor ref={editor} value={content}
             config={config}
@@ -214,7 +211,6 @@ const Memo = () => {
             />
             <div className='button-handler'>
             <button type='button' onClick={() => {save()}}>Salvar</button> <button type='button' onClick={(e)=>{send(e)}}>Salvar e Enviar</button>
-            {/* <button type='button' onClick={() => {handlePdf()}}>PDF</button> */}
             </div>
         </form>
         </section>

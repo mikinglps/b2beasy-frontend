@@ -1,0 +1,28 @@
+.dropdown-spreadsheet{
+    background: rgb(243,243,243);
+    box-shadow: 0.8px 1px 2px 1px black;
+    width: 100%;
+    border-radius: 5px;
+    min-height: 50px;
+    background: #313a46;
+    z-index: 100;
+}
+
+.dropdown-spreadsheet ul{
+    list-style-type: none;
+    list-style-position: inside;
+}
+
+
+.dropdown-spreadsheet ul li{
+    padding: 5px;
+    color: #8391a2;
+    background: rgba(0,0,0,0.1);
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.dropdown-spreadsheet ul li:hover{
+    color: #bccee4;
+}
