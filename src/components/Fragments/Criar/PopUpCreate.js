@@ -30,7 +30,7 @@ const PopUpCreate = ({coordinates, hover, setHover}) => {
             <ul>
                 <Link to='/criar/memorando' style={{textDecoration: 'none'}}><li>{addMemo} Memorando</li></Link>
                 <Link to='/criar/oficio' style={{textDecoration: 'none'}}><li>{addOficio} Oficio</li></Link>
-                <li>{addText} Documento de Texto</li>
+                <Link to='/criar/documento' style={{textDecoration: 'none'}}><li>{addText} Documento de Texto</li></Link>
                 <li id='spreadsheet' onMouseEnter={ () => {setClick(true)}} onMouseLeave={() => {setClick(false)}}>{addSpreadsheet} Planilha</li>
             </ul>
             {click ? <PopUpSpreadsheet coord={coord} click={click} setClick={setClick} /> : null}

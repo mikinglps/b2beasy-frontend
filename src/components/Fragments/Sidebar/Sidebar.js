@@ -15,7 +15,7 @@ const Sidebar = ({lembretes}) => {
                 <ul>
                     {lembretes.map((value, index) => {
                         return(
-                    <Link to='/lembretes/' style={{textDecoration: 'none'}}><li key={index}>{value.titulo}</li></Link>
+                    <Link key={index} to='/lembretes/' style={{textDecoration: 'none'}}><li key={index}>{value.titulo}</li></Link>
                     )
                     })}
                 </ul>

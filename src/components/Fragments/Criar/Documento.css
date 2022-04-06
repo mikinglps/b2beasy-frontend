@@ -1,0 +1,42 @@
+.documento-create-holder{
+    width: 100%;
+    margin-top: 1.5%;
+    margin-left: 1.5%;
+}
+
+.documento-create-holder .jodit-react-container{
+    width: 95%;
+}
+
+#documento-create{
+    display: flex;
+    flex-direction: column;
+}
+
+#documento-create #explanation{
+    font-size: 14px;
+    color: gray;
+}
+
+#documento-create .button-holder{
+    margin-top: 1.5%;
+}
+
+#documento-create .button-holder button{
+    margin-left: 1%;
+    background: rgb(24,144,255);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 1%;
+    cursor: pointer;
+    min-width: 100px;
+}
+
+#documento-create .button-holder button + button{
+    background: #5cb85c;
+}
+
+#documento-create .button-holder button:hover{
+    filter: brightness(1.1);
+}

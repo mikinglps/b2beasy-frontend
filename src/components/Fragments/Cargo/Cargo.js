@@ -69,7 +69,7 @@ const Cargo = () => {
             <section className='add-cargo'>
                 <form id='addCargo'>
                     <div>
-                    <label>Titulo</label>
+                    <label>Cargo</label>
                     <input type='text' value={titulo} onChange={(e) => setTitulo(e.target.value)} required/>
                     </div>
                     <div>
@@ -103,7 +103,7 @@ const Cargo = () => {
                 <table>
                     <thead>
                         <tr className='first-tr'>
-                            <td>Titulo</td>
+                            <td>Cargo</td>
                             <td>Setor</td>
                             <td>Filial</td>
                             <td>Modificar</td>
