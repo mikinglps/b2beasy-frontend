@@ -67,7 +67,7 @@ const Docrepart = () => {
             element[2].classList.add('selected')
             element[3].classList.remove('selected')
             element[4].classList.remove('selected')
-        }else if(params.aba == 'documentos'){
+        }else if(params.aba == 'documento'){
             element[0].classList.remove('selected')
             element[1].classList.remove('selected')
             element[2].classList.remove('selected')
@@ -102,7 +102,7 @@ const Docrepart = () => {
                     <Link to={'/gerenciar/documentos/'+params.setor+'/oficio'}>
                     <li className='toggleBar'>Oficios</li>
                     </Link>
-                    <Link to={'/gerenciar/documentos/'+params.setor+'/documentos'}>
+                    <Link to={'/gerenciar/documentos/'+params.setor+'/documento'}>
                     <li className='toggleBar'>Documentos</li>
                     </Link>
                     <Link to={'/gerenciar/documentos/'+params.setor+'/planilha'}>
@@ -113,20 +113,22 @@ const Docrepart = () => {
             <table>
                 <thead>
                     <tr className='tr-head'>
-                        <td>Tipo</td>
-                        <td>Assunto</td>
+                        {params.aba == 'todos' ? <td>Tipo</td> : null}
+                        {params.aba != 'documento' ? <td>Numero/Assunto</td> : <td>Titulo</td>}
                         <td>Conteudo</td>
                         <td>Data</td>
+                        {params.aba == 'documento' ? <td>Outorgado/Destinatario</td> : null}
                     </tr>
                 </thead>
                 <tbody>
                     {result.map((value, index) => {
                         return(
                             <tr key={index}>
-                                <td>{value.classe}</td>
-                                <td>{value.assunto}</td>
+                                {params.aba == 'todos' ? <td>{value.classe}</td> : null }
+                                <td>{value.numero != null ? value.numero+' - ' : null}{value.assunto}</td>
                                 <td>{value.conteudo.replace(regex, '').substr(0,50)+'...'}</td>
                                 <td>{value.data.bd}</td>
+                                {params.aba == 'documento' ? <td>{value.destinatario}</td> : null }
                             </tr>
                         )
                     })}

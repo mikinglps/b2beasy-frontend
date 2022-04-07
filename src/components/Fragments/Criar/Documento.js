@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useRef, useContext} from "react";
 import { AuthContext } from "../../../contexts/auth";
+import DocumentoPdf from "./DocumentoPdf";
 import JoditEditor from "jodit-react";
 import './Documento.css'
 import axios from "axios";
@@ -10,14 +11,57 @@ const Documento = () => {
     const [ setor, setSetor ] = useState('')
     const [ filial, setFilial ] = useState('')
     const [titulo, setTitulo] = useState('')
+    const [endereco, setEndereco] = useState('')
     const [destinatario, setDestinatario] = useState('')
     const [ content, setContent ] = useState('Escreva seu documento!')
     const date = new Date()
     const editor = useRef(null)
+    const formatterExtense = Intl.DateTimeFormat("pt-BR", {
+        timeZone: 'America/Sao_Paulo',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    })
+    const extenseFormatted = formatterExtense.format(date)
 
     const config = {
         readonly: false,
         height: 800
+    }
+
+    const send = () => {
+        let formatter = Intl.DateTimeFormat('pt-BR',{
+            timeZone: 'America/Sao_Paulo',
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+        })
+        let formatado = formatter.format(date);
+        axios.post('http://localhost:8080/api/v1/documentos/', {
+            remetente: sender.nome,
+            cpf: sender.cpf,
+            assunto: titulo,
+            conteudo: content,
+            numero: null,
+            classe: 'documento',
+            destinatario: destinatario,
+            setorDestinatario: destinatario,
+            setorRemetente: setor,
+            data: {
+                bd: formatado,
+                mostrado: extenseFormatted
+            },
+            filialRemetente: filial,
+            enderecoRemetente: endereco
+        })
+
+        DocumentoPdf({
+            conteudo: content,
+            filial: filial,
+            data: extenseFormatted,
+            endereco: endereco
+        })
+
     }
 
 
@@ -33,6 +77,7 @@ const Documento = () => {
             axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.filial})
             .then(res => {
                 setFilial(res.data.titulo)
+                setEndereco(res.data.endereco)
             })
         })
         }
@@ -45,7 +90,7 @@ const Documento = () => {
             <form id='documento-create'>
                 <label>Titulo</label>
                 <input type='text' value={titulo} onChange={(e) => {setTitulo(e.target.value)}} required/>
-                <label>Destinatario: </label>
+                <label>Destinatario/Outorgado: </label>
                 <p id='explanation'>Para enviar documentos para sua própria empresa, salve sem enviar, cheque seus arquivos e encaminhe por lá!</p>
                 <input type='text' value={destinatario} onChange={(e) => {setDestinatario(e.target.value)}} required/>
                 <JoditEditor ref={editor} value={content}
@@ -55,7 +100,7 @@ const Documento = () => {
                     style={{width: '100%'}}
                     />
             <div className='button-holder'>
-                <button>Salvar Rascunho</button><button>Salvar</button>
+                <button>Salvar</button><button type='submit' onClick={() => {send()}}>Salvar e Enviar</button>
             </div>
             </form>
         </section>
