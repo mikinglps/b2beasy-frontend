@@ -7,6 +7,7 @@ import { faPenToSquare, faCopy} from '@fortawesome/free-solid-svg-icons'
 import PdfGen from '../Criar/PdfGen'
 import { useParams, Link } from 'react-router-dom'
 import Pagination from '../GerenciarUsuarios/Pagination'
+import DocumentoPdf from '../Criar/DocumentoPdf'
 
 const Documentos = () => {
     const params = useParams()
@@ -69,10 +70,10 @@ const Documentos = () => {
             <table>
                 <thead>
                     <tr className='tr-head'>
-                        <td>Numero / Titulo</td>
+                        {params.arquivo == 'rascunhos' ? <td>Titulo</td> : <td>Numero / Titulo</td>}
                         <td>Data</td>
                         <td>Para</td>
-                        {params.arquivo == 'rascunho' ? <td>Editar</td> : null}
+                        {params.arquivo == 'rascunhos' ? <td>Editar</td> : null}
                         <td>Duplicar</td>
                     </tr>
                 </thead>
@@ -80,10 +81,10 @@ const Documentos = () => {
                 {result.map((value, index) => {
                     return(
                     <tr key={index}>
-                        <td className='td-hover' onClick={() => {setClick(!click); setToggleRef(index)}}>{value.numero} - {value.assunto.substr(0,50)}...</td>
+                        <td className='td-hover' onClick={() => {setClick(!click); setToggleRef(index)}}>{params.arquivo != 'rascunhos' ? value.numero != null ? value.numero+' - ' : null : null}{value.assunto.substr(0,30)}{value.assunto.length > 30 ? '...' : null}</td>
                         <td>{value.data.bd}</td>
-                        <td>{value.destinatario} - {value.setorDestinatario}</td>
-                        {params.arquivo == 'rascunho' ? <td>{modify}</td> : null}
+                        <td>{value.destinatario.substr(0,30)}{value.destinatario.length > 30 ? '...' : null} - {value.setorDestinatario.substr(0,10)}{value.setorDestinatario.length > 10 ? '...' : null}</td>
+                        {params.arquivo == 'rascunhos' ? <td>{modify}</td> : null}
                         <td>{copy}</td>
                     </tr>
                     )
@@ -94,9 +95,9 @@ const Documentos = () => {
             <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
             </div>
             <section className='popupMemo' style={click ? {display: 'flex'} : {display: 'none'}}>
-                <h4>Deseja abrir o memorando?</h4>
+                <h4>Deseja abrir o documento?</h4>
                 <div className='btn-popup__popupMemo'>
-                <button onClick={() => {PdfGen(result[toggleRef]); setClick(!click)}}>Sim</button><button onClick={() => {setClick(!click)}}>Nao</button>
+                <button onClick={() => {result[toggleRef].classe != 'documento' ? PdfGen(result[toggleRef]) : DocumentoPdf(result[toggleRef]); setClick(!click)}}>Sim</button><button onClick={() => {setClick(!click)}}>Nao</button>
                 </div>
             </section>
         </section>

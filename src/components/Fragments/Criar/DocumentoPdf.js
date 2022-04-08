@@ -29,7 +29,7 @@ function DocumentoPdf(pdf){
                 
             
                 {
-                    text: pdf.filial,
+                    text: pdf.filialRemetente,
                     alignment: 'center',
                     margin: [10,15,0,0]
                 },
@@ -54,7 +54,7 @@ function DocumentoPdf(pdf){
         {canvas: [ { type: 'line', x1: 16, y1: 0, x2: 575, y2: 0, lineWidth: 0.5 } ]},
         {
             
-            text: pdf.endereco,
+            text: pdf.enderecoRemetente,
             alignment: 'center'
         }
     ];

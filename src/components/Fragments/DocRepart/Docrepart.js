@@ -2,6 +2,8 @@ import axios from 'axios'
 import react, { useContext, useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/auth'
+import DocumentoPdf from '../Criar/DocumentoPdf'
+import PdfGen from '../Criar/PdfGen'
 import Pagination from '../GerenciarUsuarios/Pagination'
 import './Docrepart.css'
 
@@ -12,6 +14,8 @@ const Docrepart = () => {
     const [pages, setPages] = useState(1)
     const [ currentPage, setCurrentPage] = useState(1)
     const [ result, setResult ] = useState([])
+    const [click, setClick] = useState(false)
+    const [toggleRef, setToggleRef] = useState(0)
     const [ loading, setLoading ] = useState(true)
     const [ setor, setSetor ] = useState([])
     const regex = /(<([^>]+)>)/ig;
@@ -125,7 +129,7 @@ const Docrepart = () => {
                         return(
                             <tr key={index}>
                                 {params.aba == 'todos' ? <td>{value.classe}</td> : null }
-                                <td>{value.numero != null ? value.numero+' - ' : null}{value.assunto}</td>
+                                <td className='clickable-td' onClick={() => {setClick(!click); setToggleRef(index)}}>{value.numero != null ? value.numero+' - ' : null}{value.assunto}</td>
                                 <td>{value.conteudo.replace(regex, '').substr(0,50)+'...'}</td>
                                 <td>{value.data.bd}</td>
                                 {params.aba == 'documento' ? <td>{value.destinatario}</td> : null }
@@ -134,6 +138,12 @@ const Docrepart = () => {
                     })}
                 </tbody>
             </table>
+            <section className='popUpOpenDocument' style={click ? {display: 'flex'} : {display: 'none'}}>
+                    <p>Deseja abrir o documento?</p>
+                    <div className='btn-popup__popupMemo'>
+                    <button onClick={() => {setClick(!click); result[toggleRef].numero != null ? PdfGen(result[toggleRef]) : DocumentoPdf(result[toggleRef])}}>Sim</button><button onClick={() => {setClick(!click)}}>Nao</button>
+                    </div>
+            </section>
             <div className='pagination'>
             <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
             </div>

@@ -29,6 +29,43 @@ const Documento = () => {
         height: 800
     }
 
+    const save = () => {
+        let formatter = Intl.DateTimeFormat('pt-BR',{
+            timeZone: 'America/Sao_Paulo',
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+        })
+        let formatado = formatter.format(date);
+        axios.post('http://localhost:8080/api/v1/rascunhos/add', {
+            remetente: sender.nome,
+            cpf: sender.cpf,
+            assunto: titulo,
+            conteudo: content,
+            numero: null,
+            classe: 'documento',
+            destinatario: destinatario,
+            setorDestinatario: destinatario,
+            setorRemetente: setor,
+            data: {
+                bd: formatado,
+                mostrado: extenseFormatted
+            },
+            filialRemetente: filial,
+            enderecoRemetente: endereco
+        })
+
+        DocumentoPdf({
+            conteudo: content,
+            filialRemetente: filial,
+            data: {
+                bd: formatado,
+                mostrado: extenseFormatted
+            },
+            enderecoRemetente: endereco
+        })
+    }
+
     const send = () => {
         let formatter = Intl.DateTimeFormat('pt-BR',{
             timeZone: 'America/Sao_Paulo',
@@ -57,9 +94,12 @@ const Documento = () => {
 
         DocumentoPdf({
             conteudo: content,
-            filial: filial,
-            data: extenseFormatted,
-            endereco: endereco
+            filialRemetente: filial,
+            data: {
+                bd: formatado,
+                mostrado: extenseFormatted
+            },
+            enderecoRemetente: endereco
         })
 
     }
@@ -100,7 +140,7 @@ const Documento = () => {
                     style={{width: '100%'}}
                     />
             <div className='button-holder'>
-                <button>Salvar</button><button type='submit' onClick={() => {send()}}>Salvar e Enviar</button>
+                <button onClick={() => {save()}}>Salvar</button><button type='submit' onClick={() => {send()}}>Salvar e Enviar</button>
             </div>
             </form>
         </section>

@@ -26,6 +26,39 @@
     filter: brightness(1.1)
 }
 
+.setor-doc .clickable-td{
+    cursor: pointer;
+}
+
+.setor-doc .clickable-td:hover{
+    background: rgba(255,255,255, 0.3);
+}
+
+.popUpOpenDocument{
+    background: rgb(243,243,243);
+    font-weight: normal;
+    border-radius: 2%;
+    padding: 10px;
+    height: 150px;
+    width: 20%;
+    top: 35%;
+    left: 40%;
+    box-shadow: 1px 0.5px 2px 1px gray;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: absolute;
+}
+
+.btn-popup__popupMemo{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+    width: 100%;
+    text-align: right;
+}
+
 .setor-doc .pagination{
     width: 100%;
     text-align: center;
@@ -37,4 +70,5 @@
     width: 30px;
     height: 30px;
 }
+
 
