@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faListCheck } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
-const Sidebar = ({lembretes}) => {
+const Sidebar = ({lembretes, tasks}) => {
     const reminder = <FontAwesomeIcon icon={faBell} style={{color: 'white', fontSize: '16px'}}/>
     const task = <FontAwesomeIcon icon={faListCheck} style={{color: 'white', fontSize: '16px'}}/>
     return(
@@ -15,22 +15,20 @@ const Sidebar = ({lembretes}) => {
                 <ul>
                     {lembretes.map((value, index) => {
                         return(
-                    <Link key={index} to='/lembretes/' style={{textDecoration: 'none'}}><li key={index}>{value.titulo}</li></Link>
+                    <Link key={index} to='gerenciar/lembretes/' style={{textDecoration: 'none'}}><li key={index}>{value.titulo}</li></Link>
                     )
                     })}
                 </ul>
-                <div className='button-holder'>
-                <button>Ver Mais</button>
-                </div>
             </aside>
             <aside className='tarefas'>
                 <h4>{task} Tarefas</h4>
                 <ul>
-                    <Link to='/tarefas/:id' style={{textDecoration: 'none'}}><li>Fazer outra coisa</li></Link>
+                    {tasks.map((value, index) => {
+                        return(
+                    <Link key={index} to='gerenciar/minhastarefas' style={{textDecoration: 'none'}}><li >{value.titulo}</li></Link>
+                    )
+                    })}
                 </ul>
-                <div className='button-holder'>
-                <button>Ver Mais</button>
-                </div>
             </aside>
         </div>
     )

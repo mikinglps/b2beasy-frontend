@@ -10,6 +10,7 @@ import axios from 'axios';
 const Painel = () => {
     const { usuario } = useContext(AuthContext)
     const [ lembretes, setLembretes ] = useState([])
+    const [tasks, setTasks] = useState([])
     const [clickPopUp, setClickPopUp] = useState(false)
     const [ found, setFound ] = useState(false)
     const [ lembreteShow, setLembreteShow ] = useState('')
@@ -18,6 +19,11 @@ const Painel = () => {
         axios.post('http://localhost:8080/api/v1/lembretes/find/sidebar', {cpf: usuario.cpf})
         .then(res => {
             setLembretes(res.data)
+        })
+
+        axios.post('http://localhost:8080/api/v1/tarefas/find/sidebar', {cpf: usuario.cpf})
+        .then(res => {
+            setTasks(res.data)
         })
     }, [])
 
@@ -56,7 +62,7 @@ const Painel = () => {
             <Navbar/>
             
             <div className='flex--painel'>
-            <Sidebar lembretes={lembretes}/>
+            <Sidebar lembretes={lembretes} tasks={tasks}/>
             <Profile/>
             <Main/>
             {lembreteShow != '' ? <PopUpLembrete id={lembreteShow}/> : null}

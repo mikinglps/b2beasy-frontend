@@ -104,6 +104,7 @@ const Memo = () => {
         })
     }
 
+    //problemas no servidor
     const send = (e) => {
         let memoNum = parseInt(memo.memo)
         let date = new Date()
@@ -172,7 +173,7 @@ const Memo = () => {
                     .then(response=>{
                         setMySector(response.data)
                     })
-            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.empresa})
+            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.filial})
             .then(response => {
                 setMyEmpresa(response.data)
             })

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import './Main.css'
+import { Link } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { Repartition } from '../'
@@ -22,7 +23,7 @@ const Main = props => {
     },[result])
     return (
         <>
-        <div id='breadcrump' className='breadcrump'><h1>Inicio/</h1></div>
+        <div id='breadcrump' className='breadcrump'><Link to='/gerenciar' style={{textDecoration: 'none', color: 'black'}}>Inicio</Link></div>
         <main id='main' className="container--painel">
             
             <Outlet>

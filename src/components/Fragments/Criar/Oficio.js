@@ -184,7 +184,7 @@ const Memo = () => {
                     .then(response=>{
                         setMySector(response.data)
                     })
-            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.empresa})
+            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.filial})
             .then(response => {
                 setMyEmpresa(response.data)
             })

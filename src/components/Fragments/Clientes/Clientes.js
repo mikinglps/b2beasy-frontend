@@ -39,6 +39,13 @@ const Clientes = () => {
         
      }
 
+     const deleteCliente = (id) => {
+         axios.post('http://localhost:8080/api/v1/clientes/delete', {_id: id})
+         .then(res => {
+             window.location.reload()
+         })
+     }
+
      useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/clientes')
         .then(res=>{
@@ -84,7 +91,7 @@ const Clientes = () => {
                 <td>{value.nome}</td>
                 <td>{value.credencial}</td>
                 <td>{modify}</td>
-                <td>{deleteFilial}</td>
+                <td onClick={() => {deleteCliente(value._id)}}>{deleteFilial}</td>
             </tr>
             )
             })}

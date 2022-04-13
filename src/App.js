@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import { Login, Painel } from './components'
 import { AuthProvider, AuthContext } from './contexts/auth'
-import { CreateRepartition, Repartition, GerenciarUsuarios, Log, Filial, Setor, Memo, Config, Clientes, Documentos, Docrepart, Lembrete, Estoque, Cargo, Oficio, Documento } from './components/Fragments'
+import { CreateRepartition, Repartition, GerenciarUsuarios, Log, Filial, Setor, Memo, Config, Clientes, Documentos, Docrepart, Lembrete, Estoque, Cargo, Oficio, Documento, Tarefas, TarefasProprias } from './components/Fragments'
 
 function App() {
   const Private = ({children}) => {
@@ -28,6 +28,8 @@ function App() {
               <Route path='/gerenciar/' element={<Repartition/>}/>
               <Route path='/gerenciar/usuarios' element={<GerenciarUsuarios/>}/>
               <Route path='/gerenciar/log' element={<Log/>}/>
+              <Route path='/gerenciar/tarefas' element={<Tarefas/>}/>
+              <Route path='/gerenciar/minhastarefas' element={<TarefasProprias/>}/>
               <Route path='/gerenciar/filial' element={<Filial/>}/>
               <Route path='/gerenciar/setor' element={<Setor/>}/>
               <Route path='/gerenciar/reparticao' element={<CreateRepartition/>}/>

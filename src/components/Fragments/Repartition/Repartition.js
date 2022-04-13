@@ -3,7 +3,7 @@ import './Repartition.css'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved, faBoxesStacked } from '@fortawesome/free-solid-svg-icons'
+import { faListCheck, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved, faBoxesStacked } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
 const manage = <FontAwesomeIcon icon={faUsers} style={{color: 'black', fontSize: '22px'}}/>
@@ -12,7 +12,7 @@ const filiais = <FontAwesomeIcon icon={faBuilding} style={{color: 'black', fontS
 const lock = <FontAwesomeIcon icon={faLock} style={{color: 'black', fontSize: '22px'}}/>
 const office = <FontAwesomeIcon icon={faBriefcase} style={{color: 'black', fontSize: '22px'}}/>
 const importar = <FontAwesomeIcon icon={faUpload} style={{color: 'black', fontSize: '22px'}}/>
-const add = <FontAwesomeIcon icon={faPlus} style={{color: 'black', fontSize: '22px'}}/>
+const task = <FontAwesomeIcon icon={faListCheck} style={{color: 'black', fontSize: '22px'}}/>
 const folder = <FontAwesomeIcon icon={faFolder} style={{color: 'black', fontSize: '22px'}}/>
 const sector = <FontAwesomeIcon icon={faChartPie} style={{color: 'black', fontSize: '22px'}}/>
 const options = <FontAwesomeIcon icon={faGear} style={{color: 'black', fontSize: '22px'}}/>
@@ -65,6 +65,12 @@ const Repartition = () => {
                   {log}
                </div>
                <p>Log</p>
+               </Link>
+               <Link to='/gerenciar/tarefas' style={{textDecoration: 'none', textAlign: 'center'}}>
+               <div className='rounded--cnpj'>
+                  {task}
+               </div>
+               <p>Tarefas</p>
                </Link>
                <Link to='/gerenciar/cargos' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>

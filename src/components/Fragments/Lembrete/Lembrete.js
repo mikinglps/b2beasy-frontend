@@ -2,9 +2,12 @@ import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../../contexts/auth'
 import Pagination from '../GerenciarUsuarios/Pagination'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import './Lembrete.css'
 
 const Lembrete = () => {
+    const deleteLembrete = <FontAwesomeIcon icon={faDeleteLeft} style={{color: '#bd3c33', fontSize: '18px', cursor: 'pointer'}}/>
     const { usuario } = useContext(AuthContext)
     const [ titulo, setTitulo ] = useState('')
     const [maxPage, setMaxPage] = useState(1)
@@ -25,6 +28,13 @@ const Lembrete = () => {
         const formatado = formatter.format(date)
         axios.post('http://localhost:8080/api/v1/lembretes/add', {titulo: titulo, descricao: descricao, data: formatado, horario: horario, cpf: usuario.cpf})
         setResult([...result])
+    }
+
+    const del = (id) => {
+        axios.post('http://localhost:8080/api/v1/lembretes/delete', {_id: id})
+        .then(res => {
+            window.location.reload()
+        })
     }
 
     useEffect( () => {
@@ -72,7 +82,7 @@ const Lembrete = () => {
                             <td>{value.titulo}</td>
                             <td>{value.descricao.substr(0, 50)}</td>
                             <td>{value.data+' - '+value.horario}</td>
-                            <td>Deletar</td>
+                            <td onClick={() => {del(value._id)}}>{deleteLembrete}</td>
                         </tr>
                         )
                         })}
