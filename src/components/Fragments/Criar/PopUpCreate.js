@@ -13,7 +13,7 @@ const PopUpCreate = ({coordinates, hover, setHover}) => {
     const [click, setClick] = useState(false)
     const [coord, setCoord] = useState(null)
     const style = {
-        position: 'absolute',
+        position: 'fixed',
         bottom: coordinates.bottom,
         top: coordinates.top + 10,
         left: '8%',

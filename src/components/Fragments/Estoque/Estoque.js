@@ -80,8 +80,6 @@ const Estoque = () => {
                 let newArr = [...result]
                 setResult(newArr);
             })
-        }else if(resposta == 'nao'){
-                console.log('')
         }
         
     }

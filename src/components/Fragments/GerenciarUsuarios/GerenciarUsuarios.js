@@ -59,6 +59,16 @@ const GerenciarUsuarios = () => {
         
     }
 
+    const delUser = (id) => {
+        let resposta = prompt("Voce deseja deletar esse usuario? Responda com sim ou nao").toLowerCase()
+        if(resposta == 'sim'){
+            axios.post('http://localhost:8080/api/v1/funcionarios/delete', {_id: id})
+            .then(res => {
+                window.location.reload()
+            })
+        }
+    }
+
 
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/setor/query')
@@ -142,7 +152,7 @@ const GerenciarUsuarios = () => {
                             <td>{value.nome}</td>
                             <td>{eye}</td>
                             <td>{edit}</td>
-                            <td>{deleteUser}</td>
+                            <td onClick={() => {delUser(value._id)}}>{deleteUser}</td>
                         </tr>
                         )
                         })}

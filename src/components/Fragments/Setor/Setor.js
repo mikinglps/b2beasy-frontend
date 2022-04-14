@@ -41,6 +41,15 @@ const Setor = () => {
 
         
      }
+    const delSetor = (id) => {
+        let resposta = prompt("Voce deseja deletar esse setor? Responda com sim ou nao").toLowerCase()
+        if(resposta == 'sim'){
+            axios.post('http://localhost:8080/api/v1/setor/delete', {_id: id})
+            .then(res => {
+                window.location.reload()
+            })
+        }
+    }
 
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/filiais/query')
@@ -97,7 +106,7 @@ const Setor = () => {
                 <td>{value.titulo}</td>
                 <td>{value.filial}</td>
                 <td>{modify}</td>
-                <td>{deleteFilial}</td>
+                <td onClick={() => {delSetor(value._id)}}>{deleteFilial}</td>
             </tr>
             )
             })}

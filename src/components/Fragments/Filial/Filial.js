@@ -33,6 +33,16 @@ const Filial = () => {
         axios.post('http://localhost:8080/api/v1/logs', {nome: logs.nome, cpf: logs.cpf, acao: logs.acao})
          
         }
+    const delFilial = (id) => {
+        let resposta = prompt("Voce deseja deletar essa filial? Responda com sim ou nao").toLowerCase()
+        if(resposta == 'sim'){
+            axios.post('http://localhost:8080/api/v1/filiais/delete', {_id: id})
+            .then(res => {
+            window.location.reload()
+            })
+        }
+        
+    }
     
     useEffect(() => {
         axios.get(`http://localhost:8080/api/v1/filiais?page=${currentPage}`)
@@ -76,7 +86,7 @@ const Filial = () => {
                 <td>{value.titulo}</td>
                 <td>{value.cnpj}</td>
                 <td>{modify}</td>
-                <td>{deleteFilial}</td>
+                <td onClick={() => {delFilial(value._id)}}>{deleteFilial}</td>
             </tr>
             )
             })}

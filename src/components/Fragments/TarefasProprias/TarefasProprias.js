@@ -42,7 +42,7 @@ const TarefasProprias = () => {
                         <td>Responsavel</td>
                         <td>Titulo</td>
                         <td>Tarefa</td>
-                        <td>Data</td>
+                        <td>Data de conclusao</td>
                     </tr>
                 </thead>
                 <tbody>

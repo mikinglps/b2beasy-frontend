@@ -63,6 +63,17 @@ const Cargo = () => {
         })
     }
 
+    const delCargo = (id) => {
+        let resposta = prompt("Voce deseja deletar esse cargo? Responda com sim ou nao").toLowerCase()
+        if(resposta == 'sim'){
+            axios.post('http://localhost:8080/api/v1/cargos/delete', {_id: id})
+            .then(res => {
+            window.location.reload()
+            })
+        }
+        
+    }
+
     return(
         <section className='cargos-holder'>
             <h2>Adicione um Cargo</h2>
@@ -118,7 +129,7 @@ const Cargo = () => {
                             <td>{value.setor}</td>
                             <td>{value.filial}</td>
                             <td>{modify}</td>
-                            <td>{deleteCargo}</td>
+                            <td onClick={() => {delCargo(value._id)}}>{deleteCargo}</td>
                         </tr>
                     )
                     })}

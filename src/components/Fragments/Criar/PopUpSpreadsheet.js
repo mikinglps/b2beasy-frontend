@@ -8,8 +8,9 @@ const PopUpSpreadsheet = ({coord, click, setClick}) => {
     const exceelIcon = <FontAwesomeIcon icon={faFileExcel} style={{color: '#8391a2', fontSize: '16px'}} />
     const docsIcon = <FontAwesomeIcon icon={faFileCsv} style={{color: '#8391a2', fontSize: '16px'}} />
     const style = {
-        position: 'absolute',
+        position: 'fixed',
         left: '8%',
+        width: '11%'
     }
     return(
         <div className='dropdown-spreadsheet' style={style} onMouseEnter={() => {setClick(true)}} onMouseLeave={() => {setClick(false)}}>
