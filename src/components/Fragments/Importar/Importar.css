@@ -1,0 +1,29 @@
+.over{
+    position: fixed;
+    left: 40%;
+    top: 35%;
+    background: white;
+    z-index: 999;
+    width: 500px;
+    height: 200px;
+    border-radius: 1%;
+    box-shadow: 1px 1px 0 1px gray;
+}
+
+.over form#import-form{
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.over form#import-form label{
+    font-size: 16px;
+}
+
+.over form#import-form p{
+    font-size: 13px;
+}
+
+.over form#import-form select{
+    width: 90%;
+}

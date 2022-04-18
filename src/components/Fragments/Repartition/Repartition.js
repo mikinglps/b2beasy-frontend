@@ -3,6 +3,7 @@ import './Repartition.css'
 import { Link } from 'react-router-dom'
 import { PainelContext } from '../../../contexts/PainelContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Importar from '../Importar/Importar'
 import { faListCheck, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved, faBoxesStacked } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
@@ -21,6 +22,8 @@ const inventory = <FontAwesomeIcon icon={faBoxesStacked} style={{color: 'black',
 
 
 const Repartition = () => {
+    const [importer, setImportar] = useState(false)
+    const [toggleImport, setToggleImport] = useState(null)
     const { resultProfile } = useContext(PainelContext)
     const result = resultProfile()
     const [setores, setSetores] = useState([]);
@@ -56,6 +59,7 @@ const Repartition = () => {
     }
 
     return(
+         <>
         <div className='containerRepartition'>  
             <div className='single--rep--cnpj'>
             <p>Gerenciar</p>
@@ -132,7 +136,7 @@ const Repartition = () => {
                <p>Documentos</p>
                </Link>
             
-               <div className='rounded'>
+               <div className='rounded' onClick={() => {setImportar(!importer); setToggleImport(value._id)}} >
                   {importar}
                </div>
                
@@ -144,6 +148,8 @@ const Repartition = () => {
             })}
             
         </div>
+        {importer ? <Importar teste={'XD'} id={toggleImport}/> : null}
+        </>
         )
 }
 
