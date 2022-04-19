@@ -131,19 +131,23 @@ const Docrepart = () => {
                                 {params.aba == 'todos' ? <td>{value.classe}</td> : null }
                                 <td className='clickable-td' onClick={() => {setClick(!click); setToggleRef(index)}}>{value.numero != null ? value.numero+' - ' : null}{value.assunto}</td>
                                 <td>{value.conteudo.replace(regex, '').substr(0,50)+'...'}</td>
-                                <td>{value.data.bd}</td>
+                                <td>{value.data.bd ? value.data.bd : value.data}</td>
                                 {params.aba == 'documento' ? <td>{value.destinatario}</td> : null }
                             </tr>
                         )
                     })}
                 </tbody>
             </table>
+            {click ?
             <section className='popUpOpenDocument' style={click ? {display: 'flex'} : {display: 'none'}}>
                     <p>Deseja abrir o documento?</p>
                     <div className='btn-popup__popupMemo'>
-                    <button onClick={() => {setClick(!click); result[toggleRef].numero != null ? PdfGen(result[toggleRef]) : DocumentoPdf(result[toggleRef])}}>Sim</button><button onClick={() => {setClick(!click)}}>Nao</button>
+                        {result[toggleRef].url ? <a onClick={() => {setClick(!click)}} className='buttonClickable' target='_blank' href={result[toggleRef].url}>Sim</a> : <button className='buttonClickable' onClick={() => {setClick(!click); result[toggleRef].numero != null ? PdfGen(result[toggleRef]) : DocumentoPdf(result[toggleRef])}}>Sim</button>}
+                        <button className='buttonClickable' onClick={() => {setClick(!click)}}>Nao</button>
                     </div>
             </section>
+            : null
+            }
             <div className='pagination'>
             <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
             </div>

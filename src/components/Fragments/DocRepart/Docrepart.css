@@ -59,6 +59,28 @@
     text-align: right;
 }
 
+.btn-popup__popupMemo .buttonClickable{
+    background: #5cb85c;
+    display: inline-block;
+    width: 80px;
+    color: white;
+    border: none;
+    height: 30px;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer
+}
+
+.btn-popup__popupMemo .buttonClickable + .buttonClickable{
+    background: rgb(255, 79, 74);
+}
+
+.btn-popup__popupMemo .buttonClickable:hover{
+    filter: brightness(1.1)
+}
+
 .setor-doc .pagination{
     width: 100%;
     text-align: center;

@@ -148,7 +148,7 @@ const Repartition = () => {
             })}
             
         </div>
-        {importer ? <Importar teste={'XD'} id={toggleImport}/> : null}
+        {importer ? <Importar id={toggleImport}/> : null}
         </>
         )
 }
