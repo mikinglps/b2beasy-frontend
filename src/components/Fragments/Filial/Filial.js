@@ -3,6 +3,7 @@ import './Filial.css'
 import { AuthContext } from '../../../contexts/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
+import Modify from './Modify'
 import axios from 'axios'
 import Pagination from '../GerenciarUsuarios/Pagination'
 
@@ -13,6 +14,8 @@ const Filial = () => {
     const { usuario } = useContext(AuthContext)
     const [maxPage, setMaxPage] = useState(1)
     const [pages, setPages] = useState(1)
+    const [click, setClick] = useState(false)
+    const [toggle, setToggle] = useState(null)
     const [ currentPage, setCurrentPage] = useState(1)
     const [ titulo, setTitulo ] = useState('')
     const [ cnpj, setCnpj ] = useState('')
@@ -85,7 +88,7 @@ const Filial = () => {
             <tr key={idx}>
                 <td>{value.titulo}</td>
                 <td>{value.cnpj}</td>
-                <td>{modify}</td>
+                <td onClick={() => {setClick(true); setToggle(value._id)}}>{modify}</td>
                 <td onClick={() => {delFilial(value._id)}}>{deleteFilial}</td>
             </tr>
             )
@@ -95,6 +98,7 @@ const Filial = () => {
         <div className='pagination-filial'>
             <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage} />
         </div>
+        {click ? <Modify id={toggle} click={click} changeClick={setClick} /> : null}
         </section>
         </>
     )

@@ -1,0 +1,36 @@
+.modal-update-filial{
+    position: fixed;
+    top: 30%;
+    left: 40%;
+    width: 400px;
+    height: auto!important;
+    padding: 1%;
+    background: white;
+    box-shadow: 1px 0.5px 2px 1px gray;
+}
+
+.modal-update-filial form{
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-update-filial form input{
+    width: 100%;
+}
+
+.modal-update-filial form .btn-holder{
+    width: 100%;
+    text-align: left;
+    margin-left: -2%;
+    margin-top: 5%;
+}
+
+.modal-update-filial form select{
+    height: 30px;
+}
+
+.modal-update-filial form .btn-holder button{
+    width: 30%;
+    padding: 5px;
+    pointer-events: all;
+}

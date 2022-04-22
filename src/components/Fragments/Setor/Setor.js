@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {AuthContext} from '../../../contexts/auth'
 import { faPenToSquare, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import Modify from './Modify'
 import Pagination from '../GerenciarUsuarios/Pagination'
+import { setUncaughtExceptionCaptureCallback } from 'process'
 
 const Setor = () => {
 
@@ -17,6 +19,8 @@ const Setor = () => {
     const [pages, setPages] = useState(1)
     const [ currentPage, setCurrentPage] = useState(1)
     const [resultFilial, setResultFilial] = useState([])
+    const [toggle, setToggle] = useState(null)
+    const [click, setClick] = useState(false)
     const [ result, setResult ] = useState([])
     const [ error, setError ] = useState(null)
 
@@ -105,7 +109,7 @@ const Setor = () => {
             <tr key={idx}>
                 <td>{value.titulo}</td>
                 <td>{value.filial}</td>
-                <td>{modify}</td>
+                <td onClick={() => {setClick(true); setToggle(value._id)}}>{modify}</td>
                 <td onClick={() => {delSetor(value._id)}}>{deleteFilial}</td>
             </tr>
             )
@@ -115,6 +119,9 @@ const Setor = () => {
         <div className='pagination-setor'>
             <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage} />
         </div>
+        {
+            click ? <Modify id={toggle} click={click} changeClick={setClick}/> : null
+        }
         </section>
         </>
     )

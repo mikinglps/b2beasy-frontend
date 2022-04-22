@@ -136,7 +136,7 @@ const Repartition = () => {
                <p>Documentos</p>
                </Link>
             
-               <div className='rounded' onClick={() => {setImportar(!importer); setToggleImport(value._id)}} >
+               <div className='rounded' onClick={() => {setImportar(!importer); setToggleImport(value._id)}} style={{cursor: 'pointer'}}>
                   {importar}
                </div>
                

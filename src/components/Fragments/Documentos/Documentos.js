@@ -82,7 +82,7 @@ const Documentos = () => {
                     return(
                     <tr key={index}>
                         <td className='td-hover' onClick={() => {setClick(!click); setToggleRef(index)}}>{params.arquivo != 'rascunhos' ? value.numero != null ? value.numero+' - ' : null : null}{value.assunto.substr(0,30)}{value.assunto.length > 30 ? '...' : null}</td>
-                        <td>{value.data.bd}</td>
+                        <td>{value.data.bd ? value.data.bd : value.data}</td>
                         <td>{value.destinatario.substr(0,30)}{value.destinatario.length > 30 ? '...' : null} - {value.setorDestinatario.substr(0,10)}{value.setorDestinatario.length > 10 ? '...' : null}</td>
                         {params.arquivo == 'rascunhos' ? <td>{modify}</td> : null}
                         <td>{copy}</td>
@@ -94,12 +94,16 @@ const Documentos = () => {
             <div className='pagination'>
             <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
             </div>
+            { click ?
             <section className='popupMemo' style={click ? {display: 'flex'} : {display: 'none'}}>
                 <h4>Deseja abrir o documento?</h4>
                 <div className='btn-popup__popupMemo'>
-                <button onClick={() => {result[toggleRef].classe != 'documento' ? PdfGen(result[toggleRef]) : DocumentoPdf(result[toggleRef]); setClick(!click)}}>Sim</button><button onClick={() => {setClick(!click)}}>Nao</button>
+                {result[toggleRef].url ? <a onClick={() => {setClick(!click)}} className='buttonClickable' target='_blank' href={result[toggleRef].url}>Sim</a> : <button className='buttonClickable' onClick={() => {setClick(!click); result[toggleRef].numero != null ? PdfGen(result[toggleRef]) : DocumentoPdf(result[toggleRef])}}>Sim</button>}
+                <button className='buttonClickable' onClick={() => {setClick(!click)}}>Nao</button>
                 </div>
             </section>
+             : null
+            }
         </section>
     )
 
