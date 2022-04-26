@@ -1,0 +1,126 @@
+.permissions-holder{
+    width: 98%;
+    margin-left: 1.5%;
+}
+
+.permissions-holder form{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.filial-holder__Permissions{
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background: #313a46;
+    border-radius: 2%;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+}
+
+.filial-holder__Permissions p{
+    color: white;
+}
+
+.filial-holder__Permissions input[type='checkbox']{
+    background: black;
+}
+
+.setores{
+    margin-left: 1%;
+}
+
+.setores .setor-holder__Permissions{
+    cursor: pointer;
+    background: #404c5c;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    padding: 10px;
+    height: 60px;
+}
+
+.setores .setor-holder__Permissions p{
+    color: white;
+}
+
+.cargo{
+    margin-left: 1%;
+}
+
+.cargo .cargo-holder__Permissions{
+    cursor: pointer;
+    background: #57687d;
+    padding: 10px;
+    height: 60px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cargo .cargo-holder__Permissions p{
+    color: white;
+}
+
+.permissions_selection{
+    box-shadow: 1px 1px 4px 1px gray;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    min-height: 500px;
+}
+
+.permissions_selection .sidebar__Permissions{
+    width: 20%;
+    border-right: 1px solid black;
+}
+
+.permissions_selection .sidebar__Permissions ul{
+    list-style-type: none;
+    list-style-position: inside;
+}
+
+.permissions_selection .sidebar__Permissions ul li{
+    padding: 5px;
+    border-bottom: 1px solid black;
+}
+
+.permissions_selection .sidebar__Permissions ul li:last-of-type{
+    border-bottom: none;
+}
+
+.permissions_selection .permissionsRmd__Permissions{
+    margin-left: 2%;
+    margin-top: 1.5%;
+}
+
+.permissions_selection form{
+    display: block;
+}
+
+.alterPermissions__Permissions{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.alterPermissions__Permissions .labels{
+    width: 50%;
+}
+
+.alterPermissions__Permissions .labels label{
+    display: block;
+}
+
+.alterPermissions__Permissions .inputs{
+    width: 50%;
+    margin-left: 2%;
+}

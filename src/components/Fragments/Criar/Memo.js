@@ -36,11 +36,11 @@ const Memo = () => {
     }
 
     const handleChange = async (receiver) => {
-        await axios.post('http://localhost:8080/api/v1/setor/filial/', {titulo: receiver})
+        await axios.post('http://localhost:8080/api/v1/setor/filial', {_id: receiver})
         .then(res=>{
             setSector([...res.data.results])
         })
-        axios.post('http://localhost:8080/api/v1/filiais/select', {titulo: receiver})
+        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: receiver})
         .then(res=>{
             setMemo(res.data)
         })
@@ -190,8 +190,8 @@ const Memo = () => {
             <select onChange={(e) => { setReceiver(e.target.value); handleChange(e.target.value);}}>
                     <option value=''>Selecione uma Filial</option>
                 {branch.map((value, index) => {
-                    return(
-                    <option key={index} value={value.titulo}>{value.titulo} - {value.cnpj}</option>
+                    return(                   //Mudei value pra ._id, era .titulo
+                    <option key={index} value={value._id}>{value.titulo} - {value.cnpj}</option>
                     )
                 })}
                 

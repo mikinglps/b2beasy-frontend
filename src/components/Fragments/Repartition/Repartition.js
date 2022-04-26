@@ -82,10 +82,12 @@ const Repartition = () => {
                </div>
                <p>Cargos</p>
                </Link>
+               <Link to='/gerenciar/permissoes' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {lock}
                </div>
                <p>Permissões</p>
+               </Link>
                <Link to='/gerenciar/cliente' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {customer}

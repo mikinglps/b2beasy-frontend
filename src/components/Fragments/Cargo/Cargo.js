@@ -34,8 +34,11 @@ const Cargo = () => {
                 axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaCargo[i].setor})
                 .then(response => {
                     res.data.listaCargo[i].setor = response.data.titulo
-                    setResult([...res.data.listaCargo]);
-                    setMaxPage(res.data.totalPaginas)
+                    if(i + 1 == res.data.listaCargo.length){
+                        setResult(res.data.listaCargo);
+                        setMaxPage(res.data.totalPaginas)
+                        setLoading(false)
+                    }
                 })
             }
         })
@@ -122,7 +125,7 @@ const Cargo = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {result.map((value, idx) => {
+                    {loading ? null : result.map((value, idx) => {
                         return(
                         <tr key={idx}>
                             <td>{value.titulo}</td>

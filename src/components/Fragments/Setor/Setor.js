@@ -65,9 +65,17 @@ const Setor = () => {
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/setor')
         .then(res=>{
-            console.log(res)
-            setResult([...res.data.results.listaSetor])
-            setMaxPage(res.data.results.totalPaginas)
+            for(let i = 0; i < res.data.results.listaSetor.length; i++){
+                axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.results.listaSetor[i].filial})
+                .then(response => {
+                    res.data.results.listaSetor[i].filial = response.data.titulo
+                    if(i + 1 == res.data.results.listaSetor.length){
+                        setResult([...res.data.results.listaSetor])
+                        setMaxPage(res.data.results.totalPaginas)
+                    }
+                })
+            }
+            
         })
     },[currentPage])
 
@@ -84,7 +92,7 @@ const Setor = () => {
                 <option value="">Selecione uma filial</option>
                 {resultFilial.map((value, index) => {
                     return(
-                <option key={index} value={value.titulo}>{value.titulo}</option>
+                <option key={index} value={value._id}>{value.titulo}</option>
                 )
                 })}
             </select>
