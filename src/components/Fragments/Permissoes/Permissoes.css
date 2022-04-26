@@ -73,14 +73,15 @@
 .permissions_selection{
     box-shadow: 1px 1px 4px 1px gray;
     margin-top: 10px;
-    display: flex;
     flex-direction: row;
-    min-height: 500px;
+    min-height: 250px;
+    max-height: 400px;
 }
 
 .permissions_selection .sidebar__Permissions{
     width: 20%;
     border-right: 1px solid black;
+    overflow-y: auto;
 }
 
 .permissions_selection .sidebar__Permissions ul{
@@ -100,20 +101,23 @@
 .permissions_selection .permissionsRmd__Permissions{
     margin-left: 2%;
     margin-top: 1.5%;
+    width: 75%;
 }
 
 .permissions_selection form{
     display: block;
+    width: 100%;
 }
 
 .alterPermissions__Permissions{
     width: 100%;
     display: flex;
     flex-direction: row;
+    justify-items: left;
 }
 
 .alterPermissions__Permissions .labels{
-    width: 50%;
+    width: 20%;
 }
 
 .alterPermissions__Permissions .labels label{
@@ -121,6 +125,6 @@
 }
 
 .alterPermissions__Permissions .inputs{
-    width: 50%;
+    width: 30%;
     margin-left: 2%;
 }

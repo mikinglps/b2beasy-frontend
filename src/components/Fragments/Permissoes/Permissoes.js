@@ -8,6 +8,7 @@ const Permissoes = () => {
     const [setores, setSetores] = useState([])
     const [cargos, setCargos] = useState([])
     const [allSetores, setAllSetores] = useState([])
+    const [selectedCargo, setSelectedCargo] = useState('')
     const [click, setClick] = useState(false)
     const [clickCargo, setClickCargo] = useState(false)
 
@@ -71,14 +72,14 @@ const Permissoes = () => {
                 {clickCargo ? <h2>Selecione um cargo</h2> : null}
                 {clickCargo ? cargos.map((value, index) => {
                     return(
-                        <div key={index} className='cargo-holder__Permissions'>
+                        <div key={index} className='cargo-holder__Permissions' onClick={() => {setSelectedCargo(value._id)}}>
                             <p>{value.titulo}</p>
                         </div>
                     )
                 }) : null}
             </div>
             </form>
-            <div className='permissions_selection'>
+            <div style={selectedCargo ? {display: 'flex'} : {display: 'none'}} className='permissions_selection'>
                 <div className='sidebar__Permissions'>
                 <ul>
                 <li>Gerenciar</li>
@@ -106,8 +107,7 @@ const Permissoes = () => {
                             <input type='checkbox'/>
                             <input type='checkbox'/>
                             <input type='checkbox'/>
-                            </div>
-                            
+                            </div>    
                         </div>
                     </form>
                 </div>
