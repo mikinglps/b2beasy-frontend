@@ -1,9 +1,12 @@
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import './Permissoes.css'
 
 const Permissoes = () => {
-
+    const radioRefRead = useRef()
+    const radioRefModify = useRef()
+    const radioRefDelete = useRef()
+    const [aba, setAba] = useState('')
     const [filiais, setFiliais] = useState([])
     const [setores, setSetores] = useState([])
     const [cargos, setCargos] = useState([])
@@ -16,7 +19,6 @@ const Permissoes = () => {
         axios.post('http://localhost:8080/api/v1/setor/filial', {_id: id})
         .then(res => {
             setSetores([...res.data.results])
-            console.log(setores)
             setClick(true)
         })
     }
@@ -24,11 +26,82 @@ const Permissoes = () => {
     const handleClickSetor = (id) => {
         axios.post('http://localhost:8080/api/v1/cargos/setor', {_id: id})
         .then(res => {
-            console.log(res)
             setCargos([...res.data])
             setClickCargo(true)
         })
     }
+
+    const save = () => {
+        if(radioRefRead.current.checked){
+            if(aba == 'Gerenciar'){
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: null, cargo: selectedCargo, geral: true, needed: false})
+                .then(res => {
+                    if(res.data.found == false){
+                        axios.post('http://localhost:8080/api/v1/permissoes', {setor: null, cargo: selectedCargo, permissao: 1, geral: true, needed: false})
+                    }else{
+                        axios.post('http://localhost:8080/api/v1/permissoes/edit', {setor: null, cargo: selectedCargo, permissao: 1, geral: true, needed: false})
+                    }
+                })
+            }else{
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: aba, cargo: selectedCargo, geral: false, needed: true})
+                .then(res => {
+                    if(res.data.found == false){
+                        axios.post('http://localhost:8080/api/v1/permissoes', {setor: aba, cargo: selectedCargo, permissao: 1, geral: false, needed: true})
+                    }else{
+                        axios.post('http://localhost:8080/api/v1/permissoes/edit', {setor: aba, cargo: selectedCargo, permissao: 1, geral: false, needed: true})
+                    }
+                })
+            }
+        }else if(radioRefModify.current.checked){
+            if(aba == 'Gerenciar'){
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: null, cargo: selectedCargo, geral: true, needed: false})
+                .then(res => {
+                    if(res.data.found == false){
+                        axios.post('http://localhost:8080/api/v1/permissoes', {setor: null, cargo: selectedCargo, permissao: 2, geral: true, needed: false})
+                    }else{
+                        axios.post('http://localhost:8080/api/v1/permissoes/edit', {setor: null, cargo: selectedCargo, permissao: 2, geral: true, needed: false})
+                    }
+                })
+            }else{
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: aba, cargo: selectedCargo, geral: false, needed: true})
+                .then(res => {
+                    if(res.data.found == false){
+                        axios.post('http://localhost:8080/api/v1/permissoes', {setor: aba, cargo: selectedCargo, permissao: 2, geral: false, needed: true})
+                    }else{
+                        axios.post('http://localhost:8080/api/v1/permissoes/edit', {setor: aba, cargo: selectedCargo, permissao: 2, geral: false, needed: true})
+                    }
+                })
+            }
+        }else if(radioRefDelete.current.checked){
+            if(aba == 'Gerenciar'){
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: null, cargo: selectedCargo, geral: true, needed: false})
+                .then(res => {
+                    if(res.data.data == false){
+                        axios.post('http://localhost:8080/api/v1/permissoes', {setor: null, cargo: selectedCargo, permissao: 3, geral: true, needed: false})
+                    }else{
+                        axios.post('http://localhost:8080/api/v1/permissoes/edit', {setor: null, cargo: selectedCargo, permissao: 3, geral: true, needed: false})
+                    }
+                })
+            }else{
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: aba, cargo: selectedCargo, geral: false, needed: true})
+                .then(res => {
+                    if(res.data.found == false){
+                        axios.post('http://localhost:8080/api/v1/permissoes', {setor: aba, cargo: selectedCargo, permissao: 3, geral: false, needed: true})
+                    }else{
+                        axios.post('http://localhost:8080/api/v1/permissoes/edit', {setor: aba, cargo: selectedCargo, permissao: 3, geral: false, needed: true})
+                    }
+                })
+            }
+        }
+    }
+
+    useEffect(() => {
+        radioRefDelete.current.checked = false
+        radioRefRead.current.checked = false
+        radioRefModify.current.checked = false
+    }, [aba])
+
+
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/filiais/query')
@@ -41,7 +114,7 @@ const Permissoes = () => {
             setAllSetores([...res.data.results])
             
         })
-},[])
+    },[])
 
     return (
         <section className='permissions-holder'>
@@ -82,17 +155,17 @@ const Permissoes = () => {
             <div style={selectedCargo ? {display: 'flex'} : {display: 'none'}} className='permissions_selection'>
                 <div className='sidebar__Permissions'>
                 <ul>
-                <li>Gerenciar</li>
+                <li onClick={(e) => {setAba(e.target.innerHTML)}}>Gerenciar</li>
                 {allSetores.map((value, index) => {
                     return(
                         
-                            <li>{value.titulo}</li>
+                            <li onClick={(e) => {setAba(value._id)}}>{value.titulo}</li>
                        
                     )
                 })}
                 </ul>
                 </div>
-                <div className='permissionsRmd__Permissions'>
+                <div className='permissionsRmd__Permissions' style={aba ? {display: 'flex'} : {display: 'none'}}>
                     <form>
                     <h2>Selecione as Permissoes</h2>
                         <div className='alterPermissions__Permissions'>
@@ -104,9 +177,10 @@ const Permissoes = () => {
                             </div>
                             <div className='inputs'>
                             <h3>Marque a permissao</h3>
-                            <input type='checkbox'/>
-                            <input type='checkbox'/>
-                            <input type='checkbox'/>
+                            <input type='radio' name='ref' ref={radioRefRead}/>
+                            <input type='radio' name='ref' ref={radioRefModify}/>
+                            <input type='radio' name='ref' ref={radioRefDelete}/>
+                            <button type='button' onClick={() => {save();}}>Save</button>
                             </div>    
                         </div>
                     </form>

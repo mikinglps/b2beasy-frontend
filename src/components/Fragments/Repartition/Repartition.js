@@ -47,7 +47,15 @@ const Repartition = () => {
     useEffect(() => {
       axios.get('http://localhost:8080/api/v1/setor/query')
       .then(res => {
-         setSetores([...res.data.results])
+         for(let i = 0; i < res.data.results.length; i++){
+            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.results[i].filial})
+            .then(response => {
+               res.data.results[i].filial = response.data.titulo
+               if(i + 1 == res.data.results.length){
+                  setSetores([...res.data.results])
+               }
+            })
+            }
       })
       setLoading(false)
     },[loading])
