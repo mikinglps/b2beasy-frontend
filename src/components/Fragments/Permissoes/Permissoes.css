@@ -78,6 +78,15 @@
     max-height: 400px;
 }
 
+.permissions_selection h2{
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.permissions_selection h3{
+    font-size: 18px;
+}
+
 .permissions_selection .sidebar__Permissions{
     width: 20%;
     border-right: 1px solid black;
@@ -109,6 +118,16 @@
     width: 100%;
 }
 
+.permissions_selection form button{
+    background: #5cb85c;
+    padding: 5px;
+    width: 10%;
+    color: white;
+    border: none;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
 .alterPermissions__Permissions{
     width: 100%;
     display: flex;
@@ -127,4 +146,8 @@
 .alterPermissions__Permissions .inputs{
     width: 30%;
     margin-left: 2%;
+}
+
+.alterPermissions__Permissions .inputs button{
+    display: block;
 }
