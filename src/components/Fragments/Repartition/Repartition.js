@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Importar from '../Importar/Importar'
 import { faListCheck, faFolder, faBriefcase, faLock, faBuilding, faUpload, faChartBar, faUsers, faChartPie, faGear, faFireFlameCurved, faBoxesStacked } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import { AuthContext } from '../../../contexts/auth'
 
 const manage = <FontAwesomeIcon icon={faUsers} style={{color: 'black', fontSize: '22px'}}/>
 const log = <FontAwesomeIcon icon={faChartBar} style={{color: 'black', fontSize: '22px'}}/>
@@ -24,7 +25,10 @@ const inventory = <FontAwesomeIcon icon={faBoxesStacked} style={{color: 'black',
 const Repartition = () => {
     const [importer, setImportar] = useState(false)
     const [toggleImport, setToggleImport] = useState(null)
+    const { usuario } = useContext(AuthContext)
+    const [admin, setAdmin] = useState(false)
     const { resultProfile } = useContext(PainelContext)
+    const [permissao, setPermissao] = useState([])
     const result = resultProfile()
     const [setores, setSetores] = useState([]);
     const [loading, setLoading] = useState(true)
@@ -45,19 +49,32 @@ const Repartition = () => {
     },[result])
 
     useEffect(() => {
-      axios.get('http://localhost:8080/api/v1/setor/query')
-      .then(res => {
-         for(let i = 0; i < res.data.results.length; i++){
-            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.results[i].filial})
-            .then(response => {
-               res.data.results[i].filial = response.data.titulo
-               if(i + 1 == res.data.results.length){
-                  setSetores([...res.data.results])
-               }
-            })
-            }
-      })
-      setLoading(false)
+       axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+       .then(result => {
+          axios.post('http://localhost:8080/api/v1/permissoes/cargo', {cargo: result.data.results.cargo})
+          .then(resultado => {
+            let newArr = []
+             setPermissao(resultado)
+             for(let i = 0; i < resultado.data.length; i++){
+                axios.post('http://localhost:8080/api/v1/setor/id', {_id: resultado.data[i].setor})
+                .then(res => {
+                  if(res.data == null){
+                     setAdmin(true)
+                  }else{
+                     axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.filial})
+                      .then(response => {
+                           res.data.filial = response.data.titulo
+                           newArr.push(res.data)
+                           if(i + 1 == resultado.data.length){
+                              setSetores(newArr)
+                           }
+                      })
+                  }
+                })
+             }
+          })
+       })
+       setLoading(false)
     },[loading])
 
     if(loading){
@@ -68,7 +85,8 @@ const Repartition = () => {
 
     return(
          <>
-        <div className='containerRepartition'>  
+        <div className='containerRepartition'>
+           {admin ?   
             <div className='single--rep--cnpj'>
             <p>Gerenciar</p>
             <div className='icons--rep--cnpj'>
@@ -134,6 +152,7 @@ const Repartition = () => {
                </Link>
                </div>
                </div>
+               : null }
             {setores.map((value, index) => {
                return(
                <div className='single--rep' key={index}>

@@ -99,6 +99,7 @@
 }
 
 .permissions_selection .sidebar__Permissions ul li{
+    cursor: pointer;
     padding: 5px;
     border-bottom: 1px solid black;
 }
@@ -119,6 +120,7 @@
 }
 
 .permissions_selection form button{
+    cursor: pointer;
     background: #5cb85c;
     padding: 5px;
     width: 10%;
@@ -126,6 +128,12 @@
     border: none;
     margin-top: 10px;
     border-radius: 5px;
+}
+
+.permissions_selection form button + button{
+    background: red;
+    margin-left: 2%;
+    width: 20%;
 }
 
 .alterPermissions__Permissions{

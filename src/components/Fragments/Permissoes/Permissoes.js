@@ -93,7 +93,7 @@ const Permissoes = () => {
             if(aba == 'Gerenciar'){
                 axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: null, cargo: selectedCargo, geral: true, needed: false})
                 .then(res => {
-                    if(res.data.data == false){
+                    if(res.data.found == false){
                         axios.post('http://localhost:8080/api/v1/permissoes', {setor: null, cargo: selectedCargo, permissao: 3, geral: true, needed: false})
                     }else{
                         axios.post('http://localhost:8080/api/v1/permissoes/edit', {setor: null, cargo: selectedCargo, permissao: 3, geral: true, needed: false})
@@ -121,6 +121,32 @@ const Permissoes = () => {
                 doc[index].style.borderLeft = '8px solid rgb(92, 184, 92)'
             }
         }
+    }
+
+    const removePermissions = () => {
+        let resposta = prompt('Deseja remover as permissoes? Responda com sim ou nao').toLowerCase()
+        if(resposta == 'sim'){
+            if(aba == 'Gerenciar'){
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: null, cargo: selectedCargo, geral: true, needed: false})
+                .then(res => {
+                    if(res.data.found == true){
+                        axios.post('http://localhost:8080/api/v1/permissoes/delete', {_id: res.data.data._id})
+                    }
+                })
+            }else{
+                axios.post('http://localhost:8080/api/v1/permissoes/find', {setor: aba, cargo: selectedCargo, geral: false, needed: true})
+                .then(res => {
+                    if(res.data.found == true){
+                        axios.post('http://localhost:8080/api/v1/permissoes/delete', {_id: res.data.data._id})
+                    }
+                })
+            }
+        }else if(resposta == 'nao'){
+            console.log('');
+        }else{
+            alert('Resposta invalida');
+        }
+        
     }
 
     const handleClickCargo = (index) => {
@@ -156,7 +182,15 @@ const Permissoes = () => {
 
         axios.get('http://localhost:8080/api/v1/setor/query')
         .then(res => {
-            setAllSetores([...res.data.results])
+            for(let i = 0; i < res.data.results.length; i++){
+                axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.results[i].filial})
+                .then(response => {
+                    res.data.results[i].filial = response.data.titulo
+                    if(i + 1 == res.data.results.length){
+                        setAllSetores([...res.data.results])
+                    }
+                })
+            }
             
         })
     },[])
@@ -204,7 +238,7 @@ const Permissoes = () => {
                 {allSetores.map((value, index) => {
                     return(
                         
-                            <li className='abas__Permissions' onClick={(e) => {setAba(value._id); handleClickAbas(index + 1);}}>{value.titulo}</li>
+                            <li className='abas__Permissions' onClick={(e) => {setAba(value._id); handleClickAbas(index + 1);}}>{value.titulo} - {value.filial}</li>
                        
                     )
                 })}
@@ -227,7 +261,7 @@ const Permissoes = () => {
                             <input type='radio' name='ref' ref={radioRefDelete}/>
                             </div>    
                         </div>
-                        <button type='button' onClick={() => {save();}}>Salvar</button>
+                        <button type='button' onClick={() => {save();}}>Salvar</button><button type='button' onClick={() => {removePermissions()}}>Remover permissão</button>
                     </form>
                 </div>
             </div>

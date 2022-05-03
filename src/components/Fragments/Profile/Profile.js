@@ -66,9 +66,6 @@ const Profile = () => {
                     <Link to='/gerenciar/lembretes' style={{textDecoration: 'none'}}>
                     <li>{reminder} Lembretes</li>
                     </Link>
-                    <Link to='/importar' style={{textDecoration: 'none'}}>
-                    <li>{upload} Importar</li>
-                    </Link>
                     <Link to='/gerenciar/minhastarefas' style={{textDecoration: 'none'}}>
                     <li>{task} Tarefas</li>
                     </Link>
