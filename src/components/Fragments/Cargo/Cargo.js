@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import './Cargo.css';
 import Pagination from '../GerenciarUsuarios/Pagination';
+import { AuthContext } from '../../../contexts/auth';
 
 const Cargo = () => {
     const modify = <FontAwesomeIcon icon={faPenToSquare} style={{fontSize: '18px', cursor: 'pointer'}} />
     const deleteCargo = <FontAwesomeIcon icon={faDeleteLeft} style={{color: '#bd3c33', fontSize: '18px', cursor: 'pointer'}}/>
     const [titulo, setTitulo] = useState('')
+    const { usuario } = useContext(AuthContext) 
     const [filial, setFilial] = useState([])
     const [result, setResult] = useState([])
     const [loading, setLoading] = useState(true)
@@ -19,6 +21,7 @@ const Cargo = () => {
     const [setor, setSetor] = useState([])
     const [newResult, setNewResult] = useState([])
     const [setorAdd, setSetorAdd] = useState('')
+    const [permissao, setPermissao] = useState('')
 
     useEffect(()=>{
         axios.get('http://localhost:8080/api/v1/filiais/query')
@@ -77,9 +80,29 @@ const Cargo = () => {
         
     }
 
+    useEffect(() => {
+        axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+        .then(res => {
+            axios.post('http://localhost:8080/api/v1/permissoes/cargo', {cargo: res.data.results.cargo})
+            .then(response => {
+                for(let i = 0; i < response.data.length; i++){
+                    if(response.data[i].setor == null){
+                        if(response.data[i].permissao == 1){
+                            setPermissao('user')
+                        }else if(response.data[i].permissao == 2){
+                            setPermissao('mod')
+                        }else if(response.data[i].permissao == 3){
+                            setPermissao('admin')
+                        }
+                    }
+                }
+            })
+        })
+    },[])
+
     return(
         <section className='cargos-holder'>
-            <h2>Adicione um Cargo</h2>
+            {permissao != 'user' ? 
             <section className='add-cargo'>
                 <form id='addCargo'>
                     <div>
@@ -111,7 +134,7 @@ const Cargo = () => {
                         <button type='submit' onClick={() => {adicionaCargo()}}>Adicionar</button>
                     </div>
                 </form>
-            </section>
+            </section> : null}
             <hr/>
             <section className='cargo-list'>
                 <table>
@@ -120,8 +143,8 @@ const Cargo = () => {
                             <td>Cargo</td>
                             <td>Setor</td>
                             <td>Filial</td>
-                            <td>Modificar</td>
-                            <td>Excluir</td>
+                            {permissao != 'user' ? <td>Modificar</td> : null}
+                            {permissao == 'admin' ? <td>Excluir</td> : null}
                         </tr>
                     </thead>
                     <tbody>
@@ -131,8 +154,8 @@ const Cargo = () => {
                             <td>{value.titulo}</td>
                             <td>{value.setor}</td>
                             <td>{value.filial}</td>
-                            <td>{modify}</td>
-                            <td onClick={() => {delCargo(value._id)}}>{deleteCargo}</td>
+                            {permissao != 'user' ? <td>{modify}</td> : null}
+                            {permissao == 'admin' ? <td onClick={() => {delCargo(value._id)}}>{deleteCargo}</td> : null}
                         </tr>
                     )
                     })}

@@ -78,8 +78,8 @@ const Memo = () => {
         axios.post('http://localhost:8080/api/v1/rascunhos/add', {
             remetente: usuario.nome,
             cpf: usuario.cpf,
-            filialRemetente: myEmpresa.titulo,
-            setorRemetente: mySector.titulo,
+            filialRemetente: myEmpresa._id,
+            setorRemetente: mySector._id,
             destinatario: receiver,
             setorDestinatario: sectorReceiver,
             numero: '/'+date.getFullYear(),
@@ -133,8 +133,8 @@ const Memo = () => {
         axios.post('http://localhost:8080/api/v1/documentos', {
             remetente: usuario.nome,
             cpf: usuario.cpf,
-            filialRemetente: myEmpresa.titulo,
-            setorRemetente: mySector.titulo,
+            filialRemetente: myEmpresa._id,
+            setorRemetente: mySector._id,
             destinatario: receiver,
             setorDestinatario: sectorReceiver,
             numero: sending,

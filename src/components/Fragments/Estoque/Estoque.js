@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
+import {AuthContext} from '../../../contexts/auth'
 import './Estoque.css'
 import Pagination from "../GerenciarUsuarios/Pagination";
 
 const Estoque = () => {
+    const { usuario } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [cod, setCod] = useState('')
     const [titulo, setTitulo] = useState('')
@@ -16,6 +18,7 @@ const Estoque = () => {
     const [changed, setChanged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [mostrar, setMostrar] = useState(false)
+    const [permissao, setPermissao] = useState('')
     const date = new Date()
 
     const submitForm = async (e) => {
@@ -109,11 +112,31 @@ const Estoque = () => {
         }
     }, [loading])
 
+    useEffect(() => {
+        axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+        .then(res => {
+            axios.post('http://localhost:8080/api/v1/permissoes/cargo', {cargo: res.data.results.cargo})
+            .then(response => {
+                for(let i = 0; i < response.data.length; i++){
+                    if(response.data[i].setor == null){
+                        if(response.data[i].permissao == 1){
+                            setPermissao('user')
+                        }else if(response.data[i].permissao == 2){
+                            setPermissao('mod')
+                        }else if(response.data[i].permissao == 3){
+                            setPermissao('admin')
+                        }
+                    }
+                }
+            })
+        })
+    },[])
+
     
 
     return(
         <section className='estoque-management'>
-            <form onSubmit={submitForm} encType='multipart/formdata' id='inventory'>
+            { permissao != 'user' ? <form onSubmit={submitForm} encType='multipart/formdata' id='inventory'>
                 <label>Codigo do Produto</label>
                 <input type='text' value={cod} onChange={e => setCod(e.target.value)} required/>
                 <label>Titulo</label>
@@ -123,7 +146,7 @@ const Estoque = () => {
                 <label>Selecione uma imagem do produto (somente PNG, JPG e JPEG)</label>
                 <input type='file' name='image' onChange={e => setImage(e.target.files[0])} />
                 <button type='submit'>Adicionar Produto</button>
-            </form>
+            </form> : null}
         
         <hr/>
             {missing ? <div className='retornar'><a href='http://localhost:3000/gerenciar/estoque'>Retornar para o estoque</a></div> : null}
@@ -140,11 +163,11 @@ const Estoque = () => {
                     <p>Codigo: {value.cod}</p>
                     <p>Titulo: {value.titulo}</p>
                     <div className='button-holder-estoque'>
-                    <button className='altQuant' onClick={() => {mudarValor('+', index);}}>+</button>
+                    {permissao != 'user' ? <button className='altQuant' onClick={() => {mudarValor('+', index);}}>+</button> : null}
                     <span className='quant'>{Number(value.quantidade)}</span>
-                    <button className='altQuant' onClick={() => {mudarValor('-', index)}}>-</button>
-                    <button className='secondButton'>Editar</button>
-                    <button className='secondButton' onClick={() => {deletarItem(index)}}>Excluir</button>
+                    {permissao != 'user' ? <button className='altQuant' onClick={() => {mudarValor('-', index)}}>-</button> : null}
+                    {permissao != 'user' ? <button className='secondButton'>Editar</button> : null}
+                    {permissao == 'admin' ? <button className='secondButton' onClick={() => {deletarItem(index)}}>Excluir</button> : null}
                     </div>
                 </div>
                 )

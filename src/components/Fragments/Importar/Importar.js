@@ -26,9 +26,9 @@ const Importar = ({id}) => {
         formData.append('remetente', usuarioFull.nome)
         formData.append('cpf', usuario.cpf)
         formData.append('filialRemetente', info.filial)
-        formData.append('setorRemetente', info.titulo)
+        formData.append('setorRemetente', info._id)
         formData.append('destinatario', setorFull.filial)
-        formData.append('setorDestinatario', setorFull.titulo)
+        formData.append('setorDestinatario', setorFull._id)
         formData.append('assunto', "Arquivo importado")
         formData.append('conteudo', "Arquivo importado, clique para ver.")
         formData.append('data', formatado)
@@ -42,7 +42,14 @@ const Importar = ({id}) => {
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/setor/query')
         .then(res => {
-            setSetores([...res.data.results])
+            for(let i = 0; i < res.data.results.length; i++){
+                axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.results[i].filial})
+                .then(response => {
+                    res.data.results[i].filial = response.data.titulo;
+                    setSetores([...res.data.results])
+                })
+            }
+            
         })
         axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
         .then(res => {

@@ -11,15 +11,12 @@ import DocumentoPdf from '../Criar/DocumentoPdf'
 
 const Documentos = () => {
     const params = useParams()
-    const componentRef = useRef([])
     const { usuario } = useContext(AuthContext)
     const [maxPage, setMaxPage] = useState(1)
-    const [pages, setPages] = useState(1)
     const [ currentPage, setCurrentPage] = useState(1)
     const [toggleRef, setToggleRef] = useState('')
     const [ result, setResult ] = useState([])
     const [ click, setClick ] = useState(false)
-    const [ abaStyle , setAbaStyle ] = useState('')
     const modify = <FontAwesomeIcon icon={faPenToSquare} style={{fontSize: '18px', cursor: 'pointer'}} />
     const copy = <FontAwesomeIcon icon={faCopy} style={{fontSize: '18px', cursor: 'pointer'}} />
 
@@ -27,11 +24,58 @@ const Documentos = () => {
     useEffect(() => {
             setCurrentPage(1)
             const findDocs = async () => {
+                let newArr = []
                 await axios.post(`http://localhost:8080/api/v1/${params.arquivo}/find?page=${currentPage}`, {cpf: usuario.cpf})
-            .then(res => {
-                console.log(res)
-                setResult([...res.data.listaDoc])
-                setMaxPage(res.data.totalPaginas)
+                .then(res => {
+                for(let i = 0; i < res.data.listaDoc.length; i++){
+                    if(res.data.listaDoc[i].conteudo == 'Arquivo importado, clique para ver.' || res.data.listaDoc[i].classe == 'memorando'){
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorDestinatario})
+                        .then(response => {
+                            res.data.listaDoc[i].setorDestinatario = response.data.titulo
+                            
+                        })
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].destinatario})
+                            .then(resposta => {
+                                res.data.listaDoc[i].destinatario = resposta.data.titulo
+                            })
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
+                        .then(result => {
+                            res.data.listaDoc[i].filialRemetente = result.data.titulo
+                            res.data.listaDoc[i].municipio = result.data.municipio
+                        })
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                        .then(resultado => {
+                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                        })
+                            newArr.push(res.data.listaDoc[i]);
+                    }else if(res.data.listaDoc[i].classe == 'oficio' && res.data.listaDoc[i].conteudo != 'Arquivo importado, clique para ver.'){
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
+                        .then(result => {
+                            res.data.listaDoc[i].filialRemetente = result.data.titulo
+                            res.data.listaDoc[i].municipio = result.data.municipio
+                        })
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                        .then(resultado => {
+                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                        })
+                        newArr.push(res.data.listaDoc[i])
+
+                    }else if(res.data.listaDoc[i].classe == 'documento'){
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
+                        .then(result => {
+                            res.data.listaDoc[i].filialRemetente = result.data.titulo
+                            res.data.listaDoc[i].municipio = result.data.municipio
+                        })
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                        .then(resultado => {
+                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                        })
+                        newArr.push(res.data.listaDoc[i])
+                    }
+                    
+                }
+                    setResult(newArr);
+                    setMaxPage(res.data.totalPaginas)
             })
             }
 
@@ -45,15 +89,66 @@ const Documentos = () => {
                 element[0].classList.remove('selected')
                 element[1].classList.add('selected')
             }
+            setResult([...result])
     }, [params])
 
     useEffect(() => {
         axios.post(`http://localhost:8080/api/v1/${params.arquivo}/find?page=${currentPage}`, {cpf: usuario.cpf})
             .then(res => {
-                setResult([...res.data.listaDoc])
-                setMaxPage(res.data.totalPaginas)
+                let newArr = []
+                for(let i = 0; i < res.data.listaDoc.length; i++){
+                    if(res.data.listaDoc[i].conteudo == 'Arquivo importado, clique para ver.' || res.data.listaDoc[i].classe == 'memorando'){
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorDestinatario})
+                        .then(response => {
+                            res.data.listaDoc[i].setorDestinatario = response.data.titulo
+                            
+                        })
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].destinatario})
+                            .then(resposta => {
+                                res.data.listaDoc[i].destinatario = resposta.data.titulo
+                            })
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
+                        .then(result => {
+                            res.data.listaDoc[i].filialRemetente = result.data.titulo
+                            res.data.listaDoc[i].municipio = result.data.municipio
+                        })
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                        .then(resultado => {
+                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                        })
+                            newArr.push(res.data.listaDoc[i]);
+                    }else if(res.data.listaDoc[i].classe == 'oficio' && res.data.listaDoc[i].conteudo != 'Arquivo importado, clique para ver.'){
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
+                        .then(result => {
+                            res.data.listaDoc[i].filialRemetente = result.data.titulo
+                            res.data.listaDoc[i].municipio = result.data.municipio
+                        })
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                        .then(resultado => {
+                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                        })
+                        newArr.push(res.data.listaDoc[i])
+
+                    }else if(res.data.listaDoc[i].classe == 'documento'){
+                        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
+                        .then(result => {
+                            res.data.listaDoc[i].filialRemetente = result.data.titulo
+                            res.data.listaDoc[i].municipio = result.data.municipio
+                        })
+                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                        .then(resultado => {
+                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                        })
+                        newArr.push(res.data.listaDoc[i])
+
+                    }
+                }
+                    setResult(newArr)
+                    setMaxPage(res.data.totalPaginas);
             })
+            
     },[currentPage])
+
 
     return(
         <section className='meusArquivos-cpf'>
@@ -83,7 +178,7 @@ const Documentos = () => {
                     <tr key={index}>
                         <td className='td-hover' onClick={() => {setClick(!click); setToggleRef(index)}}>{params.arquivo != 'rascunhos' ? value.numero != null ? value.numero+' - ' : null : null}{value.assunto.substr(0,30)}{value.assunto.length > 30 ? '...' : null}</td>
                         <td>{value.data.bd ? value.data.bd : value.data}</td>
-                        <td>{value.destinatario.substr(0,30)}{value.destinatario.length > 30 ? '...' : null} - {value.setorDestinatario.substr(0,10)}{value.setorDestinatario.length > 10 ? '...' : null}</td>
+                        <td>{value.destinatario} - {value.setorDestinatario}</td>
                         {params.arquivo == 'rascunhos' ? <td>{modify}</td> : null}
                         <td>{copy}</td>
                     </tr>

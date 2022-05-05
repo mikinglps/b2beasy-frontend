@@ -8,6 +8,7 @@ import './Clientes.css'
 const Clientes = () => {
     const [ error, setError ] = useState(null)
     const { usuario } = useContext(AuthContext)
+    const [permissao, setPermissao] = useState('')
     const [ result, setResult ] = useState([])
     const [ titulo, setTitulo ] = useState('')
     const [ credencial, setCredencial ] = useState('')
@@ -53,9 +54,29 @@ const Clientes = () => {
         })
     },[result])
 
+    useEffect(() => {
+        axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+        .then(res => {
+            axios.post('http://localhost:8080/api/v1/permissoes/cargo', {cargo: res.data.results.cargo})
+            .then(response => {
+                for(let i = 0; i < response.data.length; i++){
+                    if(response.data[i].setor == null){
+                        if(response.data[i].permissao == 1){
+                            setPermissao('user')
+                        }else if(response.data[i].permissao == 2){
+                            setPermissao('mod')
+                        }else if(response.data[i].permissao == 3){
+                            setPermissao('admin')
+                        }
+                    }
+                }
+            })
+        })
+    },[])
+
     return(
         <>
-        <section className='addCliente'>
+        {permissao != 'user' ? <section className='addCliente'>
             {error ? error : null}
             <h2> Adicionar Cliente </h2>
             <form>
@@ -71,7 +92,7 @@ const Clientes = () => {
             <input type='number' value={fone} onChange={(e) => setFone(e.target.value)}/>
             <button type='button' onClick={sendForm} className='btn-primary'>Cadastrar</button>
             </form>
-        </section>
+        </section> : null}
         <hr/>
         <section className='manageCliente'>
             <h2>Gerenciar Clientes</h2>
@@ -80,8 +101,8 @@ const Clientes = () => {
             <tr className='first-tr'>
                 <td>Nome</td>
                 <td>CPF/CNPJ</td>
-                <td>Modificar</td>
-                <td>Excluir</td>
+                {permissao != 'user' ? <td>Modificar</td> : null}
+                {permissao == 'admin' ? <td>Excluir</td> : null}
             </tr>
             </thead>
             <tbody>
@@ -90,8 +111,8 @@ const Clientes = () => {
             <tr key={idx}>
                 <td>{value.nome}</td>
                 <td>{value.credencial}</td>
-                <td>{modify}</td>
-                <td onClick={() => {deleteCliente(value._id)}}>{deleteFilial}</td>
+                {permissao != 'user' ? <td>{modify}</td> : null}
+                {permissao == 'admin' ? <td onClick={() => {deleteCliente(value._id)}}>{deleteFilial}</td> : null}
             </tr>
             )
             })}

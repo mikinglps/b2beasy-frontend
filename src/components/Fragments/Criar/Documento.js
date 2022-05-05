@@ -51,13 +51,13 @@ const Documento = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
-            filialRemetente: filial,
+            filialRemetente: filial._id,
             enderecoRemetente: endereco
         })
 
         DocumentoPdf({
             conteudo: content,
-            filialRemetente: filial,
+            filialRemetente: filial.titulo,
             data: {
                 bd: formatado,
                 mostrado: extenseFormatted
@@ -88,13 +88,13 @@ const Documento = () => {
                 bd: formatado,
                 mostrado: extenseFormatted
             },
-            filialRemetente: filial,
+            filialRemetente: filial._id,
             enderecoRemetente: endereco
         })
 
         DocumentoPdf({
             conteudo: content,
-            filialRemetente: filial,
+            filialRemetente: filial.titulo,
             data: {
                 bd: formatado,
                 mostrado: extenseFormatted
@@ -112,11 +112,11 @@ const Documento = () => {
             setSender(res.data.results)
             axios.post('http://localhost:8080/api/v1/setor/id', {_id: sender.setor})
             .then(res => {
-                setSetor(res.data.titulo)
+                setSetor(res.data._id)
             })
             axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.filial})
             .then(res => {
-                setFilial(res.data.titulo)
+                setFilial(res.data)
                 setEndereco(res.data.endereco)
             })
         })

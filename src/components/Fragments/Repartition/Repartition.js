@@ -26,6 +26,7 @@ const Repartition = () => {
     const [importer, setImportar] = useState(false)
     const [toggleImport, setToggleImport] = useState(null)
     const { usuario } = useContext(AuthContext)
+    const [permissoes, setPermissoes] = useState('')
     const [admin, setAdmin] = useState(false)
     const { resultProfile } = useContext(PainelContext)
     const [permissao, setPermissao] = useState([])
@@ -77,6 +78,26 @@ const Repartition = () => {
        setLoading(false)
     },[loading])
 
+    useEffect(() => {
+      axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+      .then(res => {
+          axios.post('http://localhost:8080/api/v1/permissoes/cargo', {cargo: res.data.results.cargo})
+          .then(response => {
+              for(let i = 0; i < response.data.length; i++){
+                  if(response.data[i].setor == null){
+                      if(response.data[i].permissao == 1){
+                          setPermissoes('user')
+                      }else if(response.data[i].permissao == 2){
+                          setPermissoes('mod')
+                      }else if(response.data[i].permissao == 3){
+                          setPermissoes('admin')
+                      }
+                  }
+              }
+          })
+      })
+  },[])
+
     if(loading){
        return(
           <div className='loading'>Loading...</div>
@@ -90,18 +111,18 @@ const Repartition = () => {
             <div className='single--rep--cnpj'>
             <p>Gerenciar</p>
             <div className='icons--rep--cnpj'>
-               <Link to='/gerenciar/log' style={{textDecoration: 'none', textAlign: 'center'}}>
+               {permissoes != 'user' ? <Link to='/gerenciar/log' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {log}
                </div>
                <p>Log</p>
-               </Link>
-               <Link to='/gerenciar/tarefas' style={{textDecoration: 'none', textAlign: 'center'}}>
+               </Link> : null}
+               {permissoes != 'user' ? <Link to='/gerenciar/tarefas' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {task}
                </div>
                <p>Tarefas</p>
-               </Link>
+               </Link> : null}
                <Link to='/gerenciar/cargos' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {office}
@@ -144,12 +165,12 @@ const Repartition = () => {
                </div>
                <p>Gerenciar Usuarios</p>
                </Link>
-               <Link to='/config' style={{textDecoration: 'none', textAlign: 'center'}}>
+               {permissoes == 'admin' ? <Link to='/config' style={{textDecoration: 'none', textAlign: 'center'}}>
                <div className='rounded--cnpj'>
                   {options}
                </div>
                <p>Opções</p>
-               </Link>
+               </Link> : null}
                </div>
                </div>
                : null }

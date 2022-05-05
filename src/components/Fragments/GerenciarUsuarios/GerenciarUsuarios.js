@@ -1,10 +1,11 @@
 import './GerenciarUsuarios.css'
-import React, {useEffect, useState, useRef} from 'react'
+import React, {useEffect, useState, useRef, useContext} from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faPenToSquare, faDeleteLeft, faPlus } from '@fortawesome/free-solid-svg-icons'
 import Pagination from './Pagination'
 import Modal from './Modal'
+import { AuthContext } from '../../../contexts/auth'
 
 const GerenciarUsuarios = () => {
     const eye = <FontAwesomeIcon icon={faEye} style={{color: 'green', fontSize: '18px', cursor: 'pointer'}}/>
@@ -13,6 +14,8 @@ const GerenciarUsuarios = () => {
     const add = <FontAwesomeIcon icon={faPlus} style={{color: 'white', fontSize: '30px', cursor: 'pointer'}}/>
     const [ loading, setLoading ] = useState(false)
     const [ setores, setSetores ] = useState([])
+    const { usuario } = useContext(AuthContext)
+    const [permissao, setPermissao] = useState('')
     const [ usuarios, setUsuarios ] = useState([])
     const [ currentPage, setCurrentPage] = useState(1)
     const [ pages, setPages ] = useState(1)
@@ -76,7 +79,23 @@ const GerenciarUsuarios = () => {
         setSetores([...res.data.results])
         setLoading(false)
         })
-
+        axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+        .then(res => {
+            axios.post('http://localhost:8080/api/v1/permissoes/cargo', {cargo: res.data.results.cargo})
+            .then(response => {
+                for(let i = 0; i < response.data.length; i++){
+                    if(response.data[i].setor == null){
+                        if(response.data[i].permissao == 1){
+                            setPermissao('user')
+                        }else if(response.data[i].permissao == 2){
+                            setPermissao('mod')
+                        }else if(response.data[i].permissao == 3){
+                            setPermissao('admin')
+                        }
+                    }
+                }
+            })
+        })
 
     },[])
 
@@ -97,9 +116,9 @@ const GerenciarUsuarios = () => {
     
     return(
         <>
-        <section className='createUser'>
+        {permissao != 'user' ? <section className='createUser'>
         <button className='registerUser' onClick={() => {setNewClick(true)}}>{add}</button>
-        </section>
+        </section> : null}
         <div className='searchbar'>
         <label>Encontrar um funcionário</label>
         <input type='text' value={params} onChange={(e) => setParams(e.target.value)} placeholder='Faça sua pesquisa'/>
@@ -109,8 +128,8 @@ const GerenciarUsuarios = () => {
             <tr className='first-tr'>
                 <td>Nome</td>
                 <td>Visualizar</td>
-                <td>Modificar</td>
-                <td>Deletar</td>
+                {permissao != 'user' ? <td>Modificar</td> : null}
+                {permissao == 'admin' ? <td>Demitir</td> : null}
             </tr>
             </thead>
             <tbody>
@@ -120,8 +139,8 @@ const GerenciarUsuarios = () => {
                 <tr key={key}>
                     <td>{data.nome}</td>
                     <td>{eye}</td>
-                    <td>{edit}</td>
-                    <td>{deleteUser}</td>
+                    {permissao != 'user' ? <td>{edit}</td> : null}
+                    {permissao == 'admin' ? <td>{deleteUser}</td> : null}
                 </tr>
                     
                 )}})}
@@ -141,8 +160,8 @@ const GerenciarUsuarios = () => {
                         <tr className='first-tr'>
                             <td>Nome</td>
                             <td>Visualizar</td>
-                            <td>Editar</td>
-                            <td>Deletar</td>
+                            {permissao != 'user' ? <td>Editar</td> : null}
+                            {permissao == 'admin' ? <td>Demitir</td> : null}
                         </tr>
                     </thead>
                     <tbody>
@@ -151,8 +170,8 @@ const GerenciarUsuarios = () => {
                         <tr className='tr-properties' key={key}>
                             <td>{value.nome}</td>
                             <td>{eye}</td>
-                            <td>{edit}</td>
-                            <td onClick={() => {delUser(value._id)}}>{deleteUser}</td>
+                            {permissao != 'user' ? <td>{edit}</td> : null}
+                            {permissao == 'admin' ? <td onClick={() => {delUser(value._id)}}>{deleteUser}</td> : null}
                         </tr>
                         )
                         })}

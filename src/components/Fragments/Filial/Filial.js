@@ -17,6 +17,7 @@ const Filial = () => {
     const [click, setClick] = useState(false)
     const [toggle, setToggle] = useState(null)
     const [ currentPage, setCurrentPage] = useState(1)
+    const [permissao, setPermissao] = useState('')
     const [ titulo, setTitulo ] = useState('')
     const [ cnpj, setCnpj ] = useState('')
     const [result, setResult] = useState([])
@@ -55,9 +56,29 @@ const Filial = () => {
         })
     },[currentPage])
 
+    useEffect(() => {
+        axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+        .then(res => {
+            axios.post('http://localhost:8080/api/v1/permissoes/cargo', {cargo: res.data.results.cargo})
+            .then(response => {
+                for(let i = 0; i < response.data.length; i++){
+                    if(response.data[i].setor == null){
+                        if(response.data[i].permissao == 1){
+                            setPermissao('user')
+                        }else if(response.data[i].permissao == 2){
+                            setPermissao('mod')
+                        }else if(response.data[i].permissao == 3){
+                            setPermissao('admin')
+                        }
+                    }
+                }
+            })
+        })
+    },[])
+
     return(
         <>
-        <section className='addFilial'>
+        {permissao != 'user' ? <section className='addFilial'>
             <h2> Adicionar Filiais </h2>
             <form>
             <label>Titulo da Filial</label>
@@ -69,7 +90,7 @@ const Filial = () => {
             <input type='number' value={memo} onChange={(e) => {setMemo(e.target.value)}}/>
             <button type='submit' onClick={sendForm} className='btn-primary'>Cadastrar</button>
             </form>
-        </section>
+        </section> : null}
         <hr/>
         <section className='manageFiliais'>
             <h2>Gerenciar Filiais</h2>
@@ -78,8 +99,8 @@ const Filial = () => {
             <tr className='first-tr'>
                 <td>Titulo</td>
                 <td>CNPJ</td>
-                <td>Modificar</td>
-                <td>Excluir</td>
+                {permissao != 'user' ? <td>Modificar</td> : null}
+                {permissao == 'admin' ? <td>Excluir</td> : null}
             </tr>
             </thead>
             <tbody>
@@ -88,8 +109,8 @@ const Filial = () => {
             <tr key={idx}>
                 <td>{value.titulo}</td>
                 <td>{value.cnpj}</td>
-                <td onClick={() => {setClick(true); setToggle(value._id)}}>{modify}</td>
-                <td onClick={() => {delFilial(value._id)}}>{deleteFilial}</td>
+                {permissao != 'user' ? <td onClick={() => {setClick(true); setToggle(value._id)}}>{modify}</td> : null}
+                {permissao == 'admin' ? <td onClick={() => {delFilial(value._id)}}>{deleteFilial}</td> : null}
             </tr>
             )
             })}

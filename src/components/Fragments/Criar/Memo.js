@@ -16,6 +16,8 @@ const Memo = () => {
     const [ sector, setSector ] = useState([])
     const [ sectorReceiver, setBranchReceiver ] = useState('')
     const [ memo, setMemo ] = useState('')
+    const [nameReceiver, setNameReceiver] = useState('')
+    const [nameBranch, setNameBranch] = useState('')
     const [ sender, setSender ] = useState('')
     const [ mySector, setMySector ] = useState('')
     const [ myEmpresa, setMyEmpresa ] = useState([])
@@ -65,8 +67,8 @@ const Memo = () => {
         axios.post('http://localhost:8080/api/v1/rascunhos/add', {
             remetente: usuario.nome,
             cpf: usuario.cpf,
-            filialRemetente: myEmpresa.titulo,
-            setorRemetente: mySector.titulo,
+            filialRemetente: myEmpresa._id,
+            setorRemetente: mySector._id,
             destinatario: receiver,
             setorDestinatario: sectorReceiver,
             numero: '/'+date.getFullYear(),
@@ -88,11 +90,12 @@ const Memo = () => {
             cpf: usuario.cpf,
             filialRemetente: myEmpresa.titulo,
             setorRemetente: mySector.titulo,
-            destinatario: receiver,
-            setorDestinatario: sectorReceiver,
+            destinatario: nameReceiver,
+            setorDestinatario: nameBranch,
             numero: '/'+date.getFullYear(),
             assunto: subject,
             conteudo: content,
+            municipio: myEmpresa.municipio,
             data: {
                 bd: formatado,
                 mostrado: extenseFormatted
@@ -122,8 +125,8 @@ const Memo = () => {
         axios.post('http://localhost:8080/api/v1/documentos', {
             remetente: usuario.nome,
             cpf: usuario.cpf,
-            filialRemetente: myEmpresa.titulo,
-            setorRemetente: mySector.titulo,
+            filialRemetente: myEmpresa._id,
+            setorRemetente: mySector._id,
             destinatario: receiver,
             setorDestinatario: sectorReceiver,
             numero: sending,
@@ -144,8 +147,9 @@ const Memo = () => {
                 cpf: usuario.cpf,
                 filialRemetente: myEmpresa.titulo,
                 setorRemetente: mySector.titulo,
-                destinatario: receiver,
-                setorDestinatario: sectorReceiver,
+                destinatario: nameReceiver,
+                setorDestinatario: nameBranch,
+                municipio: myEmpresa.municipio,
                 numero: sending,
                 assunto: subject,
                 conteudo: content,
@@ -167,6 +171,21 @@ const Memo = () => {
     })
         
     },[])
+
+    useEffect(() => {
+        axios.post('http://localhost:8080/api/v1/filiais/my', {_id: receiver})
+        .then(res => {
+            setNameReceiver(res.data.titulo)
+        })
+    },[receiver])
+
+    useEffect(() => {
+        axios.post('http://localhost:8080/api/v1/setor/id', {_id: sectorReceiver})
+        .then(res => {
+            setNameBranch(res.data.titulo)
+            console.log(nameBranch)
+        })
+    }, [sectorReceiver])
 
     useEffect(() => {
             axios.post('http://localhost:8080/api/v1/setor/id', {_id: sender.setor})
@@ -201,7 +220,7 @@ const Memo = () => {
                 <option value=''>Selecione setor destino</option>
                 {sector.map((value, index) => {
                     return(
-                    <option key={index} value={value.titulo}>{value.titulo}</option>
+                    <option key={index} value={value._id}>{value.titulo}</option>
                     )
                     })}
             </select>

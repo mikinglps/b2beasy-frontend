@@ -52,7 +52,7 @@ function PdfGen(pdf){
     const details = [{
         columns: [
         {width: 250, text: '\n\n\n\n\n'+pdf.numero},
-        {width: 250, alignment: 'right', text: '\n\n\n\n\n'+pdf.data.mostrado, margin: [0, 0, 0, 20]}
+        {width: 250, alignment: 'right', text: '\n\n\n\n\n'+pdf.municipio+', '+pdf.data.mostrado, margin: [0, 0, 0, 20]}
         
         ]
     },
