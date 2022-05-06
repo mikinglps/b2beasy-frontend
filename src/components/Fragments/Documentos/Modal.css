@@ -1,0 +1,13 @@
+.modal-share{
+    position: absolute;
+    left: 35%;
+    top: 35%;
+    background: white;
+    width: 30%;
+    box-shadow: 1px 1px 0 1px gray;
+    padding: 1%;
+}
+
+.modal-share form label{
+    display: block;
+}

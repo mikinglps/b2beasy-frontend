@@ -1,38 +1,44 @@
 import axios from 'axios'
-import React, { useContext, useEffect, useState, useRef, useCallback } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Documentos.css'
 import { AuthContext } from '../../../contexts/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faCopy} from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare, faCopy, faShare} from '@fortawesome/free-solid-svg-icons'
 import PdfGen from '../Criar/PdfGen'
 import { useParams, Link } from 'react-router-dom'
 import Pagination from '../GerenciarUsuarios/Pagination'
 import DocumentoPdf from '../Criar/DocumentoPdf'
+import Modal from './Modal'
 
 const Documentos = () => {
     const params = useParams()
     const { usuario } = useContext(AuthContext)
+    const [refShare, setRefShare] = useState(null)
+    const [shareClick, setShareClick] = useState(false)
     const [maxPage, setMaxPage] = useState(1)
     const [ currentPage, setCurrentPage] = useState(1)
     const [toggleRef, setToggleRef] = useState('')
     const [ result, setResult ] = useState([])
     const [ click, setClick ] = useState(false)
+    const share = <FontAwesomeIcon icon={faShare} style={{fontSize: '18px', cursor: 'pointer'}}/>
     const modify = <FontAwesomeIcon icon={faPenToSquare} style={{fontSize: '18px', cursor: 'pointer'}} />
     const copy = <FontAwesomeIcon icon={faCopy} style={{fontSize: '18px', cursor: 'pointer'}} />
 
 
     useEffect(() => {
             setCurrentPage(1)
+            
             const findDocs = async () => {
                 let newArr = []
                 await axios.post(`http://localhost:8080/api/v1/${params.arquivo}/find?page=${currentPage}`, {cpf: usuario.cpf})
                 .then(res => {
+                    
                 for(let i = 0; i < res.data.listaDoc.length; i++){
+                    let flag = false;
                     if(res.data.listaDoc[i].conteudo == 'Arquivo importado, clique para ver.' || res.data.listaDoc[i].classe == 'memorando'){
                         axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorDestinatario})
                         .then(response => {
                             res.data.listaDoc[i].setorDestinatario = response.data.titulo
-                            
                         })
                         axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].destinatario})
                             .then(resposta => {
@@ -42,61 +48,73 @@ const Documentos = () => {
                         .then(result => {
                             res.data.listaDoc[i].filialRemetente = result.data.titulo
                             res.data.listaDoc[i].municipio = result.data.municipio
-                        })
-                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
-                        .then(resultado => {
-                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
-                        })
-                            newArr.push(res.data.listaDoc[i]);
+                            axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                                .then(resultado => {
+                                    res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                                    if(newArr.push(res.data.listaDoc[i])){
+                                        flag = true;
+                                    }
+                                    if(flag){
+                                        setResult([...newArr]);
+                                    }
+                                })
+                        })              
                     }else if(res.data.listaDoc[i].classe == 'oficio' && res.data.listaDoc[i].conteudo != 'Arquivo importado, clique para ver.'){
                         axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
                         .then(result => {
                             res.data.listaDoc[i].filialRemetente = result.data.titulo
                             res.data.listaDoc[i].municipio = result.data.municipio
+                            axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                                .then(resultado => {
+                                    res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                                    newArr.push(res.data.listaDoc[i])
+                                })
                         })
-                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
-                        .then(resultado => {
-                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
-                        })
-                        newArr.push(res.data.listaDoc[i])
-
                     }else if(res.data.listaDoc[i].classe == 'documento'){
                         axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
                         .then(result => {
                             res.data.listaDoc[i].filialRemetente = result.data.titulo
                             res.data.listaDoc[i].municipio = result.data.municipio
+                            axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                                .then(resultado => {
+                                    res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                                    newArr.push(res.data.listaDoc[i])
+                                })
                         })
-                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
-                        .then(resultado => {
-                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
-                        })
-                        newArr.push(res.data.listaDoc[i])
+                   }
+                   console.log(res.data.listaDoc.length, newArr.length)
+                    if(res.data.listaDoc.length == newArr.length){
+                        console.log(result)
+                        setResult(newArr)
+                        setMaxPage(res.data.totalPaginas)
                     }
-                    
                 }
-                    setResult(newArr);
-                    setMaxPage(res.data.totalPaginas)
+                
+                    
+                    
             })
             }
 
             findDocs()
             let element = document.getElementsByClassName('toggleBar')
-            
-            if(params.arquivo == 'documentos'){
-                element[1].classList.remove('selected')
-                element[0].classList.add('selected')
-            }else if(params.arquivo == 'rascunhos'){
-                element[0].classList.remove('selected')
-                element[1].classList.add('selected')
-            }
-            setResult([...result])
+                if(params.arquivo == 'documentos'){
+                    element[1].classList.remove('selected')
+                    element[0].classList.add('selected')
+                }else if(params.arquivo == 'rascunhos'){
+                    element[0].classList.remove('selected')
+                    element[1].classList.add('selected')
+                }
     }, [params])
 
+    
+
     useEffect(() => {
+        
         axios.post(`http://localhost:8080/api/v1/${params.arquivo}/find?page=${currentPage}`, {cpf: usuario.cpf})
             .then(res => {
                 let newArr = []
                 for(let i = 0; i < res.data.listaDoc.length; i++){
+                    let flag = false;
                     if(res.data.listaDoc[i].conteudo == 'Arquivo importado, clique para ver.' || res.data.listaDoc[i].classe == 'memorando'){
                         axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorDestinatario})
                         .then(response => {
@@ -111,44 +129,56 @@ const Documentos = () => {
                         .then(result => {
                             res.data.listaDoc[i].filialRemetente = result.data.titulo
                             res.data.listaDoc[i].municipio = result.data.municipio
+                            axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                                .then(resultado => {
+                                    res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                                    if(newArr.push(res.data.listaDoc[i])){
+                                        flag = true;
+                                    }
+                                    if(flag){
+                                        setResult([...newArr]);
+                                    }
+                                })
                         })
-                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
-                        .then(resultado => {
-                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
-                        })
-                            newArr.push(res.data.listaDoc[i]);
+                        
+                            
+
                     }else if(res.data.listaDoc[i].classe == 'oficio' && res.data.listaDoc[i].conteudo != 'Arquivo importado, clique para ver.'){
                         axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
                         .then(result => {
                             res.data.listaDoc[i].filialRemetente = result.data.titulo
                             res.data.listaDoc[i].municipio = result.data.municipio
+                            axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                                .then(resultado => {
+                                    res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                                    newArr.push(res.data.listaDoc[i])
+                                })
                         })
-                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
-                        .then(resultado => {
-                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
-                        })
-                        newArr.push(res.data.listaDoc[i])
+                        
+                        
 
                     }else if(res.data.listaDoc[i].classe == 'documento'){
                         axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].filialRemetente})
                         .then(result => {
                             res.data.listaDoc[i].filialRemetente = result.data.titulo
                             res.data.listaDoc[i].municipio = result.data.municipio
+                            axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
+                                .then(resultado => {
+                                    res.data.listaDoc[i].setorRemetente = resultado.data.titulo
+                                    newArr.push(res.data.listaDoc[i])
+                                })
                         })
-                        axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaDoc[i].setorRemetente})
-                        .then(resultado => {
-                            res.data.listaDoc[i].setorRemetente = resultado.data.titulo
-                        })
-                        newArr.push(res.data.listaDoc[i])
-
+                    }
+                    if(res.data.listaDoc.length == newArr.length){
+                        setResult(newArr)
+                        setMaxPage(res.data.totalPaginas);
                     }
                 }
-                    setResult(newArr)
-                    setMaxPage(res.data.totalPaginas);
+                    
+                    
             })
-            
     },[currentPage])
-
+    
 
     return(
         <section className='meusArquivos-cpf'>
@@ -169,6 +199,7 @@ const Documentos = () => {
                         <td>Data</td>
                         <td>Para</td>
                         {params.arquivo == 'rascunhos' ? <td>Editar</td> : null}
+                        {params.arquivo == 'documentos' ? <td>Encaminhar</td> : null}
                         <td>Duplicar</td>
                     </tr>
                 </thead>
@@ -179,6 +210,7 @@ const Documentos = () => {
                         <td className='td-hover' onClick={() => {setClick(!click); setToggleRef(index)}}>{params.arquivo != 'rascunhos' ? value.numero != null ? value.numero+' - ' : null : null}{value.assunto.substr(0,30)}{value.assunto.length > 30 ? '...' : null}</td>
                         <td>{value.data.bd ? value.data.bd : value.data}</td>
                         <td>{value.destinatario} - {value.setorDestinatario}</td>
+                        {params.arquivo == 'documentos' ? <td onClick={() => {setShareClick(true); setRefShare(value._id)}}>{share}</td> : null}
                         {params.arquivo == 'rascunhos' ? <td>{modify}</td> : null}
                         <td>{copy}</td>
                     </tr>
@@ -199,6 +231,7 @@ const Documentos = () => {
             </section>
              : null
             }
+            {shareClick ? <Modal id={refShare} clicked={shareClick} setClicked={setShareClick}/> : null}
         </section>
     )
 

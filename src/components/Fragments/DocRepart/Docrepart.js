@@ -33,7 +33,7 @@ const Docrepart = () => {
 
     useEffect(() => {
         const findDocRepart = async () => {
-            await axios.post(`http://localhost:8080/api/v1/documentos/setor?page=${currentPage}`, {setor: setor.titulo, filial: setor.filial, classe: params.aba})
+            await axios.post(`http://localhost:8080/api/v1/documentos/setor?page=${currentPage}`, {setor: setor._id, filial: setor.filial, classe: params.aba})
             .then(res => {
                 setResult([...res.data.listaDoc])
                 setMaxPage(res.data.totalPaginas)
@@ -48,9 +48,28 @@ const Docrepart = () => {
         if(!loading){
         let element = document.getElementsByClassName('toggleBar')
         setCurrentPage(1)
-        axios.post(`http://localhost:8080/api/v1/documentos/setor?page=${currentPage}`, {setor: setor.titulo, filial: setor.filial, classe: params.aba})
+        axios.post(`http://localhost:8080/api/v1/documentos/setor?page=${currentPage}`, {setor: setor._id, filial: setor.filial, classe: params.aba})
         .then(res => {
-            setResult([...res.data.listaDoc])
+            let newArr = []
+            for(let i = 0; i < res.data.listaDoc.length; i++){
+                if(res.data.listaDoc[i].classe == 'documento'){
+                    let flag = false;
+                    axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaDoc[i].destinatario})
+                    .then(response => {
+                        res.data.listaDoc[i].destinatario = response.data.titulo
+                        if(newArr.push(res.data.listaDoc[i])){
+                            flag = true;
+                        }
+                        if(flag){
+                            setResult([...newArr])
+                        }
+                    })
+                }else{
+                    newArr.push(res.data.listaDoc[i])
+                }
+                    
+            }
+            setResult(newArr)
             setMaxPage(res.data.totalPaginas)
         })
         if(params.aba == 'todos'){
