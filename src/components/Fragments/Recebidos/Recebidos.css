@@ -1,0 +1,11 @@
+section.meusArquivos-cpf .pagination{
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+section.meusArquivos-cpf .pagination button{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}

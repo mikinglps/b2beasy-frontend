@@ -5,6 +5,7 @@ import { faPenToSquare, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import './Cargo.css';
 import Pagination from '../GerenciarUsuarios/Pagination';
 import { AuthContext } from '../../../contexts/auth';
+import Modal from './Modal';
 
 const Cargo = () => {
     const modify = <FontAwesomeIcon icon={faPenToSquare} style={{fontSize: '18px', cursor: 'pointer'}} />
@@ -19,6 +20,8 @@ const Cargo = () => {
     const [ currentPage, setCurrentPage] = useState(1)
     const [filialAdd, setFilialAdd] = useState()
     const [setor, setSetor] = useState([])
+    const [click, setClick] = useState(false);
+    const [toggle, setToggle] = useState(null)
     const [newResult, setNewResult] = useState([])
     const [setorAdd, setSetorAdd] = useState('')
     const [permissao, setPermissao] = useState('')
@@ -37,12 +40,18 @@ const Cargo = () => {
                 axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.listaCargo[i].setor})
                 .then(response => {
                     res.data.listaCargo[i].setor = response.data.titulo
+                    axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.listaCargo[i].filial})
+                .then(ress => {
+                    res.data.listaCargo[i].filial = ress.data.titulo
                     if(i + 1 == res.data.listaCargo.length){
                         setResult(res.data.listaCargo);
                         setMaxPage(res.data.totalPaginas)
                         setLoading(false)
                     }
                 })
+                })
+                
+                
             }
         })
     }, [currentPage])
@@ -100,6 +109,12 @@ const Cargo = () => {
         })
     },[])
 
+    if(loading){
+        return (
+            <div className='loading'>Loading...</div>
+        )
+    }
+
     return(
         <section className='cargos-holder'>
             {permissao != 'user' ? 
@@ -115,7 +130,7 @@ const Cargo = () => {
                     <option value=''>Escolha uma filial</option>
                         {filial.map((value, index) => {
                             return(
-                                <option key={index} value={value.titulo}>{value.titulo}</option>
+                                <option key={index} value={value._id}>{value.titulo}</option>
                         )})}
                     </select>
                     </div>
@@ -154,13 +169,14 @@ const Cargo = () => {
                             <td>{value.titulo}</td>
                             <td>{value.setor}</td>
                             <td>{value.filial}</td>
-                            {permissao != 'user' ? <td>{modify}</td> : null}
+                            {permissao != 'user' ? <td onClick={() => {setClick(true); setToggle(value._id)}}>{modify}</td> : null}
                             {permissao == 'admin' ? <td onClick={() => {delCargo(value._id)}}>{deleteCargo}</td> : null}
                         </tr>
                     )
                     })}
                     </tbody>
                 </table>
+                {click ? <Modal id={toggle} click={click} setClick={setClick}/> : null}
                 <div className='pagination-cargo'>
                     <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage} />
                 </div>

@@ -5,7 +5,7 @@ import { PainelContext } from '../../../contexts/PainelContext'
 import { AuthContext } from '../../../contexts/auth'
 import './Profile.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFolder, faUpload, faBell, faListCheck, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFolder, faUpload, faBell, faListCheck, faUser, faFolderOpen } from '@fortawesome/free-solid-svg-icons'
 import PopUpCreate from '../Criar/PopUpCreate'
 
 
@@ -22,6 +22,7 @@ const Profile = () => {
     const upload = <FontAwesomeIcon icon={faUpload} style={{color: '#8391a2', fontSize: '16px'}}/>
     const reminder = <FontAwesomeIcon icon={faBell} style={{color: '#8391a2', fontSize: '16px'}}/>
     const task = <FontAwesomeIcon icon={faListCheck} style={{color: '#8391a2', fontSize: '16px'}}/>
+    const receive = <FontAwesomeIcon icon={faFolderOpen} style={{color: '#8391a2', fontSize: '16px'}}/>
     const user = <FontAwesomeIcon icon={faUser} style={{color: '#8391a2', fontSize: '60px'}}/>
 
 
@@ -62,6 +63,9 @@ const Profile = () => {
                     <li id="box" ref={reff} onMouseEnter={()=>(setClick(true))} onMouseLeave={()=>{setClick(false)}}>{add} Criar</li>
                     <Link to='/gerenciar/meusarquivos/documentos' style={{textDecoration: 'none'}}>
                     <li>{archives} Meus Arquivos</li>
+                    </Link>
+                    <Link to='/gerenciar/recebidos' style={{textDecoration: 'none'}}>
+                    <li>{receive} Arquivos Recebidos</li>
                     </Link>
                     <Link to='/gerenciar/lembretes' style={{textDecoration: 'none'}}>
                     <li>{reminder} Lembretes</li>
