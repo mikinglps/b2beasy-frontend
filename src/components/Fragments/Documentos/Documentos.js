@@ -211,7 +211,7 @@ const Documentos = () => {
                         <td>{value.data.bd ? value.data.bd : value.data}</td>
                         <td>{value.destinatario} - {value.setorDestinatario}</td>
                         {params.arquivo == 'documentos' ? <td onClick={() => {setShareClick(true); setRefShare(value._id)}}>{share}</td> : null}
-                        {params.arquivo == 'rascunhos' ? <td>{modify}</td> : null}
+                        {params.arquivo == 'rascunhos' ? <td onClick={value.classe == 'memorando' ? () => {window.location.href="http://localhost:3000/criar/memorando/"+value._id} : value.classe == 'oficio' ? () => { window.location.href="http://localhost:3000/criar/oficio/"+value._id} : value.classe == 'documento' ? () => { window.location.href="http://localhost:3000/criar/documento/"+value._id} : null}>{modify}</td> : null}
                         <td>{copy}</td>
                     </tr>
                     )

@@ -4,9 +4,11 @@ import './Memo.css'
 import axios from 'axios'
 import { AuthContext } from '../../../contexts/auth'
 import PdfGen from './PdfGen'
+import { useParams } from 'react-router-dom'
 
 const Memo = () => {
     const componentRef = useRef()
+    const params = useParams()
     const editor = useRef(null)
     const { usuario } = useContext(AuthContext)
     const [ content, setContent ] = useState('Escreva sua mensagem!')
@@ -107,7 +109,6 @@ const Memo = () => {
         })
     }
 
-    //problemas no servidor
     const send = (e) => {
         let memoNum = parseInt(memo.memo)
         let date = new Date()
@@ -165,6 +166,13 @@ const Memo = () => {
     }
 
     useEffect(()=>{
+        if(params.url != 'novo'){
+            axios.post('http://localhost:8080/api/v1/rascunhos/id', {_id: params.url})
+            .then(res => {
+                setSubject(res.data.assunto)
+                setContent(res.data.conteudo)
+            })
+        }
         axios.get('http://localhost:8080/api/v1/filiais/query')
         .then(res => {
             setBranch([...res.data])
@@ -234,7 +242,6 @@ const Memo = () => {
             />
             <div className='button-handler'>
             <button type='button' onClick={() => {save()}}>Salvar</button> <button type='button' onClick={(e)=>{send(e)}}>Salvar e Enviar</button>
-            {/* <button type='button' onClick={() => {handlePdf()}}>PDF</button> */}
             </div>
         </form>
         </section>

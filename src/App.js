@@ -41,9 +41,9 @@ function App() {
               <Route path='/gerenciar/documentos/:setor/:aba' element={<Docrepart/>}/>
               <Route path='/gerenciar/meusarquivos/:arquivo' element={<Documentos/>}/>
               <Route path='/gerenciar/estoque' element={<Estoque/>}/>
-              <Route path='/criar/memorando' element={<Memo/>}/>
-              <Route path='/criar/oficio' element={<Oficio/>}/>
-              <Route path='/criar/documento' element={<Documento/>}/>
+              <Route path='/criar/memorando/:url' element={<Memo/>}/>
+              <Route path='/criar/oficio/:url' element={<Oficio/>}/>
+              <Route path='/criar/documento/:url' element={<Documento/>}/>
               <Route path='/config' element={<Config/>}/>
           </Route>
         </Routes>

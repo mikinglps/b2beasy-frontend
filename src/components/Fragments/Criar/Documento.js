@@ -4,8 +4,10 @@ import DocumentoPdf from "./DocumentoPdf";
 import JoditEditor from "jodit-react";
 import './Documento.css'
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const Documento = () => {
+    const params = useParams();
     const { usuario } = useContext(AuthContext)
     const [sender, setSender] = useState([])
     const [ setor, setSetor ] = useState('')
@@ -106,24 +108,35 @@ const Documento = () => {
 
 
     useEffect(() => {
-        const findInfo = async () => {
-        await axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
-        .then(res=>{
-            setSender(res.data.results)
-            axios.post('http://localhost:8080/api/v1/setor/id', {_id: sender.setor})
-            .then(res => {
-                setSetor(res.data._id)
-            })
-            axios.post('http://localhost:8080/api/v1/filiais/my', {_id: sender.filial})
-            .then(res => {
-                setFilial(res.data)
-                setEndereco(res.data.endereco)
-            })
-        })
-        }
-        findInfo()
+        
         
     },[content])
+
+    useEffect(() => {
+        if(params.url != 'novo'){
+            axios.post('http://localhost:8080/api/v1/rascunhos/id', {_id: params.url})
+            .then(res => {
+                setTitulo(res.data.assunto)
+                setContent(res.data.conteudo);
+                setDestinatario(res.data.destinatario);
+            })
+        }
+        const findInfo = async () => {
+            await axios.post('http://localhost:8080/api/v1/funcionarios/memo/cpf', {cpf: usuario.cpf})
+            .then(res=>{
+                axios.post('http://localhost:8080/api/v1/setor/id', {_id: res.data.results.setor})
+                .then(ress => {
+                    setSetor(ress.data._id)
+                })
+                axios.post('http://localhost:8080/api/v1/filiais/my', {_id: res.data.results.filial})
+                .then(ress => {
+                    setFilial(ress.data)
+                    setEndereco(ress.data.endereco)
+                })
+            })
+            }
+            findInfo()
+    },[])
 
     return(
         <section className='documento-create-holder'>

@@ -28,9 +28,9 @@ const PopUpCreate = ({coordinates, hover, setHover}) => {
         <div className='dropdown' id='box2' style={style} onMouseEnter={()=>{setHover(true)}} onMouseLeave={()=>{setHover(false)}}>
             
             <ul>
-                <Link to='/criar/memorando' style={{textDecoration: 'none'}}><li>{addMemo} Memorando</li></Link>
-                <Link to='/criar/oficio' style={{textDecoration: 'none'}}><li>{addOficio} Oficio</li></Link>
-                <Link to='/criar/documento' style={{textDecoration: 'none'}}><li>{addText} Documento de Texto</li></Link>
+                <Link to='/criar/memorando/novo' style={{textDecoration: 'none'}}><li>{addMemo} Memorando</li></Link>
+                <Link to='/criar/oficio/novo' style={{textDecoration: 'none'}}><li>{addOficio} Oficio</li></Link>
+                <Link to='/criar/documento/novo' style={{textDecoration: 'none'}}><li>{addText} Documento de Texto</li></Link>
                 <li id='spreadsheet' onMouseEnter={ () => {setClick(true)}} onMouseLeave={() => {setClick(false)}}>{addSpreadsheet} Planilha</li>
             </ul>
             {click ? <PopUpSpreadsheet coord={coord} click={click} setClick={setClick} /> : null}

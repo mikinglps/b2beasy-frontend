@@ -4,8 +4,10 @@ import './Oficio.css'
 import axios from 'axios'
 import { AuthContext } from '../../../contexts/auth'
 import PdfGen from './PdfGen'
+import { useParams } from 'react-router-dom'
 
-const Memo = () => {
+const Oficio = () => {
+    const params = useParams()
     const componentRef = useRef()
     const editor = useRef(null)
     const { usuario } = useContext(AuthContext)
@@ -49,7 +51,6 @@ const Memo = () => {
                 axios.get('http://localhost:8080/api/v1/options')
                 .then(res => {
                     if(res.data[0].oficio == null){
-                        console.log('Igual a nulo, segundo axios')
                         setError('Por favor, edite suas configuracoes e defina um numero inicial para o oficio')
                     }else{
                         setMemo(res.data[0].oficio)
@@ -106,6 +107,7 @@ const Memo = () => {
             numero: '/'+date.getFullYear(),
             assunto: subject,
             conteudo: content,
+            municipio: myEmpresa.municipio,
             data: {
                 bd: formatado,
                 mostrado: extenseFormatted
@@ -159,6 +161,7 @@ const Memo = () => {
                 setorDestinatario: sectorReceiver,
                 numero: sending,
                 assunto: subject,
+                municipio: myEmpresa.municipio,
                 conteudo: content,
                 data: {
                     bd: formatado,
@@ -172,6 +175,13 @@ const Memo = () => {
     }
 
     useEffect(()=>{
+        if(params.url != 'novo'){
+            axios.post('http://localhost:8080/api/v1/rascunhos/id', {_id: params.url})
+            .then(res => {
+                setSubject(res.data.assunto)
+                setContent(res.data.conteudo)
+            })
+        }
         axios.get('http://localhost:8080/api/v1/filiais/query')
         .then(res => {
             setBranch([...res.data])
@@ -218,4 +228,4 @@ const Memo = () => {
     )
 }
 
-export default Memo
+export default Oficio

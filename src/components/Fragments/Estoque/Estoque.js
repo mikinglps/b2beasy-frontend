@@ -3,12 +3,15 @@ import React, {useState, useEffect, useContext} from "react";
 import {AuthContext} from '../../../contexts/auth'
 import './Estoque.css'
 import Pagination from "../GerenciarUsuarios/Pagination";
+import Modal from "./Modal";
 
 const Estoque = () => {
     const { usuario } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [cod, setCod] = useState('')
     const [titulo, setTitulo] = useState('')
+    const [click, setClick] = useState(false)
+    const [toggleRef, setToggleRef] = useState(null)
     const [quantidade, setQuantidade] = useState(0)
     const [result, setResult] = useState([])
     const [maxPage, setMaxPage] = useState(1)
@@ -166,7 +169,7 @@ const Estoque = () => {
                     {permissao != 'user' ? <button className='altQuant' onClick={() => {mudarValor('+', index);}}>+</button> : null}
                     <span className='quant'>{Number(value.quantidade)}</span>
                     {permissao != 'user' ? <button className='altQuant' onClick={() => {mudarValor('-', index)}}>-</button> : null}
-                    {permissao != 'user' ? <button className='secondButton'>Editar</button> : null}
+                    {permissao != 'user' ? <button className='secondButton' onClick={() => {setClick(true); setToggleRef(value._id)}}>Editar</button> : null}
                     {permissao == 'admin' ? <button className='secondButton' onClick={() => {deletarItem(index)}}>Excluir</button> : null}
                     </div>
                 </div>
@@ -177,6 +180,8 @@ const Estoque = () => {
             {missing ? null : <div className='pagination-estoque'>
             <Pagination page={currentPage} pages={maxPage} changePage={setCurrentPage}/>
             </div>}
+
+            {click ? <Modal id={toggleRef} click={click} setClick={setClick} /> : null}
             
             <div className='confirm'>
             {loading ? <div id='loading' className='loading'>Loading...</div> : null}
